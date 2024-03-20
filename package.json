@@ -1,0 +1,21 @@
+{
+  "name": "eccs_backend",
+  "version": "1.0.0",
+  "description": "for eccs ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sayantika",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dateformat": "^4.5.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.3",
+    "express-session": "^1.18.0",
+    "mysql": "^2.18.1",
+    "socket.io": "^4.7.4"
+  }
+}
