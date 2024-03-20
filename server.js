@@ -35,6 +35,7 @@ var io = new Server(server)
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user;
+  res.locals.active = req.path.split("/")[2];
   res.locals.message = req.session.message;
   req.io = io;
   delete req.session.message;
