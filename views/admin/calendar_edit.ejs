@@ -52,7 +52,7 @@
                       class="form-control"
                       id="cal_dt"
                       name="cal_dt"
-                      value="<%= cal_data ? dateFormat(cal_data.CAL_DT, 'yyyy-mm-dd') : '' %>"
+                      value="<%= cal_data ? dateFormat(cal_data[0].cal_dt, 'yyyy-mm-dd') : '' %>"
                     />
                   </div>
                 </div>
@@ -71,7 +71,7 @@
                       class="form-control"
                       aria-label="With textarea"
                     >
-<%= cal_data ? cal_data.CAL_EVENT : '' %></textarea
+<%= cal_data ? cal_data[0].cal_event : '' %></textarea
                     >
                   </div>
                 </div>
@@ -80,7 +80,7 @@
             <input
               type="hidden"
               name="sl_no"
-              value="<%= cal_data ? cal_data.SL_NO : 0 %>"
+              value="<%= cal_data ? cal_data.sl_no : 0 %>"
             />
             <center>
               <button

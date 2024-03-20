@@ -53,10 +53,10 @@
                     { %>
                     <tr>
                       <td><%= i %></td>
-                      <td><%= dateFormat(dt.CREATED_AT, "dd/mm/yyyy") %></td>
-                      <td><%= dt.CREATED_BY %></td>
-                      <td><%= dt.RATING %></td>
-                      <td><%= dt.REMARKS %></td>
+                      <td><%= dateFormat(dt.date, "dd/mm/yyyy") %></td>
+                      <td><%= dt.created_by %></td>
+                      <td><%= dt.rating %></td>
+                      <td><%= dt.remarks %></td>
                     </tr>
                     <% i++; }) }else{ %>
                     <tr>

@@ -62,11 +62,11 @@
                     { %>
                     <tr>
                       <td><%= i %></td>
-                      <td><%= dateFormat(dt.CAL_DT, "dd/mm/yyyy") %></td>
-                      <td><%= dt.CAL_EVENT %></td>
+                      <td><%= dateFormat(dt.cal_dt, "dd/mm/yyyy") %></td>
+                      <td><%= dt.cal_event %></td>
                       <td>
                         <a
-                          href="calendar_edit?id=<%= dt.SL_NO %>"
+                          href="calendar_edit?id=<%= dt.sl_no %>"
                           class="btn btn-primary"
                         >
                           Edit

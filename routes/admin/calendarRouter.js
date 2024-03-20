@@ -1,12 +1,31 @@
+const { db_Insert } = require('../../modules/MasterModule');
+const { calData } = require('../../modules/admin/Calendar_adminModule');
+
 const calendarRouter = require('express').Router();
+
+calendarRouter.get("/calendar", async (req, res) => {
+    var id = req.query.sl_no > 0 ? req.query.sl_no : null;
+    var bank_id = req.session.user.bank_id
+    var resDt = await calData(id, bank_id);
+    // console.log(resDt,'123');
+    // if (resDt.suc > 0) {
+    res.render("admin/calendar_view", {
+      cal_dt: resDt,
+      heading: "Calendar",
+      sub_heading: "Event List",
+      dateFormat,
+    });
+    // }
+  });
 
 calendarRouter.get("/calendar_edit", async (req, res) => {
     var id = req.query.id > 0 ? req.query.id : null;
+    var bank_id = req.session.user.bank_id
     var calDt = null;
     if (id > 0) {
-        var res_dt = await calData(id);
+        var res_dt = await calData(id, bank_id);
         calDt = res_dt.suc > 0 ? res_dt.msg : null;
-        // console.log(ardb_data);
+        console.log(calDt,'123');
     }
     res.render("admin/calendar_edit", {
         cal_data: calDt,
@@ -19,32 +38,18 @@ calendarRouter.get("/calendar_edit", async (req, res) => {
 calendarRouter.post("/calendar_edit", async (req, res) => {
     var data = req.body;
     var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss"),
-        user = req.session.user.USER_NAME,
-        id = data.sl_no;
-    var pax_id = db_id,
-        table_name = "TD_CALENDAR",
-        fields =
-            id > 0
-                ? "CAL_DT = :0, CAL_EVENT = :1, MODIFIED_BY = :2, MODIFIED_DT = :3"
-                : "SL_NO, CAL_DT, CAL_EVENT, CREATED_BY, CREATED_DT",
-        fieldIndex = `((SELECT Decode(MAX(SL_NO),1,MAX(SL_NO),0)+1 FROM TD_CALENDAR), :0, :1, :2, :3)`,
-        values = [
-            dateFormat(data.cal_dt, "dd-mmm-yy"),
-            data.cal_event,
-            user,
-            dateFormat(datetime, "dd-mmm-yy"),
-        ],
-        where = id > 0 ? `SL_NO = ${id}` : null,
+    user = req.session.user.user_name,
+    bank_id = req.session.user.bank_id;
+
+    id = data.sl_no;
+    
+    var table_name = "td_calendar",
+        fields = id > 0 ? `cal_dt = '${data.cal_dt}', cal_event = '${data.cal_event}', modified_by = '${user}', modified_dt = '${datetime}'`:"(bank_id, cal_dt, cal_event, created_by, created_dt)",
+        values = `(${bank_id}, '${data.cal_dt}', '${data.cal_event}', '${user}', '${datetime}')`,
+        whr = id > 0 ? `sl_no = ${id}` : null,
         flag = id > 0 ? 1 : 0;
-    var resDt = await Api_Insert(
-        pax_id,
-        table_name,
-        fields,
-        fieldIndex,
-        values,
-        where,
-        flag
-    );
+
+    var resDt = await db_Insert(table_name, fields, values, whr, flag);
     if (resDt.suc > 0) {
         req.session.message = {
             type: "success",

@@ -52,8 +52,8 @@
                         <option>Default select</option>
                         <option value="all">All</option>
                         <% if(emp_list){ emp_list.forEach((dt) => { %>
-                        <option value="<%= dt.USER_CD %>">
-                          <%= dt.USER_NAME %> <small>(<%= dt.CUST_CD %>)</small>
+                        <option value="<%= dt.emp_code %>">
+                          <%= dt.user_name %> <small>(<%= dt.emp_code %>)</small>
                         </option>
                         <% }) } %>
                       </select>

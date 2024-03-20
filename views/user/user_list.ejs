@@ -54,12 +54,12 @@
                     { %>
                     <tr>
                       <td><%= i %></td>
-                      <td><%= dt.USER_CD %></td>
-                      <td><%= dt.CUST_CD %></td>
-                      <td><%= dt.USER_NAME %></td>
-                      <td><%= dt.LAST_LOGIN ? dateFormat(dt.LAST_LOGIN, "dd/mm/yyyy") : '' %></td>
+                      <td><%= dt.emp_code %></td>
+                      <td><%= dt.user_name %></td>
+                      <td><%= dt.user_id %></td>
+                      <td><%= dt.last_login ? dateFormat(dt.last_login, "dd/mm/yyyy") : '' %></td>
                       <td>
-                        <a href="user_delete?id=<%= dt.USER_CD %>" onclick="return deleteUser();" class="btn btn-danger">
+                        <a href="user_delete?id=<%= dt.id %>" onclick="return deleteUser();" class="btn btn-danger">
                           Delete
                         </a>
                       </td>
