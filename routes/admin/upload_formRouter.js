@@ -27,7 +27,7 @@ upload_formRouter.post('/upload_form', async(req, res) => {
   const uploadedFile = req.files.photo;
   console.log(uploadedFile);
 
-  const allowedFileTypes = ["image/pdf"];
+  const allowedFileTypes = ["application/pdf"];
   if (!allowedFileTypes.includes(uploadedFile.mimetype)) {
     return res
       .status(400)
@@ -42,7 +42,7 @@ upload_formRouter.post('/upload_form', async(req, res) => {
 
   // Move the file to a directory (you can modify the destination path as needed)
   let fileName = Date.now() + "_" + uploadedFile.name;
-  uploadedFile.mv("uploads/bank_logo/" + fileName, async (err) => {
+  uploadedFile.mv("assets/forms/" + fileName, async (err) => {
     if (err) {
       return res.status(500).send(err);
     } else {
@@ -52,7 +52,7 @@ upload_formRouter.post('/upload_form', async(req, res) => {
       let bank_img = data.bank_image;
 
       if (bank_img) {
-        let filePathToDelete = "uploads/bank_logo/" + bank_img;
+        let filePathToDelete = "forms/" + bank_img;
 
         if (fs.existsSync(filePathToDelete)) {
           fs.unlinkSync(filePathToDelete);
