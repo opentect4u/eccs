@@ -38,18 +38,25 @@
             class="dropdown-menu dropdown-menu-lg"
             aria-labelledby="navbarDropdown"
           >
-            <a href="/profile" class="dropdown-item">
+            <!-- <a href="/profile" class="dropdown-item">
               <i class="fa fa-user-circle" aria-hidden="true"></i>
               Profile</a
-            >
-            <a href="/change_pass" class="dropdown-item">
+            > -->
+           
+            <a class="dropdown-item" href="javascript:void(0)"  data-toggle="modal"
+              data-target="#changepwd">
               <i class="fa fa-unlock-alt" aria-hidden="true"></i>
               Change Password</a
             >
-            <a href="/change_pin" class="dropdown-item">
+
+            <a href="/admin/logout" class="dropdown-item">
+              <i class="nav-icon fas fa-sign-out-alt" aria-hidden="true"></i>
+              Log Out</a
+            >
+            <!-- <a href="/change_pin" class="dropdown-item">
               <i class="fa fa-key" aria-hidden="true"></i>
               Reset PIN</a
-            >
+            > -->
           </div>
         </li>
       </ul>

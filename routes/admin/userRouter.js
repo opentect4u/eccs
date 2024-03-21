@@ -13,16 +13,16 @@ adminUserRouter.post('/login', async (req, res) => {
     var data = req.body,
         result;
     const datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-    console.log(data);
+    // console.log(data);
     var log_dt = await admin_login_data(data);
-    console.log(log_dt);
+    // console.log(log_dt);
     if (log_dt.suc > 0) {
         if (log_dt.msg.length > 0) {
             if (await bcrypt.compare(data.password, log_dt.msg[0].password)) {
                 try {
                     await db_Insert('td_user', `last_login="${datetime}"`, null, `user_id='${log_dt.msg[0].user_id}'`, 1)
                 } catch (err) {
-                    console.log(err);
+                    // console.log(err);
                 }
                 req.session.message = {
                     type: "success",
@@ -101,5 +101,42 @@ const AllUserList = (bank_id) => {
         resolve(resDt)
     })
 }
+
+adminUserRouter.post('/password', async (req, res) =>{
+    user = req.session.user
+    user_name = req.session.user.user_name
+    // console.log(user,"123456");
+    const datetime = dateFormat(new Date(), "yyyy-mm-dd");
+    
+    var data = req.body,result;
+    // console.log(data,"123");
+  
+    var select = "id,password",
+    table_name = "td_user",
+    whr = `id='${user.id}'`;
+    var res_dt = await db_Select(select,table_name,whr,null)
+    // console.log(res_dt,"1234");
+  
+    if(res_dt.suc > 0) {
+      if(res_dt.msg.length > 0) {
+        if (await bcrypt.compare(data.old_pwd, res_dt.msg[0].password)) {
+          var pass = bcrypt.hashSync(data.new_pwd, 10);
+          var table_name = "td_user",
+          fields = `password = '${pass}', modified_by='${user_name}', modified_dt='${datetime}'`,
+          where2 = `id = '${user.id}'`,
+          flag = 1;
+          var forget_pass = await db_Insert(table_name,fields,null,where2,flag)
+          result = forget_pass
+          res.redirect("/admin/logout");
+        }else {
+          res.redirect("/admin/dashboard");
+        }
+      }else {
+          res.redirect("/admin/dashboard");
+        }
+    }else {
+      res.redirect("/admin/dashboard");
+    }
+});
 
 module.exports = { adminUserRouter }

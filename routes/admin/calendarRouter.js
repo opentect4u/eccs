@@ -30,7 +30,11 @@ calendarRouter.get("/calendar_edit", async (req, res) => {
     res.render("admin/calendar_edit", {
         cal_data: calDt,
         heading: "Calendar",
-        sub_heading: "Event List Edit",
+        sub_heading: `Event List ${id > 0 ? 'Edit' : 'Add'}`,
+        breadcrumb: `<ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/calendar">Event list</a></li> 
+        <li class="breadcrumb-item active">Event List ${id > 0 ? 'Edit' : 'Add'} </li>
+        </ol>`,
         dateFormat,
     });
 });

@@ -5,7 +5,7 @@ const feedbackRouter = require('express').Router();
 feedbackRouter.get('/feedback', async (req, res) => {
     var id = null;
     var resDt = await getFeedBack(id);
-    console.log(resDt);
+    // console.log(resDt);
     res.render("feedback/view", {
       req_dt: resDt,
       heading: "Feedback",
