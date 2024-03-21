@@ -1,0 +1,168 @@
+<%- include('../template/header'); %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1><%= heading %></h1>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <% if(message){ %>
+      <div
+        class="alert alert-<%= message.type; %> alert-dismissible fade show"
+        role="alert"
+      >
+        <strong> <%= message.message; %> </strong>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% } %>
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-md-12">
+          <div class="card card-primary card-outline">
+            <div class="card-body">
+              <form action="/admin/notification" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label for="title" class="col-sm-2 col-form-label"
+                            >Title</label
+                          >
+                          <div class="col-sm-8">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="title"
+                              name="title"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    
+                        <div class="form-group col-md-6">
+                            <label for="bank" id="photo1">Upload Logo:&nbsp;
+                              <span id="act_dt" style="font-size: 12px; color: red;">(.PDF)&nbsp;(*Each File size should not
+                                be more than 1MB)</span></label><br>
+                            <input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png" onchange="previewImage()">
+                            <img id="imagePreview" src="#" alt="Image Preview" class="center"
+                              style="display:none; max-width: 400px; max-height: 400px; margin-top: 2vw;">
+                          </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label for="title" class="col-sm-2 col-form-label"
+                            >Title</label
+                          >
+                          <div class="col-sm-8">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="title"
+                              name="title"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="bank" id="photo1">Upload Logo:&nbsp;
+                          <span id="act_dt" style="font-size: 12px; color: red;">(.PDF)&nbsp;(*Each File size should not
+                            be more than 1MB)</span></label><br>
+                        <input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png" onchange="previewImage()">
+                        <img id="imagePreview" src="#" alt="Image Preview" class="center"
+                          style="display:none; max-width: 400px; max-height: 400px; margin-top: 2vw;">
+                      </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label for="title" class="col-sm-2 col-form-label"
+                            >Title</label
+                          >
+                          <div class="col-sm-8">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="title"
+                              name="title"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="bank" id="photo1">Upload Logo:&nbsp;
+                          <span id="act_dt" style="font-size: 12px; color: red;">(.PDF)&nbsp;(*Each File size should not
+                            be more than 1MB)</span></label><br>
+                        <input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png" onchange="previewImage()">
+                        <img id="imagePreview" src="#" alt="Image Preview" class="center"
+                          style="display:none; max-width: 400px; max-height: 400px; margin-top: 2vw;">
+                      </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label for="title" class="col-sm-2 col-form-label"
+                            >Title</label
+                          >
+                          <div class="col-sm-8">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="title"
+                              name="title"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="bank" id="photo1">Upload Logo:&nbsp;
+                          <span id="act_dt" style="font-size: 12px; color: red;">(.PDF)&nbsp;(*Each File size should not
+                            be more than 1MB)</span></label><br>
+                        <input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png" onchange="previewImage()">
+                        <img id="imagePreview" src="#" alt="Image Preview" class="center"
+                          style="display:none; max-width: 400px; max-height: 400px; margin-top: 2vw;">
+                      </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-danger">Send</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<%- include('../template/footer'); %>
