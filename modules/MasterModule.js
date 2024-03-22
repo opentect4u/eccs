@@ -61,4 +61,42 @@ const db_Delete = (table_name, whr) => {
     });
 };
 
-module.exports = {db_Select,db_Insert,db_Delete}
+const months = [
+    {id: "1" 
+    , name: "January",},
+    {id: "2" 
+    , name: "February",},
+    {id: "3" 
+    , name: "March",},
+    {id: "4" 
+    , name: "April",},
+    {id: "5" 
+    , name: "May",},
+    {id: "6" 
+    , name: "June",},
+    {id: "7" 
+    , name: "July",},
+    {id: "8" 
+    , name: "August",},
+    {id: "9" 
+    , name: "September",},
+    {id: "10" 
+    , name: "October",},
+    {id: "11" 
+    , name: "November",},
+    {id: "12" 
+    , name: "December"},
+]
+
+const years = [
+    {id: "2023" 
+    , name: "2023",},
+    {id: "2024" 
+    , name: "2024",},
+    {id: "2025" 
+    , name: "2025",},
+    {id: "2026" 
+    , name: "2026",}
+]
+
+module.exports = {db_Select,db_Insert,db_Delete,months,years}

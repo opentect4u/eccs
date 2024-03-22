@@ -36,7 +36,7 @@
         <div class="col-md-12">
           <div class="card card-primary card-outline">
             <div class="card-body">
-              <form action="/admin/upload_form" method="post">
+              <form action="/admin/upload_form" enctype="multipart/form-data" method="post">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row">
@@ -56,12 +56,10 @@
                       </div>
                     
                         <div class="form-group col-md-6">
-                            <label for="bank" id="photo1">Upload Logo:&nbsp;
+                            <label for="photo">Upload Logo:&nbsp;
                               <span id="act_dt" style="font-size: 12px; color: red;">(.PDF)&nbsp;(*Each File size should not
                                 be more than 1MB)</span></label><br>
-                            <input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png" onchange="previewImage()">
-                            <img id="imagePreview" src="#" alt="Image Preview" class="center"
-                              style="display:none; max-width: 400px; max-height: 400px; margin-top: 2vw;">
+                            <input type="file" name="photo" id="photo" accept=".PDF">
                           </div>
                 </div>
                 <div class="row">
@@ -82,13 +80,11 @@
                         </div>
                       </div>
 
-                    <div class="form-group col-md-6">
-                        <label for="bank" id="photo1">Upload Logo:&nbsp;
+                      <div class="form-group col-md-6">
+                        <label for="photo">Upload Logo:&nbsp;
                           <span id="act_dt" style="font-size: 12px; color: red;">(.PDF)&nbsp;(*Each File size should not
                             be more than 1MB)</span></label><br>
-                        <input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png" onchange="previewImage()">
-                        <img id="imagePreview" src="#" alt="Image Preview" class="center"
-                          style="display:none; max-width: 400px; max-height: 400px; margin-top: 2vw;">
+                        <input type="file" name="photo" id="photo" accept=".PDF">
                       </div>
                 </div>
                 <div class="row">
@@ -109,13 +105,11 @@
                         </div>
                       </div>
 
-                    <div class="form-group col-md-6">
-                        <label for="bank" id="photo1">Upload Logo:&nbsp;
+                      <div class="form-group col-md-6">
+                        <label for="photo">Upload Logo:&nbsp;
                           <span id="act_dt" style="font-size: 12px; color: red;">(.PDF)&nbsp;(*Each File size should not
                             be more than 1MB)</span></label><br>
-                        <input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png" onchange="previewImage()">
-                        <img id="imagePreview" src="#" alt="Image Preview" class="center"
-                          style="display:none; max-width: 400px; max-height: 400px; margin-top: 2vw;">
+                        <input type="file" name="photo" id="photo" accept=".PDF">
                       </div>
                 </div>
                 <div class="row">
@@ -136,13 +130,11 @@
                         </div>
                       </div>
 
-                    <div class="form-group col-md-6">
-                        <label for="bank" id="photo1">Upload Logo:&nbsp;
+                      <div class="form-group col-md-6">
+                        <label for="photo">Upload Logo:&nbsp;
                           <span id="act_dt" style="font-size: 12px; color: red;">(.PDF)&nbsp;(*Each File size should not
                             be more than 1MB)</span></label><br>
-                        <input type="file" name="photo" id="photo" accept=".jpg, .jpeg, .png" onchange="previewImage()">
-                        <img id="imagePreview" src="#" alt="Image Preview" class="center"
-                          style="display:none; max-width: 400px; max-height: 400px; margin-top: 2vw;">
+                        <input type="file" name="photo" id="photo" accept=".PDF">
                       </div>
                 </div>
                 <div class="row text-center">
