@@ -1,0 +1,195 @@
+import React, { useState, useEffect } from 'react';
+import HeaderComponent from '../Components/HeaderComponent';
+import { View, StyleSheet, Image, Text, Button, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator } from 'react-native';
+import { SCREEN_HEIGHT } from 'react-native-normalize';
+import { AirbnbRating } from 'react-native-ratings';
+import { TextInput } from 'react-native-paper';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '../config/config';
+import Toast from 'react-native-toast-message';
+
+
+
+
+const Feedback = () => {
+    const [rating, setRating] = React.useState(0);
+    const [remarks, setremarks] = useState('');
+    const welcomContHeight = 0.25 * SCREEN_HEIGHT;
+
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+        console.log(newRating, 'rating')
+    };
+
+    useEffect(() => {
+        // GetStorage()
+        // notificationEmit()
+    }, [])
+
+    const remarksSubmit = async () => {
+        const asyncData = await AsyncStorage.getItem(`login_data`);
+        const bank_id = JSON.parse(asyncData)?.bank_id
+        const emp_code = JSON.parse(asyncData)?.emp_code 
+        const user_name = JSON.parse(asyncData)?.user_name
+        const date = new Date()
+        const apidata = {
+            bank_id: bank_id,
+            emp_code: emp_code,
+            user_name: user_name,
+            rating: rating,
+            remarks:remarks,
+            date:date
+        };
+    
+        try {
+          const response = await axios.post(`${BASE_URL}/api/save_feedback_dtls`, apidata, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.log(response.data, 'feedback')
+          if (response.data.suc === 1) {
+            Toast.show({
+              type: 'success',
+              text1: 'Thank you for your feedback',
+              visibilityTime: 5000
+            })
+          }
+          else if (response.data.suc === 0) {
+            
+            Toast.show({
+              type: 'error',
+              text1: 'API error',
+              visibilityTime: 5000
+            })
+          }
+        }
+        catch (error) {
+          console.log(error);
+        }
+    
+        console.log(apidata,'feedback data')
+      }
+
+
+    return (
+        <View>
+            <HeaderComponent />
+            <View>
+                <ImageBackground
+                    source={require('../assets/bg.png')} // Replace with the actual path to your image
+                    style={{ resizeMode: 'cover' }}
+                >
+                    <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
+                        <Text style={Styles.containerText}>Feedback</Text>
+                        <View style={Styles.mainContainer}>
+                            <View style={Styles.profileContainer}>
+                                <View style={{ alignItems: 'center' }}>
+                                    <Text style={Styles.mainContHeader}>
+                                        Would you like to rate us?
+                                    </Text>
+                                </View>
+
+                                <View>
+                                    <AirbnbRating
+                                        count={5}
+                                        reviews={['Terrible', 'Bad', 'Okay', 'Good', 'Great']}
+                                        defaultRating={0}
+                                        size={30}
+                                        onFinishRating={handleRatingChange}
+                                        selectedColor={'#FFA500'}
+                                        reviewColor={'#FFA500'}
+                                    />
+
+                                    <TextInput
+                                        mode="outlined"
+                                        label="Remarks"
+                                        placeholder="Remarks"
+                                        style={Styles.textInputStyle}
+                                        
+                                        value={remarks}
+                                        onChangeText={text => setremarks(text)}
+                                    />
+                                    <TouchableOpacity style={Styles.submitBtn} onPress={remarksSubmit}>
+                                        <Text style={Styles.submitBtnTxt}>Submit</Text>
+                                    </TouchableOpacity>
+
+                                </View>
+                            </View>
+                        </View>
+
+
+                    </View>
+                </ImageBackground>
+
+            </View>
+        </View>
+
+
+    );
+};
+const Styles = StyleSheet.create({
+    mainContainer: {
+        height: 700,
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+        width: '100%',
+        backgroundColor: 'white',
+        alignSelf: 'center',
+        position: 'absolute',
+        top: 120,
+        padding: 20,
+    },
+    profileContainer: {
+        position: 'relative',
+    },
+    containerText: {
+        fontSize: 20,
+        fontWeight: '900',
+        color: 'white',
+        top: 50,
+        alignSelf: 'center'
+    },
+    mainContHeader: {
+        color: '#209fb2',
+        fontSize: 18,
+        fontWeight: '900',
+        padding: 15,
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'black',
+    },
+    inputContainer: {
+        width: '80%',
+        height: 60,
+        alignSelf: 'center',
+        marginTop: 30
+
+    },
+    textInputStyle: {
+        width: '80%',
+        height: 100,
+        alignSelf: 'center',
+        marginTop: 20,
+    },
+    submitBtn: {
+        backgroundColor: '#04bbd6',
+        width: 100,
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 10,
+        alignSelf:'center',
+        marginTop:50
+      },
+      submitBtnTxt: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: '800'
+      }
+
+});
+
+// const screenWidth = Dimensions.get('window').width;
+
+export default Feedback;
