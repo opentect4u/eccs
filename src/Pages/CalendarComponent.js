@@ -71,7 +71,7 @@ function CalendarComponent() {
       }
     }
     catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   
@@ -82,9 +82,9 @@ function CalendarComponent() {
         <>
        <HeaderComponent/>
         <View style={styles.container}>
+        <View style={{height:400,}}>
       <Calendar  style={{
-        borderWidth: 1,
-        borderColor: 'black',
+        // backgroundColor:'gray',
         height: 350,
         
       }}
@@ -102,6 +102,7 @@ function CalendarComponent() {
         arrowColor: '#00adf5',
         monthTextColor: '#00adf5',
         textDayFontFamily: 'monospace',
+        textDayHeaderFontWeight:'900',
         textMonthFontFamily: 'monospace',
         textDayHeaderFontFamily: 'monospace',
         textDayFontSize: 16,
@@ -115,6 +116,7 @@ function CalendarComponent() {
         onDayPress={handleDayPress}
         current={selectedDate}
       />
+      </View>
       <View style={{backgroundColor:'rgba(4,187,214,255)',height:100,borderTopLeftRadius:40,borderTopRightRadius:40}}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{color:'white',fontSize:16,fontWeight:'700'}}>{selectedDate ? `Selected Date: ${selectedDate}` : 'No date selected'}</Text>

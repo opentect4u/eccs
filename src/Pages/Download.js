@@ -44,11 +44,11 @@ function Download() {
                 }
             });
 
-            console.log(response.data.msg, 'get_download_form_dtls')
+            
             if (response.data.suc === 1) {
                 setLoading(false)
                 setResponseData(response.data.msg);
-                console.log(responseData[0].file_path, 'file_path')
+             
             }
             else {
                 setLoading(false)
@@ -69,7 +69,7 @@ function Download() {
     const handleDownload = (fileUrl) => {
         Linking.openURL(`${BASE_URL}/${fileUrl}`)
             .then(() => {
-                console.log('URL opened successfully');
+                // console.log('URL opened successfully');
             })
             .catch((err) => {
                 console.error('An error occurred while opening the URL:', err);

@@ -149,11 +149,15 @@ function Registration({navigation}) {
           }
         });
         console.log(response.data,'after phone number')
+        // console.log(response.data.data[0].member_name,'after phone number')
+
         setUserData(response.data.data[0]);
+
         if(response.data.suc === 1){
           // console.log(response.data,'registered')
           // setBankName(response.data.msg[0].bank_name);
-          // setCustName(response.data.msg[0].bank_name);
+          setCustName(response.data.data[0].member_name);
+          console.log(custName,'custname')
           // console.log('suc-1')
           //start for otp
           try {
@@ -448,7 +452,7 @@ function Registration({navigation}) {
         <>
           {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text> */}
           <Text style={Styles.textStyle}>Welcome {custName}</Text>
-          <Text style={{top:18,color:'black',fontWeight:'bold',fontSize:13}} >Please enter the Otp sent to your mobile no.</Text>
+          <Text style={{top:18,color:'black',fontWeight:'900',fontSize:15}} >Please enter the Otp sent to your mobile no.</Text>
           <TextInput
           keyboardType="numeric"
           onChangeText={handleOtpChange}
@@ -482,10 +486,10 @@ function Registration({navigation}) {
 
       {step == 3 && 
       <>
-      <Text style={{top:7}}>
+      <Text style={{top:7,fontWeight:'900'}}>
         Resend OTP in <Text style={{color:'green',fontWeight:'900'}}>00:{counter}</Text>
       </Text>
-      <TouchableOpacity style={{height:40,width:'40%',borderRadius:50,alignItems:'center',justifyContent:'center', top:20,backgroundColor: isResendDisabled ? 'rgba(0, 128, 0,0.5)' : 'green'}} disabled={isResendDisabled} onPress={handleResendPress}>
+      <TouchableOpacity style={{height:35,width:'35%',borderRadius:50,alignItems:'center',justifyContent:'center', top:20,backgroundColor: isResendDisabled ? 'rgba(0, 128, 0,0.5)' : 'green'}} disabled={isResendDisabled} onPress={handleResendPress}>
       <Text style={{color:'white'}} >Resend OTP</Text>
       
       </TouchableOpacity>
@@ -530,17 +534,17 @@ const Styles = StyleSheet.create({
     marginBottom: 10,
     color: 'black',
     top: 30,
-    borderColor: 'rgba(24,117,130,255)',
+    borderColor: '#02a7bf',
   },
   textStyle:{
-   color:'rgba(24,117,130,255)',
-   fontSize: 16,
+   color:'#02a7bf',
+   fontSize: 18,
    fontWeight: '900'
   },
   nextBtn: {
     width: '80%',
     height: 50,
-    backgroundColor: 'rgba(24,117,130,255)',
+    backgroundColor: '#02a7bf',
     alignSelf: 'center',
     marginTop: 60,
     borderRadius: 45,

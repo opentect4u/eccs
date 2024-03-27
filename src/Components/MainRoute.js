@@ -21,7 +21,7 @@ const MainRoute = () => {
   const { authDT } = useContext(RouteGaurdContext);
 
   useEffect(() => {
-      console.log(authDT, `authDT`)
+      // console.log(authDT, `authDT`)
   }, [])
   
 

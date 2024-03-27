@@ -71,7 +71,22 @@ const Feedback = () => {
     
         console.log(apidata,'feedback data')
       }
-
+      const getSelectedColor = (rating) => {
+        switch(rating) {
+            case 1:
+                return '#FF0000'; 
+            case 2:
+                return '#ffb234'; 
+            case 3:
+                return '#ffd934'; // Orange for rating 3
+            case 4:
+                return '#add633'; // Gold for rating 4
+            case 5:
+                return '#32CD32'; // Green for rating 5
+            default:
+                return '#FFA500'; // Default to orange for other cases
+        }
+    }
 
     return (
         <View>
@@ -98,8 +113,8 @@ const Feedback = () => {
                                         defaultRating={0}
                                         size={30}
                                         onFinishRating={handleRatingChange}
-                                        selectedColor={'#FFA500'}
-                                        reviewColor={'#FFA500'}
+                                        selectedColor={getSelectedColor(rating)}
+                                        reviewColor={getSelectedColor(rating)}
                                     />
 
                                     <TextInput

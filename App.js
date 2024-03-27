@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
+import React,{useEffect} from 'react';
 import Login from './src/Pages/Login';
 import Registration from './src/Pages/Registration';
 import Home from './src/Components/Home';
@@ -14,6 +14,7 @@ import CalendarComponent from './src/Pages/CalendarComponent';
 import MainRoute from './src/Components/MainRoute';
 import RouteGaurdProvider from './src/Context/AuthGuardProvider';
 import { SocketProvider } from './src/Context/Socket';
+import SplashScreen from 'react-native-splash-screen';
 
 const toastConfig = {
   /*
@@ -98,6 +99,10 @@ const toastConfig = {
 
 const Stack = createNativeStackNavigator()
 function App() {
+
+  useEffect(() => {
+    SplashScreen.hide();
+  },[])
 
     return (
       <SocketProvider>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import { View, Image, Text,ScrollView, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import HeaderComponent from './HeaderComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,7 +20,7 @@ function Home({ navigation }) {
 
     useEffect(() => {
         GetStorage()
-        console.log(authDT)
+        // console.log(authDT)
     }, [])
 
     const GetStorage = async () => {
@@ -33,7 +33,7 @@ function Home({ navigation }) {
             // console.log(userName, 'userName')
         }
         catch (err) {
-            console.log(err);
+            // console.log(err);
         }
 
     }
@@ -54,14 +54,10 @@ function Home({ navigation }) {
                     style={{resizeMode: 'cover'}}
                 >         
                 <View style={{ height: welcomContHeight, width: 'screenWidth' }}>
-
-
-
                     <Text style={{ fontSize: 13, color: 'white', fontWeight: '900', alignSelf: 'center', marginTop: 30,fontFamily:'Roboto'}}>{bankName}</Text>
                     <Text style={{ fontSize: 16, color: 'white', paddingLeft: 20, fontWeight: '700', marginTop: 10,fontFamily:'Roboto'  }}>Hello {userName}</Text>
-
-                    
-
+                
+                 <View>
                     <View style={{ height: rptBodyHeight,borderTopLeftRadius:30,borderTopRightRadius:30,width:'93%',backgroundColor:'white',alignSelf:'center',marginTop:45,padding:20 }}>
                     <View style={{ height: rptBgCont,flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                         <TouchableOpacity
@@ -83,11 +79,15 @@ function Home({ navigation }) {
                             <Image source={require('../assets/calendar.png')} style={{ width: 38, height: 38, resizeMode: 'contain' }} />
                             <Text style={{ top: 5,color: 'gray', fontWeight: '900',fontFamily:'Roboto' }}>Calendar</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('HolidayHome')}>
+                            <Image source={require('../assets/holiday_calendar.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
+                            <Text style={{ top: 5,color: 'gray', fontWeight: '900',fontFamily:'Roboto' }}>Holiday Home</Text>
+                        </TouchableOpacity>
 
-                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} >
+                        {/* <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} >
                             <Image source={require('../assets/calculator.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
                             <Text style={{ top: 5,color: 'gray', fontWeight: '900',fontFamily:'Roboto' }}>Calculator</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                     </View>
                     <View style={{ height: rptBgCont,  width: 'screenWidth', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
@@ -103,10 +103,10 @@ function Home({ navigation }) {
 
                     </View>
                     <View style={{ height: rptBgCont,  width: 'screenWidth', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('HolidayHome')}>
+                        {/* <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('HolidayHome')}>
                             <Image source={require('../assets/holiday_calendar.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
                             <Text style={{ top: 5,color: 'gray', fontWeight: '900',fontFamily:'Roboto' }}>Holiday Home</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', colshadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('Feedback')}>
                             <Image source={require('../assets/feedback.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
@@ -114,6 +114,7 @@ function Home({ navigation }) {
                         </TouchableOpacity>
 
                     </View>
+                </View>
                 </View>
                
 

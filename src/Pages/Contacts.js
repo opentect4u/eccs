@@ -43,10 +43,10 @@ function Contacts() {
                 }
             });
 
-            console.log(response.data.msg[0], 'get_contact_dtls')
+            // console.log(response.data.msg[0], 'get_contact_dtls')
             if (response.data.suc === 1) {
                 setLoading(false)
-                console.log('con')
+            
                 setResponseData(response.data.msg[0]);
             }
             else {
@@ -60,7 +60,7 @@ function Contacts() {
         }
         catch (error) {
             setLoading(false)
-            console.log(error);
+            // console.log(error);
         }
     };
 

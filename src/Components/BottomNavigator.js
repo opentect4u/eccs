@@ -15,7 +15,7 @@ const BottomNavigator = () => {
   const bottomNav = 0.08 * SCREEN_HEIGHT;
 
     useEffect(() => {
-    console.log(countNoti,'countNoti bottom nav')
+    // console.log(countNoti,'countNoti bottom nav')
   }, )
 
   const Badge = ({ count }) => (

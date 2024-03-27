@@ -177,13 +177,13 @@ function Login({ navigation }) {
   }, [step]);
 
   return (
-    <KeyboardAvoidingView behavior='padding' style={Styles.container}>
+    <KeyboardAvoidingView behavior='padding' >
 
-      {/* <ImageBackground
-        source={require('../assets/bg1.png')}
-        style={Styles.backgroundImage}
-      > */}
-      <Image source={require('../assets/Dark_Mode_Logo.png')} style={{ resizeMode: 'contain', width: '90%', top: 60, }} />
+      <ImageBackground
+        source={require('../assets/bg.png')}
+      
+      >
+      <Image source={require('../assets/Dark_Mode_Logo.png')} style={{ resizeMode: 'contain', width: '90%', top: 60,alignSelf:'center' }} />
 
       <View style={Styles.loginContainer}>
         {/* <Image
@@ -198,9 +198,9 @@ function Login({ navigation }) {
           {nextButton()}
 
           <View style={Styles.messageContainer}>
-            <Text style={{ color: 'rgba(24,117,130,255)', fontWeight: 500 }}>Don't have an account?</Text>
+            <Text style={{ color: '#02a7bf', fontWeight: 700,fontSize:16 }}>Don't have an account?</Text>
             <TouchableOpacity onPress={handleRegister}>
-              <Text style={{ color: 'rgba(24,117,130,255)', textDecorationLine: 'underline', fontWeight: 900 }}> Register Now</Text>
+              <Text style={{ color: '#02a7bf', textDecorationLine: 'underline', fontWeight: 900,fontSize:17}}> Register Now</Text>
             </TouchableOpacity>
           </View>
         </>}
@@ -218,7 +218,7 @@ function Login({ navigation }) {
                   cellSpacing={15}
                   cellStyle={{
                     borderWidth: 2,
-                    borderColor: 'rgba(24,117,130,255)',
+                    borderColor: '#02a7bf',
                     borderRadius:12
                   }}
                   codeLength={4}
@@ -284,7 +284,7 @@ function Login({ navigation }) {
 
 
       </View>
-      {/* </ImageBackground> */}
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 }
@@ -374,7 +374,7 @@ const Styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '900',
     marginLeft: 10,
-    color: 'teal'
+    color: '#02a7bf'
   },
   introContainer: {
     paddingVertical: 10
@@ -384,14 +384,16 @@ const Styles = StyleSheet.create({
     height: 60,
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: 'rgba(24,117,130,255)',
+    // borderColor: 'rgba(24,117,130,255)',
+    borderColor:'#02a7bf',
     borderRadius: 20,
     paddingLeft: 50,
   },
   nextBtn: {
     width: '80%',
     height: 50,
-    backgroundColor: 'rgba(24,117,130,255)',
+    // backgroundColor: 'rgba(24,117,130,255)',
+    backgroundColor: '#04bbd6',
     alignSelf: 'center',
     marginTop: 75,
     borderRadius: 45,
@@ -425,7 +427,7 @@ const Styles = StyleSheet.create({
     fontSize: 16,
   },
   nextSubBtnFont: {
-    color: 'rgba(24,117,130,255)',
+    color: '#02a7bf',
     fontWeight:'900',
     fontSize: 20,
   },

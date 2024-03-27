@@ -58,7 +58,7 @@ const Demand = () => {
       month: valueMonth,
       year: valueYear
     };
-    console.log(apiParams, 'apiParams')
+    
 
     try {
       const response = await axios.get(`${BASE_URL}/api/demand_report?tb_name=${"td_demand_rpf"}&member_id=${1517}&month=${valueMonth}&year=${valueYear}`, {}, {
@@ -99,7 +99,7 @@ const Demand = () => {
     catch (error) {
       setLoading(false)
 
-      console.log(error);
+      // console.log(error);
     }
   };
   const tableHead = ['General Loan']

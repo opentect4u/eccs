@@ -272,7 +272,7 @@ const Networth = () => {
                   <View style={{ marginBottom: 16 }}>
                     <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
                       <Row data={tableHead} style={{ height: 40, backgroundColor: '#f1f8ff', }} textStyle={{ margin: 6, fontWeight: '700', fontFamily: 'Roboto' }} />
-                      <Rows data={tableData} textStyle={{ margin: 6, fontFamily: 'Roboto' }} />
+                      <Rows data={tableData} textStyle={{ margin: 6 }} />
                       {/* {depositData.map((rowData, index) => (
       <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
     ))} */}

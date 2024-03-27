@@ -40,16 +40,16 @@ export const SocketProvider = ({ children }) => {
   const GetStorage = async () => {
     try {
         const asyncData = await AsyncStorage.getItem(`login_data`);
-        console.log('async data ',asyncData)
+        // console.log('async data ',asyncData)
         setbankid(JSON.parse(asyncData)?.bank_id)
-        console.log(bankid,'bankid getstorage~')
+        // console.log(bankid,'bankid getstorage~')
         setEmpCode(JSON.parse(asyncData).emp_code)
-        console.log(empCode,'empcode')
-        console.log('GetStorage calling.....')
+        // console.log(empCode,'empcode')
+        // console.log('GetStorage calling.....')
 
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
     }
 
 }
@@ -66,10 +66,10 @@ export const SocketProvider = ({ children }) => {
     try {
       var socket = io("http://202.21.38.178:3002")
       // emitEvent('notification', bankid, { message: 'Update bank data!' })
-      console.log('bankid in socket',bankid)
+      // console.log('bankid in socket',bankid)
       socket.emit('notification',{bank_id:bankid, message: 'Update bank data!' })
       socket.on('send notification', data => {
-          console.log('Response data notification:', data.msg);
+          // console.log('Response data notification:', data.msg);
           setSocketOnData(data.msg)
           // console.log('ON')
           // console.log(bankid,'bankid emitttttt')
@@ -94,10 +94,10 @@ export const SocketProvider = ({ children }) => {
     
     // if (socket) {
       socket.on(eventName, (data) => {
-          console.log(eventName)
+          // console.log(eventName)
           callback(data);
-          console.log('Response data:', data.JSON);
-          console.log('ON')
+          // console.log('Response data:', data.JSON);
+          // console.log('ON')
 
       });
      
