@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, Dimensions, Text, ScrollView, ActivityIndicator } from 'react-native';
+import { View, useColorScheme, StyleSheet, Text, ScrollView, ActivityIndicator } from 'react-native';
 import HeaderComponent from '../Components/HeaderComponent';
 import RNPickerSelect from 'react-native-picker-select';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -37,7 +37,7 @@ const pickerStyle = {
 
 const Networth = () => {
 
-
+  const isDarkMode = useColorScheme() === 'dark'
   const [open, setOpen] = useState(false);
   const [openyear, setOpenyear] = useState(false);
   const [valueMonth, setValueMonth] = useState(null);
@@ -271,14 +271,14 @@ const Networth = () => {
                 </View>
                   <View style={{ marginBottom: 16 }}>
                     <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                      <Row data={tableHead} style={{ height: 40, backgroundColor: '#f1f8ff', }} textStyle={{ margin: 6, fontWeight: '700', fontFamily: 'Roboto' }} />
-                      <Rows data={tableData} textStyle={{ margin: 6 }} />
+                      <Row data={tableHead} style={{ height: 40, backgroundColor: '#f1f8ff', }} textStyle={{ margin: 6, fontWeight: '700', fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
+                      <Rows data={tableData} textStyle={{ margin: 6,color:isDarkMode? 'black':'black' }} />
                       {/* {depositData.map((rowData, index) => (
       <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
     ))} */}
 
                       {/* Total Row */}
-                      <Row data={totalRow} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold' }} />
+                      <Row data={totalRow} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
                   </View></>}
 
@@ -290,15 +290,15 @@ const Networth = () => {
                 </View>
                   <View style={{ marginBottom: 16 }}>
                     <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                      <Row data={tableHead_l} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: '700' }} />
-                      <Rows data={tableData_l} textStyle={{ margin: 6 }} />
+                      <Row data={tableHead_l} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: '700',color:isDarkMode? 'black':'black' }} />
+                      <Rows data={tableData_l} textStyle={{ margin: 6,color:isDarkMode? 'black':'black' }} />
                       {/* {depositData.map((rowData, index) => (
       <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
     ))} */}
 
                       {/* Total Row */}
-                      <Row data={totalRow_l} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold' }} />
-                      <Row data={totNetWorthRow} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold' }} />
+                      <Row data={totalRow_l} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
+                      <Row data={totNetWorthRow} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
                   </View></>
 

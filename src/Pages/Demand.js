@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, ActivityIndicator } from 'react-native';
+import { View, useColorScheme, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { Text, Overlay, Input } from 'react-native-elements';
 import HeaderComponent from '../Components/HeaderComponent';
 import RNPickerSelect from 'react-native-picker-select';
@@ -36,6 +36,7 @@ const pickerStyle = {
   },
 };
 const Demand = () => {
+  const isDarkMode = useColorScheme() === 'dark'
   const [open, setOpen] = useState(false);
   const [openyear, setOpenyear] = useState(false);
   const [valueMonth, setValueMonth] = useState(null);
@@ -248,7 +249,7 @@ const Demand = () => {
           ]}
         />
         <Button
-          style={{ borderRadius: 5, marginHorizontal: 10, backgroundColor: 'rgba(4,187,214,255)' }}
+          style={{ borderRadius: 5, marginHorizontal: 10, backgroundColor: 'rgba(4,187,214,255)', }}
 
           icon={() => <Searchicon name="search-outline" size={20} />}
           mode="elevated" onPress={handleSearch}>
@@ -267,30 +268,30 @@ const Demand = () => {
               </View>
               <View style={{ marginBottom: 16 }}>
                 <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                  <Row data={tableHead} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto' }} />
-                  <Row data={tableLabels} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700' }} />
-                  <Rows data={tableData} textStyle={{ textAlign: 'left', margin: 4, fontFamily: 'Roboto' }} />
+                  <Row data={tableHead} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
+                  <Row data={tableLabels} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700',color:isDarkMode? 'black':'black' }} />
+                  <Rows data={tableData} textStyle={{ textAlign: 'left', margin: 4, fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
                 </Table>
               </View>
               <View style={{ marginBottom: 16 }}>
                 <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff', }}>
-                  <Row data={tableHead_tf} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto' }} />
-                  <Row data={tableLabels_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700' }} />
-                  <Rows data={tableData_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto' }} />
+                  <Row data={tableHead_tf} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
+                  <Row data={tableLabels_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700',color:isDarkMode? 'black':'black' }} />
+                  <Rows data={tableData_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
                 </Table>
               </View>
               <View style={{ marginBottom: 16 }}>
                 <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                  <Row data={tableHead_cl} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto' }} />
-                  <Row data={tableLabels_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700' }} />
-                  <Rows data={tableData_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto' }} />
+                  <Row data={tableHead_cl} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
+                  <Row data={tableLabels_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700',color:isDarkMode? 'black':'black' }} />
+                  <Rows data={tableData_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
                 </Table>
               </View>
               <View style={{ marginBottom: 16 }}>
                 <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                  <Row data={tableHead_ltc} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto' }} />
-                  <Row data={tableLabels_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700' }} />
-                  <Rows data={tableData_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto' }} />
+                  <Row data={tableHead_ltc} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
+                  <Row data={tableLabels_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700',color:isDarkMode? 'black':'black' }} />
+                  <Rows data={tableData_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
                 </Table>
               </View>
               {/* <Text style={{ fontWeight: '900', padding: 10, fontSize: 19, fontFamily: 'Roboto' }}>General Loan:</Text> */}

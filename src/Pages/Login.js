@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground,KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground,KeyboardAvoidingView,useColorScheme } from 'react-native';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import LoginData from '../data/login_dummy_data.json';
 import OtpData from '../data/otp_dummy_data.json';
@@ -15,11 +15,12 @@ import { SocketContext, SocketProvider } from '../Context/Socket';
 // import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 function Login({ navigation }) {
+  const isDarkMode = useColorScheme() === 'dark'
   // const navigation = useNavigation();
   const { setAuthDT } = useContext(RouteGaurdContext);
   const { socket } = useContext(SocketContext);
   const [step, setStep] = useState(1)
-  const [phnNo, setPhnNo] = useState('9051203118');
+  const [phnNo, setPhnNo] = useState('');
   const [varOtp, setOtp] = useState('');
   const [userData, setUserData] = useState(null);
 
@@ -144,7 +145,7 @@ function Login({ navigation }) {
   const handleRegister = () => {
     navigation.navigate('Reg');
   }
-  const inputFunction = (placeholder) => {
+  const inputFunction = () => {
     return <View style={Styles.inputContainer}>
       <View style={Styles.introContainer}>
         <Text style={Styles.header}>Login</Text>
@@ -152,7 +153,9 @@ function Login({ navigation }) {
       {/* <Text style={Styles.placeHolderText}>{ }</Text> */}
       <TextInput
         style={Styles.textInputStyle}
-        placeholder={placeholder}
+        placeholder={"Enter your phone no."}
+        placeholderTextColor={isDarkMode ? 'black' : 'black'}
+        color={isDarkMode ? 'black' : 'black'}
         onChangeText={handlePhnNoChange}
         keyboardType="numeric"
         defaultValue={phnNo}
@@ -177,8 +180,9 @@ function Login({ navigation }) {
   }, [step]);
 
   return (
-    <KeyboardAvoidingView behavior='padding' >
-
+    
+    <KeyboardAvoidingView behavior='padding' style={Styles.container}>
+    
       <ImageBackground
         source={require('../assets/bg.png')}
       
@@ -193,7 +197,7 @@ function Login({ navigation }) {
             /> */}
         {/* <Text>hhuh</Text> */}
         {step == 1 && <>
-          {inputFunction("Enter your phone no.")}
+          {inputFunction()}
 
           {nextButton()}
 
@@ -285,7 +289,9 @@ function Login({ navigation }) {
 
       </View>
       </ImageBackground>
+     
     </KeyboardAvoidingView>
+    
   );
 }
 
@@ -313,7 +319,6 @@ const Styles = StyleSheet.create({
     flex: 1,
     height: SCREEN_HEIGHT,
     backgroundColor: 'rgba(32,159,178,255)',
-    alignItems: 'center',
     justifyContent: 'flex-end',
     // backgroundColor: '#fdbd30',
     // justifyContent: 'space-around',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HeaderComponent from '../Components/HeaderComponent';
-import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, useColorScheme, Text, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import axios from 'axios';
@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message';
 
 
 const HolidayHome = () => {
+  const isDarkMode = useColorScheme() === 'dark'
   const welcomContHeight = 0.25 * SCREEN_HEIGHT;
   const [places, setPlaces] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState('');
@@ -104,24 +105,20 @@ const HolidayHome = () => {
                   {selectedValuesData && (
                     <View>
                       <View style={{height:150,backgroundColor:'rgba(211, 211, 211,0.3)',padding:10,marginTop:20,borderRadius:20}}>
-                        <Text style={{alignSelf:'center',color:'black',fontSize:16,fontWeight:'900'}}>Hotel Details:</Text>
-                        <Text style={{fontSize:16,fontWeight:'600',}}>Address: {selectedValuesData.hh_address}</Text>
-                        <Text style={{fontSize:16,fontWeight:'600',}}>Charge: {selectedValuesData.hh_charge}</Text>
-                        <Text style={{fontSize:16,fontWeight:'600',}}>Email: {selectedValuesData.hh_email}</Text>
+                        <Text style={{alignSelf:'center',color:isDarkMode? 'black':'black',fontSize:16,fontWeight:'900'}}>Hotel Details:</Text>
+                        <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Address: {selectedValuesData.hh_address}</Text>
+                        <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Hotel Charge: {selectedValuesData.hh_charge}</Text>
+                        <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Email: {selectedValuesData.hh_email}</Text>
                       </View>
                       <View style={{height:120,backgroundColor:'rgba(211, 211, 211,0.3)',padding:10,marginTop:20,borderRadius:20}}>
-                      <Text style={{alignSelf:'center',color:'black',fontSize:16,fontWeight:'900'}}>Contact Details</Text>
-                      <Text style={{fontSize:16,fontWeight:'600',}}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
-                      <Text style={{fontSize:16,fontWeight:'600',}}>Phone: {selectedValuesData.hh_phone}</Text>
-                      <Text style={{fontSize:16,fontWeight:'600',}}>Place: {selectedValuesData.hh_place}</Text>
+                      <Text style={{alignSelf:'center',color:isDarkMode? 'black':'black',fontSize:16,fontWeight:'900'}}>Contact Details</Text>
+                      <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
+                      <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Phone: {selectedValuesData.hh_phone}</Text>
+                      <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Place: {selectedValuesData.hh_place}</Text>
                       </View>
                     </View>
                   )}
                 </View>
-
-
-
-
               </View>
             </View>
 
