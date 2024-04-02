@@ -247,7 +247,7 @@ const Networth = () => {
           style={{ borderRadius: 5,marginHorizontal: 10,backgroundColor: 'rgba(4,187,214,255)' }}
 
           icon={() => <Searchicon name="search-outline" size={20} />}
-          mode="elevated" onPress={handleSearch}>
+          mode="elevated" onPress={handleSearch} disabled={!valueMonth || !valueYear}>
           Search
         </Button>
 

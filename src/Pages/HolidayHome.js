@@ -26,9 +26,6 @@ const HolidayHome = () => {
     remarksSubmit()
 
   }, [])
-
-
-
   const remarksSubmit = async () => {
     const asyncData = await AsyncStorage.getItem(`login_data`);
     const bank_id = JSON.parse(asyncData)?.bank_id
@@ -46,7 +43,6 @@ const HolidayHome = () => {
         // console.log(placesArray, 'places')
       }
       else if (response.data.suc === 0) {
-
         Toast.show({
           type: 'error',
           text1: 'API error',
@@ -67,10 +63,7 @@ const HolidayHome = () => {
       setselectedValuesData(selected);
       // console.log(selectedValuesData,'data')
     }
-
   }
-
-
   return (
     <View>
       <HeaderComponent />
@@ -121,15 +114,10 @@ const HolidayHome = () => {
                 </View>
               </View>
             </View>
-
-
           </View>
         </ImageBackground>
-
       </View>
     </View>
-
-
   );
 };
 

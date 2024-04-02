@@ -40,23 +40,8 @@ function Login({ navigation }) {
 
   }
   const incrementStep = async () => {
-    if (step == 1) {
-      setStep(stepCount => stepCount + 1)
-      // const asyncData =await AsyncStorage.getItem(`user_data`);
-
-      // const parsedItem = JSON.parse(storedItem);
-      // console.log('Stored Item:', parsedItem);
-      // const dt = LoginData.filter((item) => item.phn_no === phnNo);
-      // if(dt.length > 0){
-      //     setStep(stepCount => stepCount + 1)
-      // }
-      // else{
-      //       Toast.show({
-      //       type:'error',
-      //       text1:'Mobile no. mismatched.!',
-      //       visibilityTime:5000
-      //     })
-      // }
+    if (step == 1 && phnNo.length >= 10) {
+      setStep(stepCount => stepCount + 1)   
     }
 
     else {
@@ -68,7 +53,7 @@ function Login({ navigation }) {
   }
   const submitNext = async () => {
 
-    if (step == 2) {
+    if (step == 2 && varOtp.length === 4) {
       const asyncData = await AsyncStorage.getItem(`user_data`);
       // console.log(JSON.parse(asyncData)?.bank_id)
       const apiParams = {
@@ -169,7 +154,7 @@ function Login({ navigation }) {
   const nextButton = () => {
     return (
 
-      <TouchableOpacity style={Styles.nextBtn} onPress={() => incrementStep().then}>
+      <TouchableOpacity style={Styles.nextBtn} onPress={() => incrementStep().then} disabled={(step === 1 && phnNo.length < 10)}>
         <Text style={Styles.nextBtnFont}>Next</Text>
       </TouchableOpacity>
     )
@@ -246,7 +231,7 @@ function Login({ navigation }) {
        <Image source={require('../assets/left.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
         Back</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={Styles.nextSubBtn} onPress={handleLogin} >
+      <TouchableOpacity style={Styles.nextSubBtn} onPress={handleLogin} disabled={ (step === 2 && varOtp.length !== 4)}>
         <Text style={Styles.nextSubBtnFont}>
         Next
         <Image source={require('../assets/right.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />

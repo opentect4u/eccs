@@ -19,7 +19,7 @@ function CalendarComponent() {
   }, [])
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString);
-    // console.log(day,'day')
+    console.log(selectedDate,'sssssssssssssss')
   //  console.log(holidays,'holidays')
   //  console.log(Object.keys(holidays),'object')
    if(day.dateString in holidays){

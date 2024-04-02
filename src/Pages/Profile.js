@@ -135,7 +135,6 @@ const Profile = () => {
             <View style={styles.introText}>
               {/* Wellcome gretting */}
               <Text style={styles.containerText}>{`Hello! ${responseData.user_name}`}</Text>
-
             </View>
 
           </View>
