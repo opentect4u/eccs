@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import { Text } from "react-native-paper";
-import { SafeAreaView, ScrollView, View, Text, StyleSheet, TextInput, TouchableOpacity,ImageBackground } from 'react-native';
+import { SafeAreaView, useColorScheme, View, Text, StyleSheet, TextInput, TouchableOpacity,ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MMKV } from 'react-native-mmkv';
 // import {AsyncStorage} from 'react-native';
@@ -20,6 +20,7 @@ const regStorage = new MMKV({
 })
 
 function Registration({navigation}) {
+  const isDarkMode = useColorScheme() === 'dark'
   const [isresend, setresend] = useState(false);
   const [step, setStep] = useState(1)
   const [bankCode, setBankCode] = useState('');
@@ -435,6 +436,8 @@ function Registration({navigation}) {
         keyboardType="numeric"
         style={Styles.input}
         placeholder="Enter the bank code here"
+        placeholderTextColor={isDarkMode ? 'black' : 'black'}
+        color={isDarkMode ? 'black' : 'black'}
       /></>}
       {step == 2 &&
         <>
@@ -444,6 +447,8 @@ function Registration({navigation}) {
             keyboardType="numeric"
             style={Styles.input}
             placeholder="Type your mobile number here"
+            placeholderTextColor={isDarkMode ? 'black' : 'black'}
+            color={isDarkMode ? 'black' : 'black'}
           />
           </>
           
@@ -458,6 +463,8 @@ function Registration({navigation}) {
           onChangeText={handleOtpChange}
             style={Styles.input}
             placeholder="Enter the Otp"
+            placeholderTextColor={isDarkMode ? 'black' : 'black'}
+            color={isDarkMode ? 'black' : 'black'}
           />       
           </>
       }
@@ -470,12 +477,16 @@ function Registration({navigation}) {
           keyboardType="numeric"
             style={Styles.input}
             placeholder="Enter PIN"
+            placeholderTextColor={isDarkMode ? 'black' : 'black'}
+            color={isDarkMode ? 'black' : 'black'}
           />
           <TextInput
           onChangeText={handleConfirmPasswordChange}
           keyboardType="numeric"
           style={Styles.input}
           placeholder="Confirm PIN"
+          placeholderTextColor={isDarkMode ? 'black' : 'black'}
+          color={isDarkMode ? 'black' : 'black'}
           />
           <View style={{top:25}}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
           </>

@@ -31,6 +31,13 @@ function CalendarComponent() {
    
   //  if(selectedDate ==)
   };
+  const formatDate = (dateString) => {
+    const dateObj = new Date(dateString);
+    const day = dateObj.getDate();
+    const month = dateObj.getMonth() + 1; // Month indexes are zero-based
+    const year = dateObj.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
   const GetStorage = async () => {
       try {
         const asyncData = await AsyncStorage.getItem(`login_data`);
@@ -119,7 +126,7 @@ function CalendarComponent() {
       </View>
       <View style={{backgroundColor:'rgba(4,187,214,255)',height:100,borderTopLeftRadius:40,borderTopRightRadius:40}}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{color:'white',fontSize:16,fontWeight:'700'}}>{selectedDate ? `Selected Date: ${selectedDate}` : 'No date selected'}</Text>
+      <Text style={{color:'white',fontSize:16,fontWeight:'700'}}>{selectedDate ? `Selected Date: ${formatDate(selectedDate)}` : 'No date selected'}</Text>
       {/* You can display the event here */}
       {/* For example, displaying it when a date is selected */}
       {selectedevent && <Text style={{color:'white',fontSize:16,fontWeight:'700'}}>{selectedevent}</Text>}

@@ -52,9 +52,7 @@ const Networth = () => {
   const [year, setYear] = useState('');
   const handleSearch = async () => {
     setLoading(true)
-    // Implement your search logic here
-    // console.log('Selected Month:', valueMonth);
-    // console.log('Selected Year:', valueYear);
+   
     const asyncData = await AsyncStorage.getItem('member_id');
 
     // const apiParams = {
@@ -98,7 +96,7 @@ const Networth = () => {
     }
   };
 
-
+  const isdisabled = !valueMonth || !valueYear
 
   let tableHead = ['A/C Type', 'Principal', 'Interest', 'ROI']
   let tableData = depositData.map(record => [
@@ -244,10 +242,10 @@ const Networth = () => {
           ]}
         />
         <Button
-          style={{ borderRadius: 5,marginHorizontal: 10,backgroundColor: 'rgba(4,187,214,255)' }}
+          style={[{ borderRadius: 5, marginHorizontal: 10,backgroundColor: 'rgba(4,187,214,255)'},isdisabled && styles.disabledBtn ]}
 
           icon={() => <Searchicon name="search-outline" size={20} />}
-          mode="elevated" onPress={handleSearch} disabled={!valueMonth || !valueYear}>
+          mode="elevated" onPress={handleSearch} disabled={isdisabled}>
           Search
         </Button>
 
@@ -398,6 +396,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'sky',
     height: 30,
     width: 30,
+  },
+  disabledBtn: {
+    backgroundColor: 'lightblue', 
   },
 });
 

@@ -13,6 +13,7 @@ import Toast from 'react-native-toast-message';
 
 
 const Feedback = () => {
+    
     const [rating, setRating] = React.useState(0);
     const [remarks, setremarks] = useState('');
     const welcomContHeight = 0.25 * SCREEN_HEIGHT;
@@ -26,7 +27,7 @@ const Feedback = () => {
         // GetStorage()
         // notificationEmit()
     }, [])
-
+    const isDisabled = !rating || !remarks
     const remarksSubmit = async () => {
         const asyncData = await AsyncStorage.getItem(`login_data`);
         const bank_id = JSON.parse(asyncData)?.bank_id
@@ -126,7 +127,7 @@ const Feedback = () => {
                                         value={remarks}
                                         onChangeText={text => setremarks(text)}
                                     />
-                                    <TouchableOpacity style={Styles.submitBtn} onPress={remarksSubmit}>
+                                    <TouchableOpacity style={[Styles.submitBtn,isDisabled && Styles.disabledBtn]} onPress={remarksSubmit} disabled={isDisabled}>
                                         <Text style={Styles.submitBtnTxt}>Submit</Text>
                                     </TouchableOpacity>
 
@@ -201,7 +202,10 @@ const Styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 15,
         fontWeight: '800'
-      }
+      },
+      disabledBtn: {
+        backgroundColor: 'lightblue', 
+      },
 
 });
 

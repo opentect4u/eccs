@@ -135,7 +135,6 @@ function Login({ navigation }) {
       <View style={Styles.introContainer}>
         <Text style={Styles.header}>Login</Text>
       </View>
-      {/* <Text style={Styles.placeHolderText}>{ }</Text> */}
       <TextInput
         style={Styles.textInputStyle}
         placeholder={"Enter your phone no."}
@@ -151,10 +150,12 @@ function Login({ navigation }) {
     setOtp(value);
     console.log(value, 'varOtp')
   };
+  
   const nextButton = () => {
+    const isDisabled = step === 1 && phnNo.length < 10;
     return (
-
-      <TouchableOpacity style={Styles.nextBtn} onPress={() => incrementStep().then} disabled={(step === 1 && phnNo.length < 10)}>
+      
+      <TouchableOpacity style={[Styles.nextBtn,isDisabled && Styles.disabledBtn]} onPress={() => incrementStep().then} disabled={isDisabled}>
         <Text style={Styles.nextBtnFont}>Next</Text>
       </TouchableOpacity>
     )
@@ -195,8 +196,7 @@ function Login({ navigation }) {
         </>}
         {step == 2 && <>
           <>
-            {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text> */}
-            {/* <Text style={{top:18,color:'black',fontWeight:'bold',fontSize:13}} >Please enter the Otp sent to your mobile no.</Text> */}
+
             <View style={Styles.inputContainer}>
               <View style={Styles.introContainer}>
                 <Text style={Styles.header}>Enter your pin</Text>
@@ -267,11 +267,6 @@ function Login({ navigation }) {
             {/* </View> */}
           </>
         }
-
-
-
-
-
       </View>
       </ImageBackground>
      
@@ -289,6 +284,9 @@ const Styles = StyleSheet.create({
   borderStyleHighLighted: {
     borderColor: "#03DAC6",
   },
+  disabledBtn: {
+    backgroundColor: 'lightblue', 
+  },
 
   underlineStyleBase: {
     width: 30,
@@ -296,7 +294,6 @@ const Styles = StyleSheet.create({
     borderWidth: 0,
     borderBottomWidth: 1,
   },
-
   underlineStyleHighLighted: {
     borderColor: "#03DAC6",
   },
@@ -305,51 +302,18 @@ const Styles = StyleSheet.create({
     height: SCREEN_HEIGHT,
     backgroundColor: 'rgba(32,159,178,255)',
     justifyContent: 'flex-end',
-    // backgroundColor: '#fdbd30',
-    // justifyContent: 'space-around',
-
-  },
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover', // or 'stretch' or 'contain'
-    alignItems: 'center',
-    justifyContent: 'flex-end' // You can customize the alignment as needed
 
   },
   loginContainer: {
     width: '99%',
     height: '38%',
     backgroundColor: 'white',
-    // backgroundColor:'#ccf2f0',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding: 10
 
 
   },
-  // logoImg: {
-  //   width: '100%',
-  //   height: '100%',
-  // },
-  // circleDiv: {
-  //   width: '100%',
-  //   height: 100,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   padding: 10,
-  // },
-  // circle: {
-  //   width: 75,
-  //   height: 75,
-  //   backgroundColor: 'rgba(24,117,130,255)',
-  //   borderRadius: 50,
-  //   borderWidth: 5,
-  //   borderColor: 'white',
-  //   overflow: 'hidden',
-  //   position: 'absolute',
-  //   top: -30,
-
-  // },
   inputContainer: {
     width: '80%',
     height: 60,

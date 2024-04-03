@@ -26,6 +26,7 @@ const HolidayHome = () => {
     remarksSubmit()
 
   }, [])
+  const isDisabled = !valuePlace
   const remarksSubmit = async () => {
     const asyncData = await AsyncStorage.getItem(`login_data`);
     const bank_id = JSON.parse(asyncData)?.bank_id
@@ -90,7 +91,7 @@ const HolidayHome = () => {
                     setValue={setvaluePlace}
                     value={valuePlace}
                   />
-                  <TouchableOpacity style={Styles.submitBtn} onPress={valueSubmit}>
+                  <TouchableOpacity style={[Styles.submitBtn,isDisabled && Styles.disabledBtn]} onPress={valueSubmit} disabled={!valuePlace}>
                     <Text style={Styles.submitBtnTxt}>Submit</Text>
                   </TouchableOpacity>
                 </View>
@@ -179,7 +180,10 @@ const Styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     fontWeight: '800'
-  }
+  },
+  disabledBtn: {
+    backgroundColor: 'lightblue', 
+  },
 
 });
 

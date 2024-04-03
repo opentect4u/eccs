@@ -146,6 +146,7 @@ const Demand = () => {
     record.ltc_intt.toString(),
   ]
   );
+  const isdisabled = !valueMonth || !valueYear
   return (
     <>
       <HeaderComponent />
@@ -249,10 +250,10 @@ const Demand = () => {
           ]}
         />
         <Button
-          style={{ borderRadius: 5, marginHorizontal: 10, backgroundColor: 'rgba(4,187,214,255)', }}
+          style={[{ borderRadius: 5, marginHorizontal: 10,backgroundColor: 'rgba(4,187,214,255)'},isdisabled && styles.disabledBtn ]}
 
           icon={() => <Searchicon name="search-outline" size={20} />}
-          mode="elevated" onPress={handleSearch} disabled={!valueMonth || !valueYear}>
+          mode="elevated" onPress={handleSearch} disabled={isdisabled}>
           Search
         </Button>
       </View>
@@ -378,6 +379,9 @@ const Demand = () => {
   );
 };
 const styles = StyleSheet.create({
+  disabledBtn: {
+    backgroundColor: 'lightblue', 
+  },
   containerRpt: {
     height: 'auto',
     backgroundColor: 'white',
