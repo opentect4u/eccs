@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground,KeyboardAvoidingView,useColorScheme } from 'react-native';
+import { TextInput,useTheme  } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { View, StyleSheet, Image, Text, Button, TouchableOpacity, ImageBackground,KeyboardAvoidingView,useColorScheme,TouchableWithoutFeedback,Keyboard  } from 'react-native';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import LoginData from '../data/login_dummy_data.json';
 import OtpData from '../data/otp_dummy_data.json';
@@ -12,9 +14,11 @@ import RouteGaurdContext from '../Context/AuthGuard';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import io from 'socket.io-client';
 import { SocketContext, SocketProvider } from '../Context/Socket';
+import { fonts } from 'react-native-elements/dist/config';
 // import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 function Login({ navigation }) {
+  const theme = useTheme();
   const isDarkMode = useColorScheme() === 'dark'
   // const navigation = useNavigation();
   const { setAuthDT } = useContext(RouteGaurdContext);
@@ -23,7 +27,9 @@ function Login({ navigation }) {
   const [phnNo, setPhnNo] = useState('');
   const [varOtp, setOtp] = useState('');
   const [userData, setUserData] = useState(null);
-
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
   useEffect(() => {
     GetStorage()
     console.log(step)
@@ -134,16 +140,29 @@ function Login({ navigation }) {
     return <View style={Styles.inputContainer}>
       <View style={Styles.introContainer}>
         <Text style={Styles.header}>Login</Text>
+    
       </View>
-      <TextInput
-        style={Styles.textInputStyle}
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <TextInput 
+         
+         backgroundColor='transparent'
+         outlineColor='#02a7bf'
+         activeOutlineColor='#02a7bf'
+         mode="outlined"
+         style={{ flex: 1 , marginTop:5
+        }}
         placeholder={"Enter your phone no."}
         placeholderTextColor={isDarkMode ? 'black' : 'black'}
         color={isDarkMode ? 'black' : 'black'}
         onChangeText={handlePhnNoChange}
         keyboardType="numeric"
         defaultValue={phnNo}
+        left={<TextInput.Icon icon="account" color={'#02a7bf'} />}
+        // borderColor='#02a7bf'
+
+      
       />
+      </View>
     </View>
   };
   const handleOtpChange = (value) => {
@@ -166,14 +185,14 @@ function Login({ navigation }) {
   }, [step]);
 
   return (
-    
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
     <KeyboardAvoidingView behavior='padding' style={Styles.container}>
     
       <ImageBackground
         source={require('../assets/bg.png')}
       
       >
-      <Image source={require('../assets/Dark_Mode_Logo.png')} style={{ resizeMode: 'contain', width: '90%', top: 60,alignSelf:'center' }} />
+      <Image source={require('../assets/Dark_Mode_Logo.png')} style={{ resizeMode: 'contain', width: '80%', top: 90,alignSelf:'center' }} />
 
       <View style={Styles.loginContainer}>
         {/* <Image
@@ -188,9 +207,9 @@ function Login({ navigation }) {
           {nextButton()}
 
           <View style={Styles.messageContainer}>
-            <Text style={{ color: '#02a7bf', fontWeight: 700,fontSize:16 }}>Don't have an account?</Text>
+            <Text style={{ color: '#02a7bf',fontSize:16,fontFamily:'Lato-Bold', }}>Don't have an account?</Text>
             <TouchableOpacity onPress={handleRegister}>
-              <Text style={{ color: '#02a7bf', textDecorationLine: 'underline', fontWeight: 900,fontSize:17}}> Register Now</Text>
+              <Text style={{ color: '#02a7bf', textDecorationLine: 'underline',fontFamily:'Lato-Regular', fontWeight: 900,fontSize:17}}> Register Now</Text>
             </TouchableOpacity>
           </View>
         </>}
@@ -271,7 +290,7 @@ function Login({ navigation }) {
       </ImageBackground>
      
     </KeyboardAvoidingView>
-    
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -305,8 +324,8 @@ const Styles = StyleSheet.create({
 
   },
   loginContainer: {
-    width: '99%',
-    height: '38%',
+    width: '100%',
+    height: '55%',
     backgroundColor: 'white',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
@@ -315,7 +334,7 @@ const Styles = StyleSheet.create({
 
   },
   inputContainer: {
-    width: '80%',
+    width: '78%',
     height: 60,
     alignSelf: 'center',
     marginTop: 30
@@ -325,10 +344,9 @@ const Styles = StyleSheet.create({
     color: 'grey',
   },
   header: {
-    fontSize: 25,
-    fontWeight: '900',
-    marginLeft: 10,
-    color: '#02a7bf'
+    fontSize: 22,
+    color: '#02a7bf',
+    fontFamily: 'EBGaramond-Bold'
   },
   introContainer: {
     paddingVertical: 10
@@ -377,19 +395,21 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nextBtnFont: {
+    fontFamily: 'EBGaramond-Bold',
     color: 'white',
     fontSize: 16,
+    // fontWeight:'700'
   },
   nextSubBtnFont: {
     color: '#02a7bf',
-    fontWeight:'900',
     fontSize: 20,
+    fontFamily: 'EBGaramond-Bold'
   },
   noAccContainer: {
     color: 'rgba(24,117,130,255)', fontWeight: 500, alignSelf: 'center', top: 30
   },
   messageContainer: {
-    marginTop: 10,
+    marginTop: 20,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly'

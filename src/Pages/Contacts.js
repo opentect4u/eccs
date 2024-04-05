@@ -113,9 +113,9 @@ function Contacts() {
         const styles = StyleSheet.create({
           mainContainer: {
             height: 700,
-            borderTopLeftRadius: 30,
-            borderTopRightRadius: 30,
-            width: '93%',
+            borderTopLeftRadius: 40,
+            borderTopRightRadius: 40,
+            width: '100%',
             backgroundColor: 'white',
             alignSelf: 'center',
             position: 'absolute',

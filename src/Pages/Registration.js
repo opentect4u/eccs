@@ -392,14 +392,16 @@ function Registration({navigation}) {
         });
         console.log(response.data,'res-data')
         if(response.data.suc === 1){
-          await AsyncStorage.setItem('user_data', JSON.stringify(apiParams));
-          await AsyncStorage.setItem('member_id',JSON.stringify(response.data.data[0].member_id))
+         
+          console.log('suc - 1')
           Toast.show({
             type:'success',
             text1:'Registered successfully..!',
             visibilityTime:5000
           })
           navigation.navigate('Login');
+          await AsyncStorage.setItem('user_data', JSON.stringify(apiParams));
+          await AsyncStorage.setItem('member_id',JSON.stringify(response.data.data[0].member_id))
         }
         else{
           Toast.show({
