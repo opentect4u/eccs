@@ -39,8 +39,10 @@ const Profile = () => {
     setLoading(true)
     const asyncData = await AsyncStorage.getItem(`login_data`);
     const bankId = JSON.parse(asyncData)?.bank_id
+    const empCode = JSON.parse(asyncData)?.emp_code
+    console.log(empCode,'empcode')
     try {
-      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?bank_id=${bankId}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?bank_id=${bankId}?emp_code=${empCode}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -115,12 +117,6 @@ const Profile = () => {
     catch (error) {
       console.log(error);
     }
-
-    console.log(apidata,'apidata')
-    console.log('Submitting...');
-    console.log('Old Password:', oldPassword);
-    console.log('New Password:', newPassword);
-
     closeModal();
   }
   return (
@@ -222,7 +218,7 @@ const Profile = () => {
               secureTextEntry={true}
             /> */}
 
-              <TouchableOpacity style={styles.submitBtn} onPress={pinSubmit}>
+              <TouchableOpacity style={styles.submitBtn} onPress={pinSubmit} disabled={!oldPassword || !newPassword}>
                 <Text style={styles.submitBtnTxt}>Submit</Text>
               </TouchableOpacity>
             </View>

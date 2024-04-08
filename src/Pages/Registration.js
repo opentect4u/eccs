@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-// import { Text } from "react-native-paper";
-import { SafeAreaView, useColorScheme, View, Text, StyleSheet, TextInput, TouchableOpacity,ImageBackground } from 'react-native';
+import { TextInput  } from 'react-native-paper';
+import { useColorScheme, View, Text, StyleSheet, TouchableOpacity,ImageBackground,Keyboard,TouchableWithoutFeedback} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MMKV } from 'react-native-mmkv';
 // import {AsyncStorage} from 'react-native';
@@ -20,6 +20,9 @@ const regStorage = new MMKV({
 })
 
 function Registration({navigation}) {
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
   const isDarkMode = useColorScheme() === 'dark'
   const [isresend, setresend] = useState(false);
   const [step, setStep] = useState(1)
@@ -37,6 +40,9 @@ function Registration({navigation}) {
   const [useBank_code, setBank_code] = useState([]);
   const [otp, setResOtp] = useState('');
   const [userData, setUserData] = useState(null);
+  const [showPin, setShowPin] = useState(false);
+  const [showConPin, setShowConPin] = useState(false);
+
 
   
 
@@ -79,6 +85,7 @@ function Registration({navigation}) {
 
   const incrementStep = async () => {
     if (step == 1) {
+      
         try {
         const response = await axios.get(`${BASE_URL}/api/bank_dt?bank_id=${bankCode}`, {
           headers: {
@@ -317,16 +324,12 @@ function Registration({navigation}) {
   //   })
   // },2000)
   const startTimer = () => {
-    // return counter > 0 && setInterval(() => setCounter(prevCounter => prevCounter - 1), 1000);
     const timerId = setInterval(() => {
       setCounter(prevCounter => {
         const newCounter = prevCounter - 1;
-        
-        // Check if the new counter is greater than 0
         if (newCounter >= 0) {
           return newCounter;
         } else {
-          // If counter is 0, clear the interval and return 0
           clearInterval(timerId);
           setIsResendDisabled(false);
           return 0;
@@ -348,15 +351,15 @@ function Registration({navigation}) {
   
   const handlePasswordChange = (text) => {
     setPassword(text);
-    updateSubmitButtonState(text, confirmPassword);
+    // updateSubmitButtonState(text, confirmPassword);
   };
 
   const handleConfirmPasswordChange = (text) => {
     setConfirmPassword(text);
     updateSubmitButtonState(password, text);
-    if (password !== confirmPassword) {
-      console.log("Password mismatch");
-    }
+    // if (password !== confirmPassword) {
+    //   console.log("Password mismatch");
+    // }
   };
 
   const updateSubmitButtonState = (password, confirmPassword) => {
@@ -398,7 +401,7 @@ function Registration({navigation}) {
             type:'success',
             text1:'Registered successfully..!',
             visibilityTime:5000
-          })
+          }) 
           navigation.navigate('Login');
           await AsyncStorage.setItem('user_data', JSON.stringify(apiParams));
           await AsyncStorage.setItem('member_id',JSON.stringify(response.data.data[0].member_id))
@@ -420,8 +423,25 @@ function Registration({navigation}) {
       // console.log('error')
     }
   };
+  const toggleShowPin = () => {
+    setShowPin(!showPin);
+  };
+  const toggleShowConPin = () => {
+    setShowConPin(!showConPin);
+  };
+  const isNextDisabled = () => {
+    if (step === 1) {
+      return !bankCode; 
+    } else if (step === 2) {
+      return  phnNo.length != 10; 
+    }
+    else if(step === 3){
+      return varOtp.length < 4; 
+    }
+    return false; // Enable for other steps
+  };
   return (
-    
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
     <View style={Styles.container}>
       <ImageBackground
         source={require('../assets/bg.png')} // Replace with the actual path to your image
@@ -432,26 +452,43 @@ function Registration({navigation}) {
       <View style={Styles.loginContainer}>
       {step == 1 && 
         <>
+        <View style={Styles.inputContainer}>
         <TextInput
+         backgroundColor='transparent'
+         outlineColor='#02a7bf'
+         activeOutlineColor='#02a7bf'
+         mode="outlined"
+         style={{ flex: 1 , marginTop:5
+        }}
         value={bankCode}
         onChangeText={handleBankCodeChange}
         keyboardType="numeric"
-        style={Styles.input}
         placeholder="Enter the bank code here"
         placeholderTextColor={isDarkMode ? 'black' : 'black'}
         color={isDarkMode ? 'black' : 'black'}
-      /></>}
+        left={<TextInput.Icon icon="bank" color={'#02a7bf'} />}
+      />
+      </View>
+      </>}
       {step == 2 &&
         <>
           <Text style={Styles.textStyle}>Welcome To {bankName}</Text>
+          <View style={Styles.inputContainer}>
           <TextInput
+           backgroundColor='transparent'
+           outlineColor='#02a7bf'
+           activeOutlineColor='#02a7bf'
+           mode="outlined"
+           style={{ flex: 1 , marginTop:5
+          }}
             onChangeText={handlePhnNoChange}
             keyboardType="numeric"
-            style={Styles.input}
-            placeholder="Type your mobile number here"
+            placeholder="Enter your mobile number"
             placeholderTextColor={isDarkMode ? 'black' : 'black'}
             color={isDarkMode ? 'black' : 'black'}
+            left={<TextInput.Icon icon="account" color={'#02a7bf'} />}
           />
+          </View>
           </>
           
           }
@@ -459,64 +496,95 @@ function Registration({navigation}) {
         <>
           {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text> */}
           <Text style={Styles.textStyle}>Welcome {custName}</Text>
-          <Text style={{top:18,color:'black',fontWeight:'900',fontSize:15}} >Please enter the Otp sent to your mobile no.</Text>
+          <Text style={{top:18,color:'black',fontFamily:'Montserrat-Bold',fontSize:13}} >Please enter the Otp sent to your mobile no.</Text>
+          <View style={Styles.inputContainer}>
           <TextInput
+           backgroundColor='transparent'
+           outlineColor='#02a7bf'
+           activeOutlineColor='#02a7bf'
+           mode="outlined"
+           style={{ flex: 1 , marginTop:5
+          }}
           keyboardType="numeric"
-          onChangeText={handleOtpChange}
-            style={Styles.input}
+          onChangeText={handleOtpChange}          
             placeholder="Enter the Otp"
             placeholderTextColor={isDarkMode ? 'black' : 'black'}
             color={isDarkMode ? 'black' : 'black'}
-          />       
+            left={<TextInput.Icon icon="numeric" color={'#02a7bf'} />}
+          />
+          </View>       
           </>
       }
 
       {step == 4 &&
-        <><Text style={Styles.textStyle}>Bank Name: {bankName}</Text>
-          <Text style={Styles.textStyle}>Customer Name: {custName}</Text>
+        <>
+        {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text>
+          <Text style={Styles.textStyle}>Customer Name: {custName}</Text> */}
+          <Text style={{fontSize:17,color:'#02a7bf',fontFamily:'Montserrat-Bold'}}>Create Your PIN</Text>
+          <View style={Styles.inputContainer}>
           <TextInput
+           backgroundColor='transparent'
+           outlineColor='#02a7bf'
+           activeOutlineColor='#02a7bf'
+           mode="outlined"
+           style={{ flex: 1 ,
+          }}
           onChangeText={handlePasswordChange}
           keyboardType="numeric"
-            style={Styles.input}
+          secureTextEntry={!showPin}
+          right={<TextInput.Icon icon={showPin ? 'eye' : 'eye-off' } color={'#02a7bf'} onPress={toggleShowPin}  />}
             placeholder="Enter PIN"
             placeholderTextColor={isDarkMode ? 'black' : 'black'}
             color={isDarkMode ? 'black' : 'black'}
           />
+          
+          </View>
+          {/* <Text style={{color:'red',alignSelf:'flex-start',left:50}}>hhjjhhj</Text> */}
+          <View style={Styles.inputContainer}>
           <TextInput
+          backgroundColor='transparent'
+          outlineColor='#02a7bf'
+          activeOutlineColor='#02a7bf'
+          mode="outlined"
+          style={{ flex: 1
+         }}
           onChangeText={handleConfirmPasswordChange}
           keyboardType="numeric"
-          style={Styles.input}
+          secureTextEntry={!showConPin}
+          right={<TextInput.Icon icon={showConPin ? 'eye' : 'eye-off'} color={'#02a7bf'} onPress={toggleShowConPin} />}        
           placeholder="Confirm PIN"
           placeholderTextColor={isDarkMode ? 'black' : 'black'}
           color={isDarkMode ? 'black' : 'black'}
           />
-          <View style={{top:25}}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
+          </View>
+          <View style={{top:5}}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
           </>
       }
-      {step <= 3 && <><TouchableOpacity style={Styles.nextBtn} onPress={() => incrementStep()}>
+      {step <= 3 && <><TouchableOpacity style={[Styles.nextBtn,
+      { backgroundColor: isNextDisabled() ? 'lightblue' : '#02a7bf'}]} onPress={() => incrementStep()} disabled={isNextDisabled()}>
             <Text style={Styles.nextBtnFont}>Next</Text>
           </TouchableOpacity></>}
 
       {step == 3 && 
       <>
-      <Text style={{top:7,fontWeight:'900'}}>
-        Resend OTP in <Text style={{color:'green',fontWeight:'900'}}>00:{counter}</Text>
+      <Text style={{top:7,fontWeight:'900',color:isDarkMode ? 'black' : 'black'}}>
+        Resend OTP in <Text style={{color:'green',fontWeight:'900',}}>00:{counter}</Text>
       </Text>
       <TouchableOpacity style={{height:35,width:'35%',borderRadius:50,alignItems:'center',justifyContent:'center', top:20,backgroundColor: isResendDisabled ? 'rgba(0, 128, 0,0.5)' : 'green'}} disabled={isResendDisabled} onPress={handleResendPress}>
-      <Text style={{color:'white'}} >Resend OTP</Text>
+      <Text style={{color:'white',fontFamily:'Montserrat-Bold'}} >Resend OTP</Text>
       
       </TouchableOpacity>
       </> }
      
       {step == 4 && 
-      <TouchableOpacity style={Styles.nextBtn} onPress={handleSubmit} 
+      <TouchableOpacity style={[Styles.nextBtn, { backgroundColor: isSubmitDisabled ? 'lightblue' : '#02a7bf'}]} onPress={handleSubmit} 
         disabled={isSubmitDisabled}>
         <Text style={Styles.nextBtnFont}>Submit</Text>
       </TouchableOpacity>}
       </View>
       </ImageBackground>
     </View>
-
+    </TouchableWithoutFeedback>
   )
 }
 const Styles = StyleSheet.create({
@@ -551,20 +619,21 @@ const Styles = StyleSheet.create({
   },
   textStyle:{
    color:'#02a7bf',
-   fontSize: 18,
-   fontWeight: '900'
+   fontSize: 15,
+   fontFamily:'Montserrat-Bold'
   },
   nextBtn: {
     width: '80%',
     height: 50,
     backgroundColor: '#02a7bf',
     alignSelf: 'center',
-    marginTop: 60,
+    marginTop: 20,
     borderRadius: 45,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex:50  },
     nextBtnFont: {
+    fontFamily:'Montserrat-Bold',
     color: 'white',
     fontSize: 16,
   },
@@ -577,6 +646,13 @@ const Styles = StyleSheet.create({
     color: 'red',
     fontSize:15,
     fontWeight:'600'
+  },
+  inputContainer: {
+    width: '78%',
+    height: 60,
+    alignSelf: 'center',
+    marginTop: 30
+
   },
 })
 

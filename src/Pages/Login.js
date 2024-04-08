@@ -143,8 +143,7 @@ function Login({ navigation }) {
     
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <TextInput 
-         
+      <TextInput          
          backgroundColor='transparent'
          outlineColor='#02a7bf'
          activeOutlineColor='#02a7bf'
@@ -171,7 +170,7 @@ function Login({ navigation }) {
   };
   
   const nextButton = () => {
-    const isDisabled = step === 1 && phnNo.length < 10;
+    const isDisabled = step === 1 && phnNo.length != 10 ;
     return (
       
       <TouchableOpacity style={[Styles.nextBtn,isDisabled && Styles.disabledBtn]} onPress={() => incrementStep().then} disabled={isDisabled}>

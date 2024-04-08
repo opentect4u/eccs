@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, useColorScheme, StyleSheet, Text, ScrollView, ActivityIndicator } from 'react-native';
+import { View, useColorScheme, StyleSheet, Text, ScrollView, ActivityIndicator,Image } from 'react-native';
 import HeaderComponent from '../Components/HeaderComponent';
 import RNPickerSelect from 'react-native-picker-select';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,7 @@ import { BASE_URL } from '../config/config';
 import { Button } from 'react-native-paper';
 import Searchicon from 'react-native-vector-icons/Ionicons'
 import axios from 'axios';
+
 
 const pickerStyle = {
   inputIOS: {
@@ -46,7 +47,7 @@ const Networth = () => {
   const [depositData, setdepositData] = useState([]);
   const [loanData, setloanData] = useState([]);
   const [isLoading, setLoading] = useState(false);
-
+  const [noData, setNoData] = useState(false)
 
   // const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
@@ -73,6 +74,7 @@ const Networth = () => {
       if (response.data.suc === 1) {
         // console.log(response.data.msg[0].ac_name, 'networth')
         setLoading(false)
+        setNoData(false)
         setResponseData(response.data.msg);
         setdepositData(response.data.msg.filter(item => item.dep_loan_flag === 'D'))
 
@@ -81,13 +83,10 @@ const Networth = () => {
         console.log(loanData, 'lo')
 
       }
-      else {
+      else if(response.data.suc === 0) {
         setLoading(false)
-        Toast.show({
-          type: 'error',
-          text1: 'error!',
-          visibilityTime: 5000
-        })
+        setNoData(true)
+
       }
     }
     catch (error) {
@@ -342,6 +341,14 @@ const Networth = () => {
           
         }</View>
         </ScrollView>
+    {noData &&
+    <View style={styles.containerRpt}>
+      <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30 }}>
+        <Image source={require('../assets/nodata.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
+
+        <Text style={{ color: 'black', fontSize: 17, alignSelf: 'center', fontFamily: 'Lato-Bold', marginTop: 10 }}>No data Found..</Text>
+      </View>
+    </View>}
     </>
   );
 };

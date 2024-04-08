@@ -49,48 +49,50 @@ const handlePress = async (item) => {
     [
       {
         text: 'OK',
-        onPress: () => console.log('OK Pressed'),
+        onPress: async () => {
+        const asyncDatalg = await AsyncStorage.getItem(`login_data`);
+        const user_name = JSON.parse(asyncDatalg)?.user_name;
+        const bank_id = JSON.parse(asyncDatalg)?.bank_id
+        
+        const apidata = {
+           id:item.id,
+           user:user_name,
+           bank_id:bank_id
+        };
+        console.log(apidata,'apidata alert')
+      
+        try {
+          const response = await axios.post(`${BASE_URL}/api/noti_view_flag`, apidata, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.log(response.data, 'noti flag')
+          if (response.data.suc === 1) {
+            Toast.show({
+              type: 'success',
+              text1: 'Thank you for your feedback',
+              visibilityTime: 5000
+            })
+          }
+          else if (response.data.suc === 0) {
+            
+            Toast.show({
+              type: 'error',
+              text1: 'API error',
+              visibilityTime: 5000
+            })
+          }
+        }
+        catch (error) {
+          console.log(error);
+        }
+       }
       },
     ],
     { cancelable: false }
   );
-  const asyncDatalg = await AsyncStorage.getItem(`login_data`);
-  const user_name = JSON.parse(asyncDatalg)?.user_name;
-  const bank_id = JSON.parse(asyncDatalg)?.bank_id
-  
-  const apidata = {
-     id:item.id,
-     user:user_name,
-     bank_id:bank_id
-  };
-  console.log(apidata,'apidata alert')
-
-  try {
-    const response = await axios.post(`${BASE_URL}/api/noti_view_flag`, apidata, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    console.log(response.data, 'noti flag')
-    if (response.data.suc === 1) {
-      Toast.show({
-        type: 'success',
-        text1: 'Thank you for your feedback',
-        visibilityTime: 5000
-      })
-    }
-    else if (response.data.suc === 0) {
-      
-      Toast.show({
-        type: 'error',
-        text1: 'API error',
-        visibilityTime: 5000
-      })
-    }
-  }
-  catch (error) {
-    console.log(error);
-  }
+ 
 
 };
   return (
