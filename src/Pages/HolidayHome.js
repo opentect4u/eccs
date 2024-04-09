@@ -91,24 +91,24 @@ const HolidayHome = () => {
                     setValue={setvaluePlace}
                     value={valuePlace}
                   />
-                  <TouchableOpacity style={[Styles.submitBtn,isDisabled && Styles.disabledBtn]} onPress={valueSubmit} disabled={!valuePlace}>
+                  <TouchableOpacity style={[Styles.submitBtn, isDisabled && Styles.disabledBtn]} onPress={valueSubmit} disabled={!valuePlace}>
                     <Text style={Styles.submitBtnTxt}>Submit</Text>
                   </TouchableOpacity>
                 </View>
                 <View>
                   {selectedValuesData && (
                     <View>
-                      <View style={{height:150,backgroundColor:'rgba(211, 211, 211,0.3)',padding:10,marginTop:20,borderRadius:20}}>
-                        <Text style={{alignSelf:'center',color:isDarkMode? 'black':'black',fontSize:16,fontWeight:'900'}}>Hotel Details:</Text>
-                        <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Address: {selectedValuesData.hh_address}</Text>
-                        <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Hotel Charge: {selectedValuesData.hh_charge}</Text>
-                        <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Email: {selectedValuesData.hh_email}</Text>
+                      <View style={{ height: 150, backgroundColor: 'rgba(211, 211, 211, 0.3)', padding: 10, marginTop: 20, borderRadius: 20 }}>
+                        <Text style={{ alignSelf: 'center', color: 'black', fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Hotel Details:</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Address: {selectedValuesData.hh_address}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Hotel Charge: {selectedValuesData.hh_charge}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Email: {selectedValuesData.hh_email}</Text>
                       </View>
-                      <View style={{height:120,backgroundColor:'rgba(211, 211, 211,0.3)',padding:10,marginTop:20,borderRadius:20}}>
-                      <Text style={{alignSelf:'center',color:isDarkMode? 'black':'black',fontSize:16,fontWeight:'900'}}>Contact Details</Text>
-                      <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
-                      <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Phone: {selectedValuesData.hh_phone}</Text>
-                      <Text style={{fontSize:16,fontWeight:'600',color:isDarkMode? 'black':'black'}}>Place: {selectedValuesData.hh_place}</Text>
+                      <View style={{ height: 120, backgroundColor: 'rgba(211, 211, 211,0.3)', padding: 10, marginTop: 20, borderRadius: 20 }}>
+                        <Text style={{ alignSelf: 'center', color: isDarkMode ? 'black' : 'black', fontSize: 16, fontWeight: '900' }}>Contact Details</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: isDarkMode ? 'black' : 'black' }}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: isDarkMode ? 'black' : 'black' }}>Phone: {selectedValuesData.hh_phone}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '600', color: isDarkMode ? 'black' : 'black' }}>Place: {selectedValuesData.hh_place}</Text>
                       </View>
                     </View>
                   )}
@@ -182,7 +182,7 @@ const Styles = StyleSheet.create({
     fontWeight: '800'
   },
   disabledBtn: {
-    backgroundColor: 'lightblue', 
+    backgroundColor: 'lightblue',
   },
 
 });

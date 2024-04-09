@@ -44,11 +44,10 @@ function Download() {
                 }
             });
 
-            
             if (response.data.suc === 1) {
                 setLoading(false)
                 setResponseData(response.data.msg);
-             
+
             }
             else {
                 setLoading(false)
@@ -96,11 +95,15 @@ function Download() {
                                 </View>
                                 {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
                                 {responseData.map((document, index) => (
-                                    <View style={styles.profileView}>
-                                        <Text key={index}>
+                                    <View style={styles.profileView} key={index}>
+
+                                        <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
                                             <Text style={styles.title}>{document.title} </Text>
-                                            <Text style={styles.content} onPress={() => handleDownload(document.file_path)}> Download</Text>
-                                        </Text>
+                                            <TouchableOpacity onPress={() => handleDownload(document.file_path)}>
+                                                <Image source={require('../assets/pdf.png')} style={{ width: 30, height: 30, resizeMode: 'contain' }} />
+                                            </TouchableOpacity>
+                                        </View>
+
                                     </View>
                                 ))}
                             </View>
@@ -129,13 +132,13 @@ const styles = StyleSheet.create({
         top: 120,
         padding: 20,
     },
-    mainContHeader:{
-       color: '#209fb2',
-        fontSize:18,
-        fontWeight:'900',
-        padding:15,
-        borderBottomWidth:0.5,
-        borderBottomColor:'black',
+    mainContHeader: {
+        color: '#209fb2',
+        fontSize: 18,
+        fontWeight: '900',
+        padding: 15,
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'black',
     },
     profileContainer: {
         position: 'relative',
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         color: 'white',
         top: 50,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     profileView: {
         width: '100%',

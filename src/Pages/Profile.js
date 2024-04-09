@@ -42,7 +42,7 @@ const Profile = () => {
     const empCode = JSON.parse(asyncData)?.emp_code
     console.log(empCode,'empcode')
     try {
-      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?bank_id=${bankId}?emp_code=${empCode}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?bank_id=${bankId}&emp_code=${empCode}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -195,6 +195,7 @@ const Profile = () => {
                 keyboardType="numeric"
                 onChangeText={text => setOldPassword(text)}
               />
+              
               {/* <TextInput
                 style={styles.input}
                 value={oldPassword}

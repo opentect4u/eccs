@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import { TextInput  } from 'react-native-paper';
 import { useColorScheme, View, Text, StyleSheet, TouchableOpacity,ImageBackground,Keyboard,TouchableWithoutFeedback} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -13,6 +13,8 @@ import Toast from 'react-native-toast-message';
 import CountDown from 'react-native-countdown-component';
 import { BASE_URL } from '../config/config';
 import axios from 'axios';
+import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
+
 // const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
 const regStorage = new MMKV({
@@ -142,12 +144,12 @@ function Registration({navigation}) {
       // })
     }
     else if (step == 2) {
+      
       const apiParams = {
         bank_id: useBank_code,
         tb_name: 'md_member_rpf',
         phone: phnNo
       };
-      // console.log(apiParams,'object')
       try {
         const response = await axios.get(`${BASE_URL}/api/check_user`,
          {
@@ -157,17 +159,21 @@ function Registration({navigation}) {
           }
         });
         console.log(response.data,'after phone number')
-        // console.log(response.data.data[0].member_name,'after phone number')
-
         setUserData(response.data.data[0]);
 
         if(response.data.suc === 1){
-          // console.log(response.data,'registered')
-          // setBankName(response.data.msg[0].bank_name);
           setCustName(response.data.data[0].member_name);
           console.log(custName,'custname')
-          // console.log('suc-1')
-          //start for otp
+          try {
+            const response = await axios.get(`${BASE_URL}/api/check_mobile_no?bank_id=${bankCode}&user_id=${phnNo}`, {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            console.log(response.data,'check_mobile_no')
+            if(response.data.suc === 1){
+              // setStep(stepCount => stepCount + 1)
+               //Start for OTP
           try {
             const response = await axios.get(`${BASE_URL}/api/login_otp?phone=${phnNo}`, {
               headers: {
@@ -177,13 +183,13 @@ function Registration({navigation}) {
             console.log(response.data,'res-otp')
 
             if(response.data.suc === 1){
-              // console.log(response.data.otp)            
+                         
               setResOtp(response.data.otp)
               setStep(stepCount => stepCount + 1)
               startTimer();
             }
             else{
-              // console.log('suc-0')
+            
               Toast.show({
                 type:'error',
                 text1:'Otp not sent..!',
@@ -194,11 +200,27 @@ function Registration({navigation}) {
           catch (error) {
             console.log(error);
           }
-          //start for otp
+          //end for otp
+               
+              // mobile number not registered
+            }
+            else{
+              Toast.show({
+                type:'error',
+                text1:'Phone number is already exists..!',
+                visibilityTime:5000
+              })
+            }
+          }
+          catch (error) {
+            console.log(error);
+          }
+
+         
           
         }
         else{
-          // console.log('suc-0')
+         
           Toast.show({
             type:'error',
             text1:'your phone no. is not registered with us!',
@@ -351,7 +373,7 @@ function Registration({navigation}) {
   
   const handlePasswordChange = (text) => {
     setPassword(text);
-    // updateSubmitButtonState(text, confirmPassword);
+    updateSubmitButtonState(text, confirmPassword);
   };
 
   const handleConfirmPasswordChange = (text) => {
@@ -364,13 +386,27 @@ function Registration({navigation}) {
 
   const updateSubmitButtonState = (password, confirmPassword) => {
     // setSubmitDisabled(password !== confirmPassword);
-    if (password !== confirmPassword) {
+    if(password.length != 0 && confirmPassword.length != 0 ){
+    if(password.length !== 4 || confirmPassword.length !== 4){
+      setError("*Password must be 4 characters long");
+      setSubmitDisabled(true);
+    }
+    else if(password !== confirmPassword){
       setError("*Password mismatch");
       setSubmitDisabled(true);
-    } else {
-      setError('');
-      setSubmitDisabled(false);
     }
+    else {
+        setError('');
+        setSubmitDisabled(false);
+      }
+    }
+    // if (password !== confirmPassword) {
+    //   setError("*Password mismatch");
+    //   setSubmitDisabled(true);
+    // } else {
+    //   setError('');
+    //   setSubmitDisabled(false);
+    // }
   };
 
   const handleSubmit = async () => {
@@ -498,7 +534,7 @@ function Registration({navigation}) {
           <Text style={Styles.textStyle}>Welcome {custName}</Text>
           <Text style={{top:18,color:'black',fontFamily:'Montserrat-Bold',fontSize:13}} >Please enter the Otp sent to your mobile no.</Text>
           <View style={Styles.inputContainer}>
-          <TextInput
+          {/* <TextInput
            backgroundColor='transparent'
            outlineColor='#02a7bf'
            activeOutlineColor='#02a7bf'
@@ -511,7 +547,20 @@ function Registration({navigation}) {
             placeholderTextColor={isDarkMode ? 'black' : 'black'}
             color={isDarkMode ? 'black' : 'black'}
             left={<TextInput.Icon icon="numeric" color={'#02a7bf'} />}
-          />
+          /> */}
+          <SmoothPinCodeInput password mask="﹡"
+                  cellSize={50}
+                  cellSpacing={15}
+                  cellStyle={{
+                    borderWidth: 2,
+                    borderColor: '#02a7bf',
+                    borderRadius:12
+                  }}
+                  codeLength={4}      
+                  value={varOtp}
+                  onTextChange={handleOtpChange}
+                 
+                />
           </View>       
           </>
       }
