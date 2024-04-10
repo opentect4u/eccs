@@ -70,7 +70,7 @@ const HolidayHome = () => {
       <HeaderComponent />
       <View>
         <ImageBackground
-          source={require('../assets/bg.png')} // Replace with the actual path to your image
+          source={require('../assets/bg3.jpg')} // Replace with the actual path to your image
           style={{ resizeMode: 'cover' }}
         >
           <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
@@ -90,6 +90,7 @@ const HolidayHome = () => {
                     placeholder="Select place"
                     setValue={setvaluePlace}
                     value={valuePlace}
+                    
                   />
                   <TouchableOpacity style={[Styles.submitBtn, isDisabled && Styles.disabledBtn]} onPress={valueSubmit} disabled={!valuePlace}>
                     <Text style={Styles.submitBtnTxt}>Submit</Text>
@@ -98,13 +99,13 @@ const HolidayHome = () => {
                 <View>
                   {selectedValuesData && (
                     <View>
-                      <View style={{ height: 150, backgroundColor: 'rgba(211, 211, 211, 0.3)', padding: 10, marginTop: 20, borderRadius: 20 }}>
+                      <View style={{ height: 150, backgroundColor: 'rgba(253, 189, 48, 0.2)', padding: 10, marginTop: 20, borderRadius: 20 }}>
                         <Text style={{ alignSelf: 'center', color: 'black', fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Hotel Details:</Text>
                         <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Address: {selectedValuesData.hh_address}</Text>
                         <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Hotel Charge: {selectedValuesData.hh_charge}</Text>
                         <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Email: {selectedValuesData.hh_email}</Text>
                       </View>
-                      <View style={{ height: 120, backgroundColor: 'rgba(211, 211, 211,0.3)', padding: 10, marginTop: 20, borderRadius: 20 }}>
+                      <View style={{ height: 120, backgroundColor: 'rgba(253, 189, 48, 0.2)', padding: 10, marginTop: 20, borderRadius: 20 }}>
                         <Text style={{ alignSelf: 'center', color: isDarkMode ? 'black' : 'black', fontSize: 16, fontWeight: '900' }}>Contact Details</Text>
                         <Text style={{ fontSize: 16, fontWeight: '600', color: isDarkMode ? 'black' : 'black' }}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
                         <Text style={{ fontSize: 16, fontWeight: '600', color: isDarkMode ? 'black' : 'black' }}>Phone: {selectedValuesData.hh_phone}</Text>
@@ -138,14 +139,18 @@ const Styles = StyleSheet.create({
     position: 'relative',
   },
   containerText: {
+    fontFamily:'OpenSans-ExtraBold',
     fontSize: 20,
     fontWeight: '900',
-    color: 'white',
+    // color: 'white',
+    color:'#fdbd30',
     top: 50,
     alignSelf: 'center'
   },
   mainContHeader: {
-    color: '#209fb2',
+    fontFamily:'OpenSans-ExtraBold',
+    // color: '#209fb2',
+    color:'#a20a3a',
     fontSize: 18,
     fontWeight: '900',
     padding: 15,
@@ -167,7 +172,8 @@ const Styles = StyleSheet.create({
     marginTop: 20,
   },
   submitBtn: {
-    backgroundColor: '#04bbd6',
+    // backgroundColor: '#04bbd6',
+    backgroundColor:'#a20a3a',
     width: 100,
     padding: 10,
     borderRadius: 10,
@@ -182,7 +188,8 @@ const Styles = StyleSheet.create({
     fontWeight: '800'
   },
   disabledBtn: {
-    backgroundColor: 'lightblue',
+    // backgroundColor: 'lightblue',
+    backgroundColor:'#c28090'
   },
 
 });

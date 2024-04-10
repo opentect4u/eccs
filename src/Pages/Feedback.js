@@ -94,7 +94,7 @@ const Feedback = () => {
             <HeaderComponent />
             <View>
                 <ImageBackground
-                    source={require('../assets/bg.png')} // Replace with the actual path to your image
+                    source={require('../assets/bg3.jpg')} // Replace with the actual path to your image
                     style={{ resizeMode: 'cover' }}
                 >
                     <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
@@ -113,6 +113,7 @@ const Feedback = () => {
                                         reviews={['Terrible', 'Bad', 'Okay', 'Good', 'Great']}
                                         defaultRating={0}
                                         size={30}
+                                        color={'white'}
                                         onFinishRating={handleRatingChange}
                                         selectedColor={getSelectedColor(rating)}
                                         reviewColor={getSelectedColor(rating)}
@@ -152,6 +153,7 @@ const Styles = StyleSheet.create({
         borderTopRightRadius: 40,
         width: '100%',
         backgroundColor: 'white',
+        // backgroundColor:'#fdbd30',
         alignSelf: 'center',
         position: 'absolute',
         top: 120,
@@ -163,17 +165,22 @@ const Styles = StyleSheet.create({
     containerText: {
         fontSize: 20,
         fontWeight: '900',
-        color: 'white',
+        // color: 'white',
+        color:'#fdbd30',
         top: 50,
         alignSelf: 'center'
     },
     mainContHeader: {
-        color: '#209fb2',
+        // color: '#209fb2',
+        color:'#a20a3a',
         fontSize: 18,
         fontWeight: '900',
         padding: 15,
-        borderBottomWidth: 0.5,
-        borderBottomColor: 'black',
+        // borderBottomWidth: 0.5,
+        borderBottomWidth: 1,
+
+        // borderBottomColor: 'black',
+        borderBottomColor:'#a20a3a'
     },
     inputContainer: {
         width: '80%',
@@ -189,7 +196,8 @@ const Styles = StyleSheet.create({
         marginTop: 20,
     },
     submitBtn: {
-        backgroundColor: '#04bbd6',
+        // backgroundColor: '#04bbd6',
+        backgroundColor:'#a20a3a',
         width: 100,
         padding: 10,
         borderRadius: 10,
@@ -204,7 +212,8 @@ const Styles = StyleSheet.create({
         fontWeight: '800'
       },
       disabledBtn: {
-        backgroundColor: 'lightblue', 
+        // backgroundColor: 'lightblue', 
+        backgroundColor:'#c28090'
       },
 
 });

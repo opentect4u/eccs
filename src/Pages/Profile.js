@@ -6,9 +6,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from '../config/config';
 import Toast from 'react-native-toast-message';
 import { TextInput } from 'react-native-paper';
+import { SCREEN_HEIGHT } from 'react-native-normalize';
+
 
 
 const Profile = () => {
+  const welcomContHeight = 0.35 * SCREEN_HEIGHT;
+  const isDisabled = !oldPassword || !newPassword
   const [isLoading, setLoading] = useState(false)
   const [responseData, setResponseData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -123,26 +127,19 @@ const Profile = () => {
     <View>
       <HeaderComponent />
       <View>
-        <ImageBackground
-          source={require('../assets/bg.png')} // Replace with the actual path to your image
-          style={{ resizeMode: 'cover' }}
-        >
-          <View style={styles.logoContainer}>
-            <View style={styles.introText}>
-              {/* Wellcome gretting */}
-              <Text style={styles.containerText}>{`Hello! ${responseData.user_name}`}</Text>
-            </View>
+      <ImageBackground
+          source={require('../assets/bg3.jpg')}
+          style={{ resizeMode: 'cover', height: welcomContHeight }}
 
-          </View>
-        </ImageBackground>
-        <Image source={require('../assets/profile.png')} style={styles.image} />
-        <View
-          style={styles.listView}>
+        >
+        <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
+            
+              <Text style={styles.containerText}>{`Hello! ${responseData.user_name}`}</Text>
+              <View style={styles.mainContainer}>
+              <View style={styles.profileContainer}>
             {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
-          {/* <Table style={{ backgroundColor: COLORS.lightScheme.onTertiary }}>
-          <Rows data={tableData} textStyle={styles.text} />
-        </Table> */}
-          <View style={styles.profileContainer}>
+         
+          
             <View style={styles.profileView}>
               <Text style={styles.title}> User name</Text>
               <Text style={styles.content}> {responseData.user_name}</Text>
@@ -167,10 +164,13 @@ const Profile = () => {
 
               {/* <Text style={styles.content}>{responseData.emp_code}</Text> */}
             </View>
-          </View>
+          
 
           {/* <hr/> */}
+          </View>
         </View>
+        </View>
+        </ImageBackground>
       </View>
       {/* Modal */}
       <Modal
@@ -195,14 +195,6 @@ const Profile = () => {
                 keyboardType="numeric"
                 onChangeText={text => setOldPassword(text)}
               />
-              
-              {/* <TextInput
-                style={styles.input}
-                value={oldPassword}
-                onChangeText={text => setOldPassword(text)}
-                secureTextEntry={true}
-              /> */}
-              {/* <Text style={styles.modalText}>Enter New Pin</Text> */}
               <TextInput
                 label="New Pin"
                 style={styles.input}
@@ -212,13 +204,6 @@ const Profile = () => {
                 keyboardType="numeric"
                 onChangeText={text => setNewPassword(text)}
               />
-              {/* <TextInput
-              style={styles.input}
-              value={newPassword}
-              onChangeText={text => setNewPassword(text)}
-              secureTextEntry={true}
-            /> */}
-
               <TouchableOpacity style={styles.submitBtn} onPress={pinSubmit} disabled={!oldPassword || !newPassword}>
                 <Text style={styles.submitBtnTxt}>Submit</Text>
               </TouchableOpacity>
@@ -233,6 +218,18 @@ const Profile = () => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    height: 700,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    width: '100%',
+    backgroundColor: 'white',
+    // backgroundColor:'#fdbd30',
+    alignSelf: 'center',
+    position: 'absolute',
+    top: 120,
+    padding: 20,
+},
   nameContainer: {
     flex: 1,
     margin: 20,
@@ -252,8 +249,9 @@ const styles = StyleSheet.create({
   containerText: {
     fontSize: 20,
     fontWeight: '900',
-    color: 'white',
-    top: 20
+    color: '#fdbd30',
+    top: 50,
+    alignSelf:'center'
   },
   introText: {
     flexDirection: "row",
@@ -262,7 +260,7 @@ const styles = StyleSheet.create({
   },
   profileView: {
     width: '100%',
-    borderBottomColor: 'gray',
+    borderBottomColor:'#a20a3a',
     borderBottomWidth: 0.5,
     paddingBottom: 7,
     paddingTop: 15,
@@ -290,17 +288,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   title: {
+    fontFamily:'OpenSans-ExtraBold',
     fontWeight: 'bold',
-    color: 'black',
+    // color: 'black',
+    color:'#a20a3a',
     fontSize: 16
   },
   titleReset:{
+    fontFamily:'OpenSans-ExtraBold',
     color: 'gray',
     fontSize: 16,
     fontWeight:'600'
   },
 
   titleClick: {
+    fontFamily:'OpenSans-ExtraBold',
     fontWeight: '800',
     color: '#ff8c00',
     textDecorationLine: 'underline',
@@ -308,18 +310,14 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   content: {
+    fontFamily:'OpenSans-ExtraBold',
     color: 'gray',
     fontSize: 20
   },
   logoContainer: {
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
-    //  backgroundColor: 'rgba(32,159,178,255)',
     position: 'relative',
-    // flexDirection: "row",
-    // justifyContent: "space-between",
-    // alignItems: "center",
-
     paddingHorizontal: 20,
     height: 150,
     overflow: 'none'
@@ -362,11 +360,13 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalText: {
+    fontFamily:'OpenSans-ExtraBold',
     marginBottom: 20,
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '700',
-    color: '#209fb2',
+    // color: '#209fb2',
+    color:'#a20a3a',
   },
   input: {
     height: 50,
@@ -395,13 +395,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   submitBtn: {
-    backgroundColor: '#04bbd6',
+    // backgroundColor: '#04bbd6',
+    backgroundColor:'#a20a3a',
     width: 100,
     padding: 10,
     borderRadius: 10,
     marginTop: 10,
   },
   submitBtnTxt: {
+    fontFamily:'OpenSans-ExtraBold',
     color: 'white',
     textAlign: 'center',
     fontSize: 15,

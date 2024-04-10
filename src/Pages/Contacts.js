@@ -71,12 +71,14 @@ function Contacts() {
       <View>
 
         <ImageBackground
-          source={require('../assets/bg.png')}
+          source={require('../assets/bg3.jpg')}
           style={{ resizeMode: 'cover', height: welcomContHeight }}
 
         >
           <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
-            <Text style={styles.containerText}>{`Hello! ${userName}`}</Text>
+            {/* <Text style={styles.containerText}>{`Hello! ${userName}`}</Text> */}
+            <Text style={styles.containerText}>Contact</Text>
+
             <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
                   {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
@@ -117,6 +119,7 @@ function Contacts() {
             borderTopRightRadius: 40,
             width: '100%',
             backgroundColor: 'white',
+            // backgroundColor:'#fdbd30',
             alignSelf: 'center',
             position: 'absolute',
             top: 120,
@@ -125,7 +128,7 @@ function Contacts() {
         containerText: {
           fontSize: 20,
           fontWeight: '900',
-          color: 'white',
+          color: '#fdbd30',
           top: 50,
           alignSelf:'center'
       },
@@ -152,15 +155,16 @@ function Contacts() {
       },
         profileView: {
           width: '100%',
-        borderBottomColor: 'gray',
+          borderBottomColor:'#a20a3a',
         borderBottomWidth: 0.5,
         paddingBottom: 7,
         paddingTop: 15,
       },
         profileViewPass: {
           width: '100%',
-        borderBottomColor: 'gray',
-        borderBottomWidth: 0.5,
+        // borderBottomColor: 'gray',
+        borderBottomColor:'#a20a3a',
+        borderBottomWidth: 1,
         paddingBottom: 15,
         paddingTop: 15,
         // alignItems:'center'
@@ -174,14 +178,15 @@ function Contacts() {
         text: {
           color: 'black',
         fontWeight: "600",
-        borderBottomColor: 'black',
+        borderBottomColor:'#a20a3a',
         borderBottomWidth: 1,
         paddingVertical: 10,
         fontSize: 14,
       },
         title: {
           fontWeight: 'bold',
-        color: 'black',
+        // color: 'black',
+        color:'#a20a3a',
         fontSize: 16
       },
         titleReset:{
@@ -198,7 +203,8 @@ function Contacts() {
         fontSize: 14
       },
         content: {
-          color: 'gray',
+          // color: 'gray',
+        color:'black',
         fontSize: 18
       },
         logoContainer: {

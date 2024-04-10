@@ -29,18 +29,7 @@ const GetStorage = async () => {
       console.log(err);
   }
 }
-//   const notificationEmit = async () => {
-//     const asyncData = await AsyncStorage.getItem(`login_data`);
-//     const bankId = JSON.parse(asyncData)?.bank_id;
-//     socket.emit('notificationPageEntered', { bank_id: yourBankId }, (acknowledgment) => {
-//       if (acknowledgment === 'success') {
-//         console.log('Event emitted successfully');
-//       } else {
-//         console.error('Failed to emit event');
-//       }
-//     })
 
-// };
 
 const handlePress = async (item) => {
   Alert.alert(
@@ -151,14 +140,15 @@ const handlePress = async (item) => {
                 <TouchableOpacity key={item.id} onPress={() => handlePress(item)}>
                 <View style={styles.notificationItem}>
                   <View style={styles.notificationIconContainer}>
-                    <Image source={require('../assets/bell.png')} style={styles.notificationIcon} />
+                    <Image source={require('../assets/bell3.png')} style={styles.notificationIcon} />
                   </View>
                   <View style={styles.notificationTextContainer}>
                     <Text style={styles.notificationText}>{item.narration}</Text>
                     <Text style={styles.notificationText}>{item.id}</Text>
                   </View>
                   {item.view_flag == 'N' &&<View style={styles.notificationSeen}>
-                   <View style={{height:8,width:8,borderRadius:4,backgroundColor:'green'}}>
+                   <View style={{ height:8,width:8,borderRadius:4,backgroundColor:'#a20a3a',
+                  }}>
                    </View>
                   </View>}
                 </View>
@@ -256,6 +246,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   containerText: {
+    fontFamily:'OpenSans-ExtraBold',
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
@@ -272,7 +263,8 @@ const styles = StyleSheet.create({
   notificationItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(211, 211, 211,0.3)',
+    // backgroundColor: 'rgba(211, 211, 211,0.3)',
+    backgroundColor:'rgba(162, 10, 58, 0.1)',
     borderRadius: 40,
     marginBottom: 10,
   },
@@ -299,6 +291,7 @@ const styles = StyleSheet.create({
     marginLeft:210
   },
   notificationText: {
+    fontFamily:'OpenSans-ExtraBold',
     color: 'black',
     fontSize: 18,
   },

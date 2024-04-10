@@ -145,18 +145,24 @@ function Login({ navigation }) {
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <TextInput          
          backgroundColor='transparent'
-         outlineColor='#02a7bf'
-         activeOutlineColor='#02a7bf'
+        
+        //  outlineColor='#02a7bf'
+        outlineColor='#a20a3a'
+         activeOutlineColor='#a20a3a'
          mode="outlined"
-         style={{ flex: 1 , marginTop:5
+         style={{ flex: 1 , marginTop:5,
         }}
+        textColor='#a20a3a'
         placeholder={"Enter your phone no."}
-        placeholderTextColor={isDarkMode ? 'black' : 'black'}
+        placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
         color={isDarkMode ? 'black' : 'black'}
         onChangeText={handlePhnNoChange}
         keyboardType="numeric"
         defaultValue={phnNo}
-        left={<TextInput.Icon icon="account" color={'#02a7bf'} />}
+        left={<TextInput.Icon icon="account" 
+        // color={'#02a7bf'}
+        color={'#a20a3a'}
+         />}
         // borderColor='#02a7bf'
 
       
@@ -188,10 +194,10 @@ function Login({ navigation }) {
     <KeyboardAvoidingView behavior='padding' style={Styles.container}>
     
       <ImageBackground
-        source={require('../assets/bg.png')}
+        source={require('../assets/bg3.jpg')}
       
       >
-      <Image source={require('../assets/Dark_Mode_Logo.png')} style={{ resizeMode: 'contain', width: '80%', top: 90,alignSelf:'center' }} />
+      <Image source={require('../assets/pnb_v.png')} style={{ resizeMode: 'contain', width: '50%', top: 90,alignSelf:'center' }} />
 
       <View style={Styles.loginContainer}>
         {/* <Image
@@ -206,9 +212,15 @@ function Login({ navigation }) {
           {nextButton()}
 
           <View style={Styles.messageContainer}>
-            <Text style={{ color: '#02a7bf',fontSize:16,fontFamily:'Lato-Bold', }}>Don't have an account?</Text>
+            <Text style={{ 
+              // color: '#02a7bf',
+              color:'#a20a3a',
+              fontSize:16,fontFamily:'OpenSans-Bold', }}>Don't have an account?</Text>
             <TouchableOpacity onPress={handleRegister}>
-              <Text style={{ color: '#02a7bf', textDecorationLine: 'underline',fontFamily:'Lato-Regular', fontWeight: 900,fontSize:17}}> Register Now</Text>
+              <Text style={{ 
+                // color: '#02a7bf',
+                color:'#a20a3a',
+                 textDecorationLine: 'underline',fontFamily:'OpenSans-Bold', fontWeight: 900,fontSize:17}}> Register Now</Text>
             </TouchableOpacity>
           </View>
         </>}
@@ -221,13 +233,16 @@ function Login({ navigation }) {
               </View>
               <View style={{ alignItems: 'center',top:15 }}>
                 <SmoothPinCodeInput password mask="﹡"
+                  
                   cellSize={50}
                   cellSpacing={15}
                   cellStyle={{
-                    borderWidth: 2,
-                    borderColor: '#02a7bf',
+                    borderWidth: 3,
+                    // borderColor: '#02a7bf',
+                    borderColor: '#a20a3a',
                     borderRadius:12
                   }}
+                  textColor={'#a20a3a'}
                   codeLength={4}
                   // codeLength ={3}        
                   value={varOtp}
@@ -246,13 +261,13 @@ function Login({ navigation }) {
             <View style={Styles.messageContainer}>
             <TouchableOpacity style={Styles.backBtn} onPress={() => decrementStep()}>
        <Text style={Styles.nextSubBtnFont}>
-       <Image source={require('../assets/left.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
+       <Image source={require('../assets/left1.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
         Back</Text>
       </TouchableOpacity>
       <TouchableOpacity style={Styles.nextSubBtn} onPress={handleLogin} disabled={ (step === 2 && varOtp.length !== 4)}>
         <Text style={Styles.nextSubBtnFont}>
         Next
-        <Image source={require('../assets/right.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
+        <Image source={require('../assets/right1.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
         </Text>
        </TouchableOpacity>
       
@@ -303,7 +318,8 @@ const Styles = StyleSheet.create({
     borderColor: "#03DAC6",
   },
   disabledBtn: {
-    backgroundColor: 'lightblue', 
+    // backgroundColor: 'lightblue', 
+    backgroundColor:'#c28090'
   },
 
   underlineStyleBase: {
@@ -325,7 +341,7 @@ const Styles = StyleSheet.create({
   loginContainer: {
     width: '100%',
     height: '55%',
-    backgroundColor: 'white',
+    backgroundColor: '#fdbd30',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding: 10
@@ -344,7 +360,8 @@ const Styles = StyleSheet.create({
   },
   header: {
     fontSize: 22,
-    color: '#02a7bf',
+    // color: '#02a7bf',
+    color:'#a20a3a',
     fontFamily: 'EBGaramond-Bold'
   },
   introContainer: {
@@ -355,16 +372,16 @@ const Styles = StyleSheet.create({
     height: 60,
     borderWidth: 2,
     borderRadius: 5,
-    // borderColor: 'rgba(24,117,130,255)',
-    borderColor:'#02a7bf',
+    // borderColor:'#02a7bf',
+    borderColor:'#a20a3a',
     borderRadius: 20,
     paddingLeft: 50,
   },
   nextBtn: {
     width: '80%',
     height: 50,
-    // backgroundColor: 'rgba(24,117,130,255)',
-    backgroundColor: '#04bbd6',
+    // backgroundColor: '#04bbd6',
+    backgroundColor:'#a20a3a',
     alignSelf: 'center',
     marginTop: 75,
     borderRadius: 45,
@@ -384,25 +401,23 @@ const Styles = StyleSheet.create({
   nextSubBtn: {
     width: '30%',
     height: 50,
-    // backgroundColor: 'rgba(24,117,130,255)',
-    // alignSelf:'f',
     marginTop: 70,
     marginLeft: 20,
-    // borderRadius:45,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
   nextBtnFont: {
-    fontFamily: 'EBGaramond-Bold',
+    fontFamily: 'OpenSans-Bold',
     color: 'white',
     fontSize: 16,
     // fontWeight:'700'
   },
   nextSubBtnFont: {
-    color: '#02a7bf',
+    // color: '#02a7bf',
+    color:'#a20a3a',
     fontSize: 20,
-    fontFamily: 'EBGaramond-Bold'
+    fontFamily: 'OpenSans-Bold'
   },
   noAccContainer: {
     color: 'rgba(24,117,130,255)', fontWeight: 500, alignSelf: 'center', top: 30

@@ -480,10 +480,10 @@ function Registration({navigation}) {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
     <View style={Styles.container}>
       <ImageBackground
-        source={require('../assets/bg.png')} // Replace with the actual path to your image
+        source={require('../assets/bg3.jpg')} // Replace with the actual path to your image
         style={Styles.backgroundImage}
       >
-         <Text style={{color:'white',fontSize:30,fontWeight:'500',marginVertical:20,alignSelf:'center',}}>Register Here</Text>
+         <Text style={{color:'#fdbd30',fontSize:30,fontWeight:'500',marginVertical:20,alignSelf:'center',}}>Register Here</Text>
         {/* Your other components go here */}
       <View style={Styles.loginContainer}>
       {step == 1 && 
@@ -491,8 +491,9 @@ function Registration({navigation}) {
         <View style={Styles.inputContainer}>
         <TextInput
          backgroundColor='transparent'
-         outlineColor='#02a7bf'
-         activeOutlineColor='#02a7bf'
+         outlineColor='#a20a3a'
+         activeOutlineColor='#a20a3a'
+         textColor='#a20a3a'
          mode="outlined"
          style={{ flex: 1 , marginTop:5
         }}
@@ -500,9 +501,9 @@ function Registration({navigation}) {
         onChangeText={handleBankCodeChange}
         keyboardType="numeric"
         placeholder="Enter the bank code here"
-        placeholderTextColor={isDarkMode ? 'black' : 'black'}
-        color={isDarkMode ? 'black' : 'black'}
-        left={<TextInput.Icon icon="bank" color={'#02a7bf'} />}
+        placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
+        color={isDarkMode ? '#a20a3a' : '#a20a3a'}
+        left={<TextInput.Icon icon="bank" color={'#a20a3a'} />}
       />
       </View>
       </>}
@@ -512,17 +513,17 @@ function Registration({navigation}) {
           <View style={Styles.inputContainer}>
           <TextInput
            backgroundColor='transparent'
-           outlineColor='#02a7bf'
-           activeOutlineColor='#02a7bf'
+           outlineColor='#a20a3a'
+           activeOutlineColor='#a20a3a'
            mode="outlined"
            style={{ flex: 1 , marginTop:5
           }}
             onChangeText={handlePhnNoChange}
             keyboardType="numeric"
             placeholder="Enter your mobile number"
-            placeholderTextColor={isDarkMode ? 'black' : 'black'}
-            color={isDarkMode ? 'black' : 'black'}
-            left={<TextInput.Icon icon="account" color={'#02a7bf'} />}
+            placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
+            textColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
+            left={<TextInput.Icon icon="account" color={'#a20a3a'} />}
           />
           </View>
           </>
@@ -552,8 +553,8 @@ function Registration({navigation}) {
                   cellSize={50}
                   cellSpacing={15}
                   cellStyle={{
-                    borderWidth: 2,
-                    borderColor: '#02a7bf',
+                    borderWidth: 3,
+                    borderColor: '#a20a3a',
                     borderRadius:12
                   }}
                   codeLength={4}      
@@ -569,22 +570,23 @@ function Registration({navigation}) {
         <>
         {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text>
           <Text style={Styles.textStyle}>Customer Name: {custName}</Text> */}
-          <Text style={{fontSize:17,color:'#02a7bf',fontFamily:'Montserrat-Bold'}}>Create Your PIN</Text>
+          <Text style={{fontSize:17,color:'#a20a3a',fontFamily:'OpenSans-Bold',fontWeight:'900'}}>Create Your PIN</Text>
           <View style={Styles.inputContainer}>
           <TextInput
            backgroundColor='transparent'
-           outlineColor='#02a7bf'
-           activeOutlineColor='#02a7bf'
+           outlineColor='#a20a3a'
+           activeOutlineColor='#a20a3a'
            mode="outlined"
            style={{ flex: 1 ,
           }}
+          textColor='#a20a3a'
           onChangeText={handlePasswordChange}
           keyboardType="numeric"
           secureTextEntry={!showPin}
-          right={<TextInput.Icon icon={showPin ? 'eye' : 'eye-off' } color={'#02a7bf'} onPress={toggleShowPin}  />}
+          right={<TextInput.Icon icon={showPin ? 'eye' : 'eye-off' } color={'#a20a3a'} onPress={toggleShowPin}  />}
             placeholder="Enter PIN"
-            placeholderTextColor={isDarkMode ? 'black' : 'black'}
-            color={isDarkMode ? 'black' : 'black'}
+            placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
+            color={isDarkMode ? '#a20a3a' : '#a20a3a'}
           />
           
           </View>
@@ -592,25 +594,26 @@ function Registration({navigation}) {
           <View style={Styles.inputContainer}>
           <TextInput
           backgroundColor='transparent'
-          outlineColor='#02a7bf'
-          activeOutlineColor='#02a7bf'
+          outlineColor='#a20a3a'
+          activeOutlineColor='#a20a3a'
           mode="outlined"
           style={{ flex: 1
          }}
+         textColor='#a20a3a'
           onChangeText={handleConfirmPasswordChange}
           keyboardType="numeric"
           secureTextEntry={!showConPin}
-          right={<TextInput.Icon icon={showConPin ? 'eye' : 'eye-off'} color={'#02a7bf'} onPress={toggleShowConPin} />}        
+          right={<TextInput.Icon icon={showConPin ? 'eye' : 'eye-off'} color={'#a20a3a'} onPress={toggleShowConPin} />}        
           placeholder="Confirm PIN"
-          placeholderTextColor={isDarkMode ? 'black' : 'black'}
-          color={isDarkMode ? 'black' : 'black'}
+          placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
+          color={isDarkMode ? '#a20a3a' : '#a20a3a'}
           />
           </View>
           <View style={{top:5}}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
           </>
       }
       {step <= 3 && <><TouchableOpacity style={[Styles.nextBtn,
-      { backgroundColor: isNextDisabled() ? 'lightblue' : '#02a7bf'}]} onPress={() => incrementStep()} disabled={isNextDisabled()}>
+      { backgroundColor: isNextDisabled() ? '#c28090' : '#a20a3a'}]} onPress={() => incrementStep()} disabled={isNextDisabled()}>
             <Text style={Styles.nextBtnFont}>Next</Text>
           </TouchableOpacity></>}
 
@@ -626,7 +629,7 @@ function Registration({navigation}) {
       </> }
      
       {step == 4 && 
-      <TouchableOpacity style={[Styles.nextBtn, { backgroundColor: isSubmitDisabled ? 'lightblue' : '#02a7bf'}]} onPress={handleSubmit} 
+      <TouchableOpacity style={[Styles.nextBtn, { backgroundColor: isSubmitDisabled ? '#c28090' : '#a20a3a'}]} onPress={handleSubmit} 
         disabled={isSubmitDisabled}>
         <Text style={Styles.nextBtnFont}>Submit</Text>
       </TouchableOpacity>}
@@ -647,7 +650,8 @@ const Styles = StyleSheet.create({
   loginContainer: {
     width: '90%',
     height: '50%',
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
+    backgroundColor: '#fdbd30',
     borderRadius: 50,
     alignSelf:'center',
     alignItems:'center',
@@ -667,14 +671,16 @@ const Styles = StyleSheet.create({
     borderColor: '#02a7bf',
   },
   textStyle:{
-   color:'#02a7bf',
+  //  color:'#02a7bf',
+   color:'#a20a3a',
    fontSize: 15,
    fontFamily:'Montserrat-Bold'
   },
   nextBtn: {
     width: '80%',
     height: 50,
-    backgroundColor: '#02a7bf',
+    // backgroundColor: '#02a7bf',
+    backgroundColor:'#a20a3a',
     alignSelf: 'center',
     marginTop: 20,
     borderRadius: 45,

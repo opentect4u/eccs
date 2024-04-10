@@ -21,11 +21,11 @@ const pickerStyle = {
     fontWeight: '600'
   },
   placeholder: {
-    color: 'black',
+    color: '#a20a3a',
     fontSize: 20
   },
   inputAndroid: {
-    color: 'black',
+    color: '#a20a3a',
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderRadius: 30,
@@ -90,18 +90,10 @@ const Demand = () => {
       else if (response.data.suc === 0) {
         setNoData(true)
         setLoading(false)
-
-        // Toast.show({
-        //   type: 'error',
-        //   text1: 'No Data Found',
-        //   visibilityTime: 5000
-        // })
       }
     }
     catch (error) {
       setLoading(false)
-
-      // console.log(error);
     }
     
   };
@@ -152,8 +144,11 @@ const Demand = () => {
   return (
     <>
       <HeaderComponent />
-      <View style={{ height: 40, backgroundColor: 'rgba(4,187,214,255)' }}>
-        <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontWeight: '800', top: 5, fontFamily: 'Roboto' }}>
+      <View style={{ height: 40, 
+        // backgroundColor: 'rgba(4,187,214,255)'
+        backgroundColor:'#a20a3a'
+         }}>
+        <Text style={{ alignSelf: 'center', fontSize: 20, color:'#fdbd30', fontWeight: '800', top: 5, fontFamily:'OpenSans-ExtraBold' }}>
           Demand Report
         </Text>
       </View>
@@ -196,9 +191,9 @@ const Demand = () => {
           ]}
         />
         <Button
-          style={[{ borderRadius: 5, marginHorizontal: 10, backgroundColor: 'rgba(4,187,214,255)' }, isdisabled && styles.disabledBtn]}
-
-          icon={() => <Searchicon name="search-outline" size={20} />}
+          style={[{ borderRadius: 5, marginHorizontal: 10, backgroundColor: '#a20a3a', }, isdisabled && styles.disabledBtn]}
+          textColor='white'
+          icon={() => <Searchicon name="search-outline" size={20} color={'white'} />}
           mode="elevated" onPress={handleSearch} disabled={isdisabled}>
           Search
         </Button>
@@ -217,117 +212,54 @@ const Demand = () => {
                 responseData.map((record, index) => (
                   <View key={index} style={{ marginBottom: 10, padding: 15 }}>
                     <View style={{ height: 30 }}>
-                      <Text style={{ padding: 5, fontSize: 15, fontWeight: '900', fontFamily: 'Roboto' }}>Month & Year: December,{valueYear}</Text>
+                      <Text style={{ padding: 5, fontSize: 15, fontWeight: '900', fontFamily:'OpenSans-ExtraBold',color:'#a20a3a' }}>Month & Year: December,{valueYear}</Text>
                     </View>
                     <View style={{ marginBottom: 16 }}>
-                      <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                        <Row data={tableHead} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto', color: isDarkMode ? 'black' : 'black' }} />
-                        <Row data={tableLabels} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
-                        <Rows data={tableData} textStyle={{ textAlign: 'left', margin: 4, fontFamily: 'Roboto', color: isDarkMode ? 'black' : 'black' }} />
+                      <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                        <Row data={tableHead} style={{ height: 40, 
+                          // backgroundColor: '#f1f8ff'
+                          backgroundColor:'rgba(253, 189, 48, 0.1)'
+                           }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                        <Row data={tableLabels} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
+                        <Rows data={tableData} textStyle={{ textAlign: 'left', margin: 4, fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                       </Table>
                     </View>
                     <View style={{ marginBottom: 16 }}>
-                      <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff', }}>
-                        <Row data={tableHead_tf} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto', color: isDarkMode ? 'black' : 'black' }} />
-                        <Row data={tableLabels_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
-                        <Rows data={tableData_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', color: isDarkMode ? 'black' : 'black' }} />
+                      <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30', }}>
+                        <Row data={tableHead_tf} style={{ height: 40, 
+                          // backgroundColor: '#f1f8ff'
+                          backgroundColor:'rgba(253, 189, 48, 0.1)'
+                           }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                        <Row data={tableLabels_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
+                        <Rows data={tableData_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                       </Table>
                     </View>
                     <View style={{ marginBottom: 16 }}>
-                      <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                        <Row data={tableHead_cl} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto', color: isDarkMode ? 'black' : 'black' }} />
-                        <Row data={tableLabels_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
-                        <Rows data={tableData_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', color: isDarkMode ? 'black' : 'black' }} />
+                      <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30'}}>
+                        <Row data={tableHead_cl} style={{ height: 40, 
+                          // backgroundColor: '#f1f8ff' 
+                          backgroundColor:'rgba(253, 189, 48, 0.1)'
+                          }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                        <Row data={tableLabels_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
+                        <Rows data={tableData_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                       </Table>
                     </View>
                     <View style={{ marginBottom: 16 }}>
-                      <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                        <Row data={tableHead_ltc} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'Roboto', color: isDarkMode ? 'black' : 'black' }} />
-                        <Row data={tableLabels_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
-                        <Rows data={tableData_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'Roboto', color: isDarkMode ? 'black' : 'black' }} />
+                      <Table borderStyle={{ borderWidth: 3, 
+                        // borderColor: '#c8e1ff'
+                        borderColor:'#fdbd30'
+                         }}>
+                        <Row data={tableHead_ltc} style={{ height: 40, 
+                         backgroundColor:'rgba(253, 189, 48, 0.1)'
+                       }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                        <Row data={tableLabels_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
+                        <Rows data={tableData_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                       </Table>
                     </View>
-                    {/* <Text style={{ fontWeight: '900', padding: 10, fontSize: 19, fontFamily: 'Roboto' }}>General Loan:</Text> */}
-                    {/* <View style={{height:'auto',borderWidth:1,borderRadius:10,width:'95%',left:10, backgroundColor: 'rgba(24,117,130,0.1)',padding:10}}>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18,fontFamily: 'monospace',marginBottom: 5}}> Recov GLIntl No. : {record.gl_run}</Text>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18,fontSize:18,fontFamily: 'monospace',marginBottom: 5}}> Total GLIntl No. : {record.gl_tot}</Text>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18,fontFamily: 'monospace',marginBottom: 5}}> Prinpl GL        : {record.gl_principal}</Text>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18,fontFamily: 'monospace',marginBottom: 5}}> Last GLLoan      : {record.gl_loan_amt}</Text>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18,fontFamily: 'monospace',marginBottom: 5}}> O/S GLBal.       : {record.gl_outstanding}</Text>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18,fontFamily: 'monospace',marginBottom: 5}}> GLInt. Claim     : {record.gl_interest}</Text>
-          
-          </View> */}
-                    {/* <Text style={{ fontWeight: '900', padding: 10, fontSize: 19 }}>TF:</Text>
-              <View style={{ height: 'auto', borderWidth: 1, borderRadius: 10, width: '95%', left: 10, backgroundColor: 'rgba(24,117,130,0.1)', padding: 10 }}>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }} > TF               :{record.tf_prn}</Text>
-              </View> */}
-
-                    {/* <Text style={{ fontWeight: '900', padding: 10, fontSize: 19, fontFamily: 'Roboto' }}> Consumer Loan:</Text>
-              <View style={{ height: 'auto', borderWidth: 1, borderRadius: 10, width: '95%', left: 10, backgroundColor: 'rgba(24,117,130,0.1)', padding: 10 }}>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> Recov CLIntl No. :{record.cl_run}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> Total CLIntl No  :{record.cl_tot}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> Prinpl CL        :{record.cl_principal}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> Last CLLoan      :{record.cl_loan_amt}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> O/S CLBal.       :{record.cl_outstanding}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> CLInt. Claim     :{record.cl_interest}</Text>
-              </View> */}
-
-                    {/* <Text style={{ fontWeight: '900', padding: 10, fontSize: 19, fontFamily: 'Roboto' }}>LTC:</Text>
-              <View style={{
-                height: 'auto', borderWidth: 1, borderRadius: 10, width: '95%', left: 10,
-                backgroundColor: 'rgba(24,117,130,0.1)', padding: 10
-              }}>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> Recov LTCIntl No. :{record.ltc_curent_instl}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> Total LTCIntl No. :{record.ltc_tot_instl}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> Prinpl LTC        :{record.ltc_prn}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> Last LTCLoan      :{record.ltc_sanc_amt}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> O/S LTCBal.       :{record.ltc_curr_prn}</Text>
-                <Text style={{ padding: 2, fontWeight: '600', fontSize: 18, fontFamily: 'monospace', marginBottom: 5 }}> LTCInt. Claim     :{record.ltc_intt}</Text>
-              </View> */}
-                    {/* <Text style={{fontWeight:'900',padding:10,fontSize:19}}>TOTAL CLAIM :</Text>
-          <View style={{height:40,borderWidth:1,borderRadius:10,width:'95%',left:10,backgroundColor: 'rgba(24,117,130,0.1)'}}>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}} > Total:{total}</Text>
-          </View> */}
-
-
-
-
-                    {/* <Text>cl_id:{record.cl_id}</Text> */}
-                    {/* <Text>cl_interest:{record.cl_interest}</Text> */}
-                    {/* <Text>cl_loan_amt:{record.cl_loan_amt}</Text> */}
-                    {/* <Text>cl_outstanding:{record.cl_outstanding}</Text> */}
-                    {/* <Text>cl_principal:{record.cl_principal}</Text> */}
-                    {/* <Text>cl_run:{record.cl_run}</Text> */}
-                    {/* <Text>cl_tot:{record.cl_tot}</Text> */}
-                    {/* <Text>created_at:{record.created_at}</Text>
-          <Text>dob:{record.dob}</Text>
-          <Text>emp_code:{record.emp_code}</Text>
-          <Text>gl_id:{record.gl_id}</Text> */}
-                    {/* <Text>gl_interest:{record.gl_interest}</Text> */}
-                    {/* <Text>gl_loan_amt:{record.gl_loan_amt}</Text> */}
-                    {/* <Text>gl_outstanding:{record.gl_outstanding}</Text> */}
-                    {/* <Text>gl_principal:{record.gl_principal}</Text> */}
-                    {/* <Text>gl_run:{record.gl_run}</Text> */}
-                    {/* <Text>gl_tot:{record.gl_tot}</Text> */}
-                    {/* <Text>ltc_curent_instl:{record.ltc_curent_instl}</Text> */}
-                    {/* <Text>ltc_curr_prn:{record.ltc_curr_prn}</Text> */}
-                    {/* <Text>ltc_id:{record.ltc_id}</Text> */}
-                    {/* <Text>ltc_intt:{record.ltc_intt}</Text> */}
-                    {/* <Text>ltc_prn:{record.ltc_prn}</Text> */}
-                    {/* <Text>ltc_sanc_amt:{record.ltc_sanc_amt}</Text> */}
-                    {/* <Text>ltc_tot_instl:{record.ltc_tot_instl}</Text> */}
-                    {/* <Text>member_id:{record.member_id}</Text>
-          
-          <Text>Member Name: {record.member_name}</Text>
-          <Text>CL Interest: {record.cl_interest}</Text>
-          <Text>GL Interest: {record.gl_interest}</Text>
-          <Text>Total Demand: {record.total_demand}</Text> */}
-                    {/* Add more Text components for other properties */}
                   </View>
                 ))
               }
             </View>
-          {/* } */}
         </View>
 
 
@@ -337,9 +269,9 @@ const Demand = () => {
     
         <View style={styles.containerRpt}>
           <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30 }}>
-            <Image source={require('../assets/nodata.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
+            <Image source={require('../assets/nodata2.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
 
-            <Text style={{ color: 'black', fontSize: 17, alignSelf: 'center', fontFamily: 'Lato-Bold', marginTop: 10 }}>No data Found..</Text>
+            <Text style={{ color: '#a20a3a', fontSize: 17, alignSelf: 'center', fontFamily: 'Lato-Bold', marginTop: 10 }}>No data Found..</Text>
           </View>
         </View>}
 
@@ -348,7 +280,9 @@ const Demand = () => {
 };
 const styles = StyleSheet.create({
   disabledBtn: {
-    backgroundColor: 'lightblue',
+    // backgroundColor: 'lightblue',
+    backgroundColor:'#c28090',
+    color:'white'
   },
   containerRpt: {
     height: 'auto',
@@ -360,7 +294,8 @@ const styles = StyleSheet.create({
     //   justifyContent: 'center',
     //   alignItems: 'center',
     // height: 100,
-    backgroundColor: 'rgba(24,117,130,0.2)',
+    // backgroundColor: 'rgba(24,117,130,0.2)',
+    backgroundColor:'rgba(162, 10, 58, 0.1)',
     zIndex: 10,
     fontFamily: 'Roboto',
     padding: 10

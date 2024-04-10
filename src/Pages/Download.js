@@ -81,11 +81,12 @@ function Download() {
             <HeaderComponent />
             <View>
                 <ImageBackground
-                    source={require('../assets/bg.png')} // Replace with the actual path to your image
+                    source={require('../assets/bg3.jpg')} // Replace with the actual path to your image
                     style={{ resizeMode: 'cover' }}
                 >
                     <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
-                        <Text style={styles.containerText}>{`Hello! ${userName}`}</Text>
+                        {/* <Text style={styles.containerText}>{`Hello! ${userName}`}</Text> */}
+                        <Text style={styles.containerText}>Download</Text>
                         <View style={styles.mainContainer}>
                             <View style={styles.profileContainer}>
                                 <View style={{ alignItems: 'center' }}>
@@ -100,7 +101,7 @@ function Download() {
                                         <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
                                             <Text style={styles.title}>{document.title} </Text>
                                             <TouchableOpacity onPress={() => handleDownload(document.file_path)}>
-                                                <Image source={require('../assets/pdf.png')} style={{ width: 30, height: 30, resizeMode: 'contain' }} />
+                                                <Image source={require('../assets/pdf3.png')} style={{ width: 30, height: 30, resizeMode: 'contain' }} />
                                             </TouchableOpacity>
                                         </View>
 
@@ -133,12 +134,14 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     mainContHeader: {
-        color: '#209fb2',
+        // color: '#209fb2',
+        color:'#a20a3a',
         fontSize: 18,
         fontWeight: '900',
         padding: 15,
-        borderBottomWidth: 0.5,
-        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        // borderBottomColor: 'black',
+        borderBottomColor: '#a20a3a',
     },
     profileContainer: {
         position: 'relative',
@@ -146,7 +149,8 @@ const styles = StyleSheet.create({
     containerText: {
         fontSize: 20,
         fontWeight: '900',
-        color: 'white',
+        // color: 'white',
+        color:'#fdbd30',
         top: 50,
         alignSelf: 'center'
     },
@@ -159,7 +163,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: '700',
-        color: 'black',
+        // color: 'black',
+        color:'#a20a3a',
         fontSize: 17
     },
     content: {

@@ -68,7 +68,7 @@ function CalendarComponent() {
       // console.log(response.data,'holiday API res')
       if (response.data.suc === 1) {
         const holidayDates = response.data.msg.reduce((acc, holiday) => {
-          acc[holiday.cal_dt.substr(0, 10)] = { marked: true, dotColor: 'red', cal_event: holiday.cal_event }; // Customize dotColor as needed
+          acc[holiday.cal_dt.substr(0, 10)] = { marked: true, dotColor: '#a20a3a', cal_event: holiday.cal_event }; // Customize dotColor as needed
           return acc;
         }, {});
         setHolidays(holidayDates);
@@ -95,16 +95,16 @@ function CalendarComponent() {
       <HeaderComponent />
 
       <ImageBackground
-        source={require('../assets/bg.png')}
+        source={require('../assets/bg3.jpg')}
 
       >
         <View style={styles.container}>
          <View style={styles.dateDtls}>
-          <View style={{backgroundColor:'rgba(211, 211, 211,0.3)',height:200,width:'90%',top:20,borderRadius:50,alignSelf:'center',padding:20}}>
+          <View style={{backgroundColor:'rgba(211, 211, 211,0.1)',height:200,width:'90%',top:20,borderRadius:50,alignSelf:'center',padding:20}}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
      
-      <Text style={{color:'white',fontSize:16,fontWeight:'700'}}>{selectedDate ? `Selected Date: ${formatDate(selectedDate)}` : 'No date selected'}</Text>
-      {selectedevent ? <Text style={{color:'white',fontSize:16,fontWeight:'700'}}>{selectedevent}</Text> : <Text style={{color:'white',fontSize:20,fontWeight:'700'}}>No holiday</Text>
+      <Text style={{color:'#fdbd30',fontFamily:'OpenSans-ExtraBold',fontSize:18,fontWeight:'700'}}>{selectedDate ? `Selected Date: ${formatDate(selectedDate)}` : 'No date selected'}</Text>
+      {selectedevent ? <Text style={{color:'#fdbd30',fontFamily:'OpenSans-ExtraBold',fontSize:20,fontWeight:'700'}}>{selectedevent}</Text> : <Text style={{color:'#fdbd30',fontFamily:'OpenSans-ExtraBold',fontSize:20,fontWeight:'700'}}>No holiday</Text>
 }
     </View>
       </View>
@@ -112,31 +112,35 @@ function CalendarComponent() {
          </View>
   
           <View style={styles.calendar}>
-          {/* <View style={{ height:500 }}> */}
             <Calendar style={{
-              // backgroundColor:'gray',
+              
               height: 550,
               borderTopLeftRadius:50,
               borderTopRightRadius:50,
-              // backgroundColor:
+      
             }}
               theme={{             
-                textSectionTitleColor: '#209fb2',
-                selectedDayBackgroundColor: '#00adf5',
+                // textSectionTitleColor: '#209fb2',
+                textSectionTitleColor:'#a20a3a',
+                // selectedDayBackgroundColor: '#00adf5',
+                selectedDayBackgroundColor:'#fdbd30',
                 selected: true,
                 selectedDayTextColor: '#ffffff',
-                todayTextColor: '#209fb2',
+                // todayTextColor: '#209fb2',
+                todayTextColor:'#a20a3a',
                 todayBackgroundColor:'rgba(211, 211, 211,0.5)',
                 dayTextColor: '#2d4150',
                 textDisabledColor: '#d9e1e8',
                 dotColor: '#00adf5',
                 selectedDotColor: '#ffffff',
-                arrowColor: '#00adf5',
-                monthTextColor: '#00adf5',
-                textDayFontFamily: 'monospace',
+                // arrowColor: '#00adf5',
+                arrowColor:'#a20a3a',
+                // monthTextColor: '#00adf5',
+                monthTextColor:'#a20a3a',
+                textDayFontFamily: 'OpenSans-ExtraBold',
                 textDayHeaderFontWeight: '900',
-                textMonthFontFamily: 'monospace',
-                textDayHeaderFontFamily: 'monospace',
+                textMonthFontFamily: 'OpenSans-ExtraBold',
+                textDayHeaderFontFamily: 'OpenSans-ExtraBold',
                 textDayFontSize: 16,
                 textDayFontWeight:'900',
                 textMonthFontSize: 20,
@@ -146,7 +150,7 @@ function CalendarComponent() {
               }}
               markedDates={{
                 ...holidays,
-                [selectedDate]: { selected: true, selectedColor: '#04bbd6' },
+                [selectedDate]: { selected: true, selectedColor: '#a20a3a' },
                 
               }}
               onDayPress={handleDayPress}
@@ -155,11 +159,6 @@ function CalendarComponent() {
           </View>
           </View>
       </ImageBackground>
-
-      
-
-
-
     </>
 
   )

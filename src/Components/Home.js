@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Image, Text,ScrollView, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import { View, Image, Text,StyleSheet, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
 import HeaderComponent from './HeaderComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LinearGradient from 'react-native-linear-gradient';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import RouteGaurdContext from '../Context/AuthGuard';
+import { assets } from '../../react-native.config';
 
 
 function Home({ navigation }) {
@@ -30,7 +30,6 @@ function Home({ navigation }) {
             // console.log(JSON.parse(asyncData)?.bank_id)
             setUserName(JSON.parse(asyncData)?.user_name)
             setbankName(JSON.parse(asyncData)?.bank_name)
-            // console.log(userName, 'userName')
         }
         catch (err) {
             // console.log(err);
@@ -42,37 +41,41 @@ function Home({ navigation }) {
             <HeaderComponent />
             <View>
                 <ImageBackground
-                    source={require('../assets/bg.png')} // Replace with the actual path to your image
+                    // source={require('../assets/bg3.jpg')}
+                    source={require('../assets/bg3.jpg')}
+
                     style={{resizeMode: 'cover'}}
                 >         
                 <View style={{ height: welcomContHeight, width: 'screenWidth' }}>
-                    <Text style={{ fontSize: 17, color: 'white', alignSelf: 'center', marginTop: 30,fontFamily:'Montserrat-Bold'}}>{bankName}</Text>
-                    <Text style={{ fontSize: 17, color: 'white', paddingLeft: 20, marginTop: 10,fontFamily:'Montserrat-Bold',  }}>Hello {userName}</Text>           
+                    <Text style={styles.bankDtlsTxt}>{bankName}</Text>
+                    <Text style={styles.userDtlsTxt}>Hello {userName}</Text>           
                  <View>
-                    <View style={{ height: rptBodyHeight,borderTopLeftRadius:40,borderTopRightRadius:40,width:'100%',backgroundColor:'white',alignSelf:'center',marginTop:25,padding:20 }}>
+                    <View style={{ height: rptBodyHeight,borderTopLeftRadius:40,borderTopRightRadius:40,width:'100%',
+                    // backgroundColor:'white',
+                    backgroundColor: '#fdbd30',
+                    alignSelf:'center',marginTop:25,padding:20 }}>
                     <View style={{ height: rptBgCont,flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                         <TouchableOpacity
-                            style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000',  shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('Demand')}>
-                           <Image source={require('../assets/demand.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-
-                            <Text style={{ color: 'gray', top: 5,fontFamily:'EBGaramond-Bold',fontSize:16, }}>Demand</Text>
+                            style={styles.rptCard} onPress={() => navigation.navigate('Demand')}>
+                           <Image source={require('../assets/demand2.png')} style={{ width: 45, height: 40, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Demand</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('Networth')}>
-                            <Image source={require('../assets/networth.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-                            <Text style={{ top: 5,color: 'gray',fontFamily:'EBGaramond-Bold',fontSize:16, }}>Networth</Text>
+                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Networth')}>
+                            <Image source={require('../assets/networth2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Networth</Text>
                         </TouchableOpacity>
 
                     </View>
 
                     <View style={{ height: rptBgCont, width: 'screenWidth', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100,borderRadius:20, justifyContent: 'center', alignItems: 'center', color: 'black', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('Calendar')}>
-                            <Image source={require('../assets/calendar.png')} style={{ width: 38, height: 38, resizeMode: 'contain' }} />
-                            <Text style={{ top: 5,color: 'gray',fontFamily:'EBGaramond-Bold',fontSize:16, }}>Calendar</Text>
+                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Calendar')}>
+                            <Image source={require('../assets/calendar2.png')} style={{ width: 38, height: 38, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Calendar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('HolidayHome')}>
-                            <Image source={require('../assets/holiday_calendar.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
-                            <Text style={{ top: 5,color: 'gray',fontFamily:'EBGaramond-Bold',fontSize:16 }}>Holiday Home</Text>
+                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('HolidayHome')}>
+                            <Image source={require('../assets/holiday_calendar2.png')} style={{ width: 38, height: 38, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Holiday Home</Text>
                         </TouchableOpacity>
 
                         {/* <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} >
@@ -82,14 +85,14 @@ function Home({ navigation }) {
 
                     </View>
                     <View style={{ height: rptBgCont,  width: 'screenWidth', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('Download')}>
-                            <Image source={require('../assets/download.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
-                            <Text style={{ top: 5,color: 'gray',fontSize:16,fontFamily:'EBGaramond-Bold' }}>Download</Text>
+                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Download')}>
+                            <Image source={require('../assets/download2.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Download</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', colshadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('Contacts')}>
-                            <Image source={require('../assets/contact.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-                            <Text style={{ top: 5,color: 'gray',fontFamily:'EBGaramond-Bold',fontSize:16 }}>Contact</Text>
+                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Contacts')}>
+                            <Image source={require('../assets/contact2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Contact</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -99,9 +102,9 @@ function Home({ navigation }) {
                             <Text style={{ top: 5,color: 'gray', fontWeight: '900',fontFamily:'Montserrat-Bold' }}>Holiday Home</Text>
                         </TouchableOpacity> */}
 
-                        <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', colshadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('Feedback')}>
-                            <Image source={require('../assets/feedback.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
-                            <Text style={{ top: 5,color: 'gray',fontFamily:'EBGaramond-Bold',fontSize:16 }}>Feedback</Text>
+                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Feedback')}>
+                            <Image source={require('../assets/feedback2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Feedback</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -126,5 +129,20 @@ function Home({ navigation }) {
 
 }
 const screenWidth = Dimensions.get('window').width;
+const styles = StyleSheet.create({
+
+    bankDtlsTxt:{
+        fontSize: 17, color: '#fdbd30', alignSelf: 'center', marginTop: 30,fontFamily:'OpenSans-ExtraBold',fontWeight:'900'
+    },
+    userDtlsTxt:{ fontSize: 17, color: '#fdbd30', paddingLeft: 24, marginTop: 10,fontFamily:'OpenSans-ExtraBold',fontWeight:'900'  },
+
+    rptCard:{
+        backgroundColor: '#a20a3a', width: 93, height: 90, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000',  shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
+    },
+    rptCardTxt:{
+        top: 5,color: '#ffffff',fontFamily:'OpenSans-ExtraBold',fontSize:13, 
+    }
+    
+  });
 
 export default Home;

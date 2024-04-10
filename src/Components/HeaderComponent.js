@@ -76,17 +76,18 @@ function HeaderComponent() {
       );
     };
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10,height:headerHeight }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10,height:headerHeight,backgroundColor:'#a20a3a',borderBottomColor:'#fdbd30',borderBottomWidth:1 }}>
         {/* <TouchableOpacity onPress={() => navigation.openDrawer()}> */}
         <TouchableOpacity >
           {/* <Image source={require('../assets/left.png')} style={{ width: 35, height: 35 }} /> */}
         </TouchableOpacity>
   
         {/* Your Logo */}
-        <Image source={require('../assets/sss_Colo.png')} style={{ width: 65, height: 40,resizeMode: 'contain',alignSelf:'center' }} />
+        {/* <Image source={require('../assets/sss_Colo.png')} style={{ width: 65, height: 40,resizeMode: 'contain',alignSelf:'center' }} /> */}
+        <Image source={require('../assets/pnb_v.png')} style={{ width: 80, height: 100,resizeMode: 'contain',alignSelf:'center' }} />
   
         <TouchableOpacity onPress={handleLogout}>
-        <Image source={require('../assets/logout.png')} style={{ width: 22, height: 22,top:5 }} />
+        <Image source={require('../assets/logout3.png')} style={{ width: 25, height: 25,top:5 }} />
         </TouchableOpacity>
       </View>
     );

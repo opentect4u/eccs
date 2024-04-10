@@ -22,11 +22,11 @@ const pickerStyle = {
     fontWeight: '600'
   },
   placeholder: {
-    color: 'black',
+    color: '#a20a3a',
     fontSize: 20
   },
   inputAndroid: {
-    color: 'black',
+    color: '#a20a3a',
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderRadius: 30,
@@ -124,85 +124,17 @@ const Networth = () => {
 
   return (
     <><HeaderComponent />
-      <View style={{ height: 40, backgroundColor: 'rgba(4,187,214,255)' }}>
-        <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', top: 5, fontWeight: '700', fontFamily: 'Roboto' }}>
+      <View style={{ height: 40, 
+        // backgroundColor: 'rgba(4,187,214,255)'
+        backgroundColor:'#a20a3a'
+         }}>
+        <Text style={{ alignSelf: 'center', fontSize: 20, color: '#fdbd30', top: 5, fontWeight: '700',fontFamily:'OpenSans-ExtraBold' }}>
           Net-Worth Report
         </Text>
       </View>
 
 
       <View style={styles.container}>
-        {/* <View style={styles.overlayContainer}>
-          containerStyle={styles.dropdownContainer} 
-        
-        style={styles.dropdown}
-            itemStyle={styles.dropdownItem}
-            dropDownStyle={styles.dropdownList}
-       
-
-          <DropDownPicker
-            open={open}
-            setOpen={setOpen}
-            setValue={setValueMonth}
-            value={valueMonth}
-            items={[
-              { label: 'January', value: '01' },
-              { label: 'February', value: '02' },
-              { label: 'March', value: '03' },
-              { label: 'December', value: '12' },
-              { label: 'April', value: '04' },
-              { label: 'May', value: '05' },
-              { label: 'June', value: '06' },
-              { label: 'July', value: '07' },
-              { label: 'August', value: '08' },
-              { label: 'September', value: '09' },
-              { label: 'October', value: '10' },
-              { label: 'November', value: '11' },
-             
-              // Add other months here
-            ]}
-            placeholder="Select Month"
-            containerStyle={styles.dropdownContainer}
-            style={styles.dropdown}
-            itemStyle={styles.dropdownItem}
-            dropDownStyle={styles.dropdownList}
-            listMode='FLATLIST'
-            modalAnimationType="slide"
-            modalContentContainerStyle={{
-              backgroundColor: "#fff"
-            }}
-           
-            modalTitleStyle={{
-              fontWeight: "bold",
-              fontSize:20
-            }}/>
-          <DropDownPicker
-            open={openyear}
-            setOpen={setOpenyear}
-            setValue={setValueYear}
-            value={valueYear}
-            items={[
-              // { label: '2024', value: '2024' },
-              { label: '2023', value: '2023' },
-              // { label: '2022', value: '2022' },
-              // { label: '2021', value: '2021' },
-
-            ]}
-            placeholder="Select Year"
-            defaultValue={year}
-            containerStyle={styles.dropdownContainer}
-            style={styles.dropdown}
-            itemStyle={styles.dropdownItem}
-            dropDownStyle={styles.dropdownList}/>
-          <TouchableOpacity
-            title="Search"
-            onPress={handleSearch}
-            containerStyle={styles.searchButtonContainer}
-            buttonStyle={styles.searchButton}
-          >
-            <Image source={require('../assets/search.png')} style={{ width: 30, height: 30,top:5 }} />
-          </TouchableOpacity>       
-        </View> */}
         <RNPickerSelect
           style={pickerStyle}
           placeholder={{
@@ -241,9 +173,9 @@ const Networth = () => {
           ]}
         />
         <Button
-          style={[{ borderRadius: 5, marginHorizontal: 10,backgroundColor: 'rgba(4,187,214,255)'},isdisabled && styles.disabledBtn ]}
-
-          icon={() => <Searchicon name="search-outline" size={20} />}
+          style={[{ borderRadius: 5, marginHorizontal: 10,backgroundColor: '#a20a3a'},isdisabled && styles.disabledBtn ]}
+          textColor='white'
+          icon={() => <Searchicon name="search-outline" size={20} color={'white'}/>}
           mode="elevated" onPress={handleSearch} disabled={isdisabled}>
           Search
         </Button>
@@ -261,41 +193,62 @@ const Networth = () => {
             <View style={styles.containerRpt}>
 
               {depositData?.length > 0 &&
-                <><View style={{ height: 40, backgroundColor: '#f1f8ff' }}>
-                  <Text style={{ alignSelf: 'center', fontSize: 18, color: 'black', top: 5, fontWeight: '700', fontFamily: 'Roboto' }}>
+                <><View style={{ height: 40, 
+                // backgroundColor: '#f1f8ff'
+                backgroundColor:'rgba(253, 189, 48, 0.1)'
+                 }}>
+                  <Text style={{ alignSelf: 'center', fontSize: 18, color: 'black', top: 5, fontWeight: '700', fontFamily:'OpenSans-ExtraBold' }}>
                     Liability
                   </Text>
                 </View>
                   <View style={{ marginBottom: 16 }}>
-                    <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                      <Row data={tableHead} style={{ height: 40, backgroundColor: '#f1f8ff', }} textStyle={{ margin: 6, fontWeight: '700', fontFamily: 'Roboto',color:isDarkMode? 'black':'black' }} />
+                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                      <Row data={tableHead} style={{ height: 40, 
+                        // backgroundColor: '#f1f8ff'
+                        backgroundColor:'rgba(253, 189, 48, 0.1)',
+                         }} textStyle={{ margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold',color:isDarkMode? 'black':'black' }} />
                       <Rows data={tableData} textStyle={{ margin: 6,color:isDarkMode? 'black':'black' }} />
                       {/* {depositData.map((rowData, index) => (
       <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
     ))} */}
 
                       {/* Total Row */}
-                      <Row data={totalRow} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
+                      <Row data={totalRow} style={{ height: 40,
+                        //  backgroundColor: '#f1f8ff'
+                        backgroundColor:'rgba(253, 189, 48, 0.1)' 
+                         }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
                   </View></>}
 
               {loanData?.length > 0 &&
-                <><View style={{ height: 40, backgroundColor: '#f1f8ff' }}>
-                  <Text style={{ alignSelf: 'center', fontSize: 18, color: 'black', top: 5, fontWeight: '700', fontFamily: 'Roboto' }}>
+                <><View style={{ height: 40, 
+                // backgroundColor: '#f1f8ff' 
+                backgroundColor:'rgba(253, 189, 48, 0.1)'
+                }}>
+                  <Text style={{ alignSelf: 'center', fontSize: 18, color: 'black', top: 5, fontWeight: '700', fontFamily:'OpenSans-ExtraBold' }}>
                     Asset
                   </Text>
                 </View>
                   <View style={{ marginBottom: 16 }}>
-                    <Table borderStyle={{ borderWidth: 3, borderColor: '#c8e1ff' }}>
-                      <Row data={tableHead_l} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: '700',color:isDarkMode? 'black':'black' }} />
+                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                      <Row data={tableHead_l} style={{ height: 40, 
+                        // backgroundColor: '#f1f8ff'
+                        backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        }} textStyle={{ margin: 6, fontWeight: '700',color:isDarkMode? 'black':'black' }} />
                       <Rows data={tableData_l} textStyle={{ margin: 6,color:isDarkMode? 'black':'black' }} />
                       {/* {depositData.map((rowData, index) => (
       <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
     ))} */}
 
                       {/* Total Row */}
-                      <Row data={totalRow_l} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
-                      <Row data={totNetWorthRow} style={{ height: 40, backgroundColor: '#f1f8ff' }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
+                      <Row data={totalRow_l} style={{ height: 40, 
+                        // backgroundColor: '#f1f8ff'
+                        backgroundColor:'rgba(253, 189, 48, 0.1)'
+                         }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
+                      <Row data={totNetWorthRow} style={{ height: 40, 
+                        // backgroundColor: '#f1f8ff' 
+                        backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
                   </View></>
 
@@ -346,7 +299,7 @@ const Networth = () => {
       <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30 }}>
         <Image source={require('../assets/nodata.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
 
-        <Text style={{ color: 'black', fontSize: 17, alignSelf: 'center', fontFamily: 'Lato-Bold', marginTop: 10 }}>No data Found..</Text>
+        <Text style={{ color: 'black', fontSize: 17, alignSelf: 'center', fontFamily:'OpenSans-ExtraBold', marginTop: 10 }}>No data Found..</Text>
       </View>
     </View>}
     </>
@@ -360,13 +313,9 @@ const styles = StyleSheet.create({
     top: 10
   },
   container: {
-    //   flex: 1,
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    // height: 100,
-    backgroundColor: 'rgba(24,117,130,0.2)',
+    backgroundColor:'rgba(162, 10, 58, 0.1)',
     zIndex: 10,
-    fontFamily: 'Roboto',
+    fontFamily:'OpenSans-ExtraBold',
     padding: 10
   },
   overlayContainer: {
@@ -383,20 +332,19 @@ const styles = StyleSheet.create({
   dropdown: {
     backgroundColor: 'white',
     borderColor: 'rgba(24, 117, 130, 0.4)',
-    fontFamily: 'Roboto'
+    fontFamily:'OpenSans-ExtraBold'
   },
   dropdownItem: {
     justifyContent: 'flex-start',
-    fontFamily: 'Roboto'
+    fontFamily:'OpenSans-ExtraBold'
   },
   dropdownList: {
     backgroundColor: 'rgba(24, 117, 130, 0.4)',
     height: 100,
     zIndex: 10,
-    fontFamily: 'Roboto'
+    fontFamily:'OpenSans-ExtraBold'
   },
   searchButtonContainer: {
-    // marginLeft: 10,
     backgroundColor: 'white'
   },
   searchButton: {
@@ -405,7 +353,9 @@ const styles = StyleSheet.create({
     width: 30,
   },
   disabledBtn: {
-    backgroundColor: 'lightblue', 
+    // backgroundColor: 'lightblue', 
+    backgroundColor:'#c28090',
+    color:'white'
   },
 });
 
