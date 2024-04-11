@@ -297,9 +297,9 @@ const Networth = () => {
     {noData &&
     <View style={styles.containerRpt}>
       <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30 }}>
-        <Image source={require('../assets/nodata.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
+        <Image source={require('../assets/nodata2.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
 
-        <Text style={{ color: 'black', fontSize: 17, alignSelf: 'center', fontFamily:'OpenSans-ExtraBold', marginTop: 10 }}>No data Found..</Text>
+        <Text style={{ color: '#a20a3a', fontSize: 17, alignSelf: 'center', fontFamily:'OpenSans-ExtraBold', marginTop: 10 }}>No data Found..</Text>
       </View>
     </View>}
     </>

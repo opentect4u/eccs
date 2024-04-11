@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, Text, ImageBackground, Modal, Button,ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet, Text, ImageBackground, Modal, Button, ActivityIndicator } from 'react-native';
 import HeaderComponent from '../Components/HeaderComponent';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,12 +20,15 @@ const Profile = () => {
   const [newPassword, setNewPassword] = useState('');
   const [showOldPass, setShowOldPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
+  const [isOldPasswordValid, setIsOldPasswordValid] = useState(true);
+  const [isNewPasswordValid, setIsNewPasswordValid] = useState(true);
 
   useEffect(() => {
-    
+
     GetStorage()
     profileDtls()
   }, [])
+
 
   const GetStorage = async () => {
     try {
@@ -44,7 +47,7 @@ const Profile = () => {
     const asyncData = await AsyncStorage.getItem(`login_data`);
     const bankId = JSON.parse(asyncData)?.bank_id
     const empCode = JSON.parse(asyncData)?.emp_code
-    console.log(empCode,'empcode')
+    console.log(empCode, 'empcode')
     try {
       const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?bank_id=${bankId}&emp_code=${empCode}`, {}, {
         headers: {
@@ -87,7 +90,7 @@ const Profile = () => {
   const pinSubmit = async () => {
     const asyncData = await AsyncStorage.getItem(`login_data`);
     const id = JSON.parse(asyncData)?.id
-    const user = JSON.parse(asyncData)?.user_name 
+    const user = JSON.parse(asyncData)?.user_name
     const apidata = {
       id: id,
       user_name: user,
@@ -110,7 +113,7 @@ const Profile = () => {
         })
       }
       else if (response.data.suc === 0) {
-        
+
         Toast.show({
           type: 'error',
           text1: 'Please check your pin',
@@ -123,53 +126,58 @@ const Profile = () => {
     }
     closeModal();
   }
+  const toggleOldPass = () => setIsOldPasswordValid(!isOldPasswordValid);
+  const toggleNewPass = () => setIsNewPasswordValid(!isNewPasswordValid);
+  const submitButtonStyle = !isOldPasswordValid || !isNewPasswordValid
+    ? [styles.submitBtn, styles.submitBtnDisabled]
+    : styles.submitBtn;
   return (
     <View>
       <HeaderComponent />
       <View>
-      <ImageBackground
+        <ImageBackground
           source={require('../assets/bg3.jpg')}
           style={{ resizeMode: 'cover', height: welcomContHeight }}
 
         >
-        <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
-            
-              <Text style={styles.containerText}>{`Hello! ${responseData.user_name}`}</Text>
-              <View style={styles.mainContainer}>
+          <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
+
+            <Text style={styles.containerText}>{`Hello! ${responseData.user_name}`}</Text>
+            <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
-            {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
-         
-          
-            <View style={styles.profileView}>
-              <Text style={styles.title}> User name</Text>
-              <Text style={styles.content}> {responseData.user_name}</Text>
-            </View>
-            <View style={styles.profileView}>
-              <Text style={styles.title}>Mobile No.</Text>
-              <Text style={styles.content}>{responseData.user_id}</Text>
-            </View>
-            <View style={styles.profileView}>
-              <Text style={styles.title}>Member id </Text>
-              <Text style={styles.content}>{responseData.member_id}</Text>
-            </View>
-            <View style={styles.profileView}>
-              <Text style={styles.title}>Employee Code </Text>
-              <Text style={styles.content}>{responseData.emp_code}</Text>
-            </View>
-            <View style={styles.profileViewPass}>
+                {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
 
-              <Text style={styles.titleReset}>Need to Reset Your PIN? <TouchableOpacity>
-                <Text style={styles.titleClick} onPress={openModal}> Click Here</Text>
-              </TouchableOpacity> </Text>
 
-              {/* <Text style={styles.content}>{responseData.emp_code}</Text> */}
+                <View style={styles.profileView}>
+                  <Text style={styles.title}> User name</Text>
+                  <Text style={styles.content}> {responseData.user_name}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Mobile No.</Text>
+                  <Text style={styles.content}>{responseData.user_id}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Member id </Text>
+                  <Text style={styles.content}>{responseData.member_id}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Employee Code </Text>
+                  <Text style={styles.content}>{responseData.emp_code}</Text>
+                </View>
+                <View style={styles.profileViewPass}>
+
+                  <Text style={styles.titleReset}>Need to Reset Your PIN? <TouchableOpacity>
+                    <Text style={styles.titleClick} onPress={openModal}> Click Here</Text>
+                  </TouchableOpacity> </Text>
+
+                  {/* <Text style={styles.content}>{responseData.emp_code}</Text> */}
+                </View>
+
+
+                {/* <hr/> */}
+              </View>
             </View>
-          
-
-          {/* <hr/> */}
           </View>
-        </View>
-        </View>
         </ImageBackground>
       </View>
       {/* Modal */}
@@ -193,8 +201,15 @@ const Profile = () => {
                 right={<TextInput.Icon icon={showOldPass ? 'eye' : 'eye-off'} onPress={toggleShowOldPass} />}
                 value={oldPassword}
                 keyboardType="numeric"
-                onChangeText={text => setOldPassword(text)}
+                onChangeText={(text) => {
+                  setOldPassword(text);
+                  setIsOldPasswordValid(text.length === 4);
+                }}
+
               />
+              {!isOldPasswordValid && (
+                <Text style={styles.errorText}>Old PIN must be 4 digits</Text>
+              )}
               <TextInput
                 label="New Pin"
                 style={styles.input}
@@ -202,9 +217,15 @@ const Profile = () => {
                 right={<TextInput.Icon icon={showNewPass ? 'eye' : 'eye-off'} onPress={toggleShowNewPass} />}
                 value={newPassword}
                 keyboardType="numeric"
-                onChangeText={text => setNewPassword(text)}
+                onChangeText={(text) => {
+                  setNewPassword(text);
+                  setIsNewPasswordValid(text.length === 4);
+                }}
               />
-              <TouchableOpacity style={styles.submitBtn} onPress={pinSubmit} disabled={!oldPassword || !newPassword}>
+              {!isNewPasswordValid && (
+                <Text style={styles.errorText}>New PIN must be 4 digits</Text>
+              )}
+              <TouchableOpacity style={styles.submitBtn} onPress={pinSubmit} disabled={!isOldPasswordValid || !isNewPasswordValid}>
                 <Text style={styles.submitBtnTxt}>Submit</Text>
               </TouchableOpacity>
             </View>
@@ -229,7 +250,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 120,
     padding: 20,
-},
+  },
   nameContainer: {
     flex: 1,
     margin: 20,
@@ -251,7 +272,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: '#fdbd30',
     top: 50,
-    alignSelf:'center'
+    alignSelf: 'center'
   },
   introText: {
     flexDirection: "row",
@@ -260,7 +281,7 @@ const styles = StyleSheet.create({
   },
   profileView: {
     width: '100%',
-    borderBottomColor:'#a20a3a',
+    borderBottomColor: '#a20a3a',
     borderBottomWidth: 0.5,
     paddingBottom: 7,
     paddingTop: 15,
@@ -288,21 +309,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   title: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     fontWeight: 'bold',
     // color: 'black',
-    color:'#a20a3a',
+    color: '#a20a3a',
     fontSize: 16
   },
-  titleReset:{
-    fontFamily:'OpenSans-ExtraBold',
+  titleReset: {
+    fontFamily: 'OpenSans-ExtraBold',
     color: 'gray',
     fontSize: 16,
-    fontWeight:'600'
+    fontWeight: '600'
   },
 
   titleClick: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     fontWeight: '800',
     color: '#ff8c00',
     textDecorationLine: 'underline',
@@ -310,7 +331,7 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   content: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     color: 'gray',
     fontSize: 20
   },
@@ -360,13 +381,13 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalText: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     marginBottom: 20,
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '700',
     // color: '#209fb2',
-    color:'#a20a3a',
+    color: '#a20a3a',
   },
   input: {
     height: 50,
@@ -396,19 +417,25 @@ const styles = StyleSheet.create({
   },
   submitBtn: {
     // backgroundColor: '#04bbd6',
-    backgroundColor:'#a20a3a',
+    backgroundColor: '#a20a3a',
     width: 100,
     padding: 10,
     borderRadius: 10,
     marginTop: 10,
   },
   submitBtnTxt: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     color: 'white',
     textAlign: 'center',
     fontSize: 15,
     fontWeight: '800'
-  }
+  },
+  
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 5,
+  },
 
 })
 

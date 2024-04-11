@@ -557,6 +557,10 @@ function Registration({navigation}) {
                     borderColor: '#a20a3a',
                     borderRadius:12
                   }}
+                  textStyle={{
+                    fontSize: 24, 
+                    color: '#a20a3a'
+                  }}
                   codeLength={4}      
                   value={varOtp}
                   onTextChange={handleOtpChange}

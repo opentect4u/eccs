@@ -90,6 +90,20 @@ const HolidayHome = () => {
                     placeholder="Select place"
                     setValue={setvaluePlace}
                     value={valuePlace}
+                    style={{
+                      borderWidth:2,
+                      borderColor: '#a20a3a', // Border color
+                      backgroundColor: '#ffffff', // Background color
+                      zIndex: 1000, // Adjust the z-index if needed
+                    }}
+                    textStyle={{
+                      color: '#a20a3a', // Text color
+                      fontWeight:'600'
+                    }}
+                    dropDownContainerStyle={{
+                      backgroundColor: '#ffffff', // Dropdown container background 
+                      borderColor: '#a20a3a', // Dropdown container border color
+                    }}
                     
                   />
                   <TouchableOpacity style={[Styles.submitBtn, isDisabled && Styles.disabledBtn]} onPress={valueSubmit} disabled={!valuePlace}>
@@ -99,17 +113,22 @@ const HolidayHome = () => {
                 <View>
                   {selectedValuesData && (
                     <View>
-                      <View style={{ height: 150, backgroundColor: 'rgba(253, 189, 48, 0.2)', padding: 10, marginTop: 20, borderRadius: 20 }}>
-                        <Text style={{ alignSelf: 'center', color: 'black', fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Hotel Details:</Text>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Address: {selectedValuesData.hh_address}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Hotel Charge: {selectedValuesData.hh_charge}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: 'black' }}>Email: {selectedValuesData.hh_email}</Text>
+                      <View style={Styles.container}>
+  <Text style={Styles.title}>Hotel Details</Text>
+  <View style={Styles.detailContainer}>
+    <Text style={Styles.detailText}>Address: {selectedValuesData.hh_address}</Text>
+    <Text style={Styles.detailText}>Hotel Charge: {selectedValuesData.hh_charge}</Text>
+    <Text style={Styles.detailText}>Email: {selectedValuesData.hh_email}</Text>
+  </View>
+</View>
+
+                      <View style={Styles.container}>
+                      <Text style={Styles.title}>Contact Details</Text>
+                      <View style={Styles.detailContainer}>
+                      <Text style={Styles.detailText}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
+                      <Text style={Styles.detailText}>Phone: {selectedValuesData.hh_phone}</Text>
+                      <Text style={Styles.detailText}>Place: {selectedValuesData.hh_place}</Text>
                       </View>
-                      <View style={{ height: 120, backgroundColor: 'rgba(253, 189, 48, 0.2)', padding: 10, marginTop: 20, borderRadius: 20 }}>
-                        <Text style={{ alignSelf: 'center', color: isDarkMode ? 'black' : 'black', fontSize: 16, fontWeight: '900' }}>Contact Details</Text>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: isDarkMode ? 'black' : 'black' }}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: isDarkMode ? 'black' : 'black' }}>Phone: {selectedValuesData.hh_phone}</Text>
-                        <Text style={{ fontSize: 16, fontWeight: '600', color: isDarkMode ? 'black' : 'black' }}>Place: {selectedValuesData.hh_place}</Text>
                       </View>
                     </View>
                   )}
@@ -190,6 +209,32 @@ const Styles = StyleSheet.create({
   disabledBtn: {
     // backgroundColor: 'lightblue',
     backgroundColor:'#c28090'
+  },
+  container: {
+    height: 150,
+    backgroundColor: 'rgba(253, 189, 48, 0.2)',
+    padding: 20,
+    marginTop: 20,
+    borderRadius: 20,
+    justifyContent: 'center',
+    // alignItems: 'center',
+  },
+  title: {
+    color: '#a20a3a',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    alignSelf:'center'
+  },
+  detailContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  detailText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'black',
+    marginBottom: 5,
   },
 
 });
