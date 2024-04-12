@@ -144,7 +144,7 @@ const handlePress = async (item) => {
                   </View>
                   <View style={styles.notificationTextContainer}>
                     <Text style={styles.notificationText}>{item.narration}</Text>
-                    <Text style={styles.notificationText}>{item.id}</Text>
+                    {/* <Text style={styles.notificationText}>{item.id}</Text> */}
                   </View>
                   {item.view_flag == 'N' &&<View style={styles.notificationSeen}>
                    <View style={{ height:8,width:8,borderRadius:4,backgroundColor:'#a20a3a',

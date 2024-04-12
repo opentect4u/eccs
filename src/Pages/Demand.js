@@ -212,7 +212,7 @@ const Demand = () => {
                 responseData.map((record, index) => (
                   <View key={index} style={{ marginBottom: 10, padding: 15 }}>
                     <View style={{ height: 30 }}>
-                      <Text style={{ padding: 5, fontSize: 15, fontWeight: '900', fontFamily:'OpenSans-ExtraBold',color:'#a20a3a' }}>Month & Year: December,{valueYear}</Text>
+                      {/* <Text style={{ padding: 5, fontSize: 15, fontWeight: '900', fontFamily:'OpenSans-ExtraBold',color:'#a20a3a' }}>Month & Year: December,{valueYear}</Text> */}
                     </View>
                     <View style={{ marginBottom: 16 }}>
                       <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>

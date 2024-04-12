@@ -132,9 +132,9 @@ const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
 
     bankDtlsTxt:{
-        fontSize: 17, color: '#fdbd30', alignSelf: 'center', marginTop: 30,fontFamily:'OpenSans-ExtraBold',fontWeight:'900'
+        fontSize: 20, color: '#fdbd30', alignSelf: 'center', marginTop: 30,fontFamily:'OpenSans-ExtraBold',fontWeight:'900',
     },
-    userDtlsTxt:{ fontSize: 17, color: '#fdbd30', paddingLeft: 24, marginTop: 10,fontFamily:'OpenSans-ExtraBold',fontWeight:'900'  },
+    userDtlsTxt:{ fontSize: 17, color: '#fdbd30', paddingLeft: 24, fontFamily:'OpenSans-ExtraBold',fontWeight:'900' },
 
     rptCard:{
         backgroundColor: '#a20a3a', width: 93, height: 90, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000',  shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
