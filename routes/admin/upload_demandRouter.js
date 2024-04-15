@@ -3,6 +3,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const fs = require('fs');
 const fileUpload = require("express-fileupload");
 const csv = require('fast-csv');
+const { noti_save, notification_dtls } = require('../../modules/NotificationModule');
 const upload_demandRouter = require('express').Router();
 
 upload_demandRouter.use(fileUpload())
@@ -20,7 +21,9 @@ upload_demandRouter.get('/demand', async (req, res) =>{
 upload_demandRouter.post('/upload_demand_csv', async (req, res) =>{
     var data = req.body, res_dt;
     // console.log(data,'456');
-    var table = req.session.user.dmd_tab_name
+    var table = req.session.user.dmd_tab_name,
+    bank_id = req.session.user.bank_id,
+    user_name = req.session.user.user_name;
     var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
     var csv_file = req.files.import_csv
     if(csv_file){
@@ -42,6 +45,19 @@ upload_demandRouter.post('/upload_demand_csv', async (req, res) =>{
                 res_dt = await db_Insert(table_name,fields,values,whr,flag);
             }
             if(res_dt.suc > 0){
+                try{
+                    var master_month = months
+                    master_month = master_month.filter(dt => dt.id == data.months);
+    
+                    var noti_msg = await noti_save({bank_id: bank_id, msg: `New Demand Statement uploaded for ${master_month.length > 0 ? master_month[0].name : ''}, ${data.years}`, user: user_name})
+                    if(noti_msg.suc > 0){
+                        var not_dtls = notification_dtls(bank_id)
+                        req.io.emit('send notification', not_dtls)
+                    }
+                }catch(err){
+                    console.log(err);
+                }
+
                 req.session.message = {
                     type: "success",
                     message: "Demand CSV file uploaded Successfully",
@@ -85,10 +101,24 @@ upload_demandRouter.post('/upload_networth_csv', async (req, res) =>{
                 res_dt = await db_Insert(table_name,fields,values,whr,flag);
             }
             if(res_dt.suc > 0){
+                try{
+                    var master_month = months
+                    master_month = master_month.filter(dt => dt.id == data.months);
+    
+                    var noti_msg = await noti_save({bank_id: bank_id, msg: `New Networth Statement uploaded for ${master_month.length > 0 ? master_month[0].name : ''}, ${data.years}`, user: user_name})
+                    if(noti_msg.suc > 0){
+                        var not_dtls = notification_dtls(bank_id)
+                        req.io.emit('send notification', not_dtls)
+                    }
+                }catch(err){
+                    console.log(err);
+                }
+                
                 req.session.message = {
                     type: "success",
                     message: "Networth CSV file uploaded Successfully",
                 };
+
               }else{
                 req.session.message = {
                     type: "danger",

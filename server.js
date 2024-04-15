@@ -71,10 +71,10 @@ io.on('connection', (socket) => {
   users.push(socket.id)
 
   socket.on('notification', async (data) => {
-    console.log(data);
+    // console.log(data);
 
     var notify_dtls = await notification_dtls(data.bank_id)
-    console.log(notify_dtls);
+    // console.log(notify_dtls);
     socket.emit('send notification', notify_dtls)
 
     // if(users.length > 1)

@@ -1,5 +1,5 @@
 const { db_Insert } = require("../../modules/MasterModule");
-const { bank_details, user_details, save_user_data, login_data, profile_data, pass_data } = require("../../modules/UserModule");
+const { bank_details, user_details, save_user_data, login_data, profile_data, pass_data, verify_phone } = require("../../modules/UserModule");
 
 const userRouter = require("express").Router();
 const bcrypt = require('bcrypt');
@@ -103,9 +103,9 @@ userRouter.post("/login", async (req, res) => {
 
 userRouter.get("/get_pofile_dtls", async (req, res) =>{
   var data = req.query;
-  // console.log(data);
-  var profile_dtls = await profile_data(data.bank_id)
-  // console.log(profile_dtls);
+  console.log(data,'123');
+  var profile_dtls = await profile_data(data.bank_id,data.emp_code)
+  console.log(profile_dtls);
   if(profile_dtls.suc > 0){
     if(profile_dtls.msg.length > 0){
        res.send(profile_dtls)
@@ -151,6 +151,27 @@ userRouter.post("/change_password", async (req, res) =>{
     }
   }else {
     result = { suc: 0, msg: pwd_dt.msg };
+  }
+  res.send(result);
+});
+
+userRouter.get("/check_mobile_no", async (req, res) => {
+  var data = req.query, result;
+  console.log(data); 
+  try{
+    var verify_data = await verify_phone(data.bank_id,data.user_id);
+    if(verify_data.suc > 0){
+      if(verify_data.msg.length > 0){
+        result = {suc: 2, msg: "Phone number is already exists"}
+      }else{
+        result = {suc: 1, msg: "Please enter phone number"}
+      }
+    }else{
+      result = verify_data
+    }
+  }catch(err){
+    console.log(err);
+    result = {suc: 0, msg: err}
   }
   res.send(result);
 });

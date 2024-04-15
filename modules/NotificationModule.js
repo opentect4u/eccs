@@ -17,11 +17,19 @@ module.exports = {
     notify_flag_save: (data, io) =>{
         return new Promise(async (resolve, reject) => {
             var datetime = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')
-            var noti_dt = await notification_dtls(data.bank_id);
             // console.log(noti_dt,data.bank_id,'lalall');
             var ic_dt = await db_Insert('td_notification',`view_flag = 'Y', modified_by = '${data.user}', modified_dt = '${datetime}'`, null, `id = ${data.id}`, 1)
+            var noti_dt = await notification_dtls(data.bank_id);
             io.emit('send notification', noti_dt)
             resolve(ic_dt);
         });
+    },
+    noti_save: (data) => {
+        return new Promise(async (resolve, reject) => {
+            var datetime = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')
+            // console.log(noti_dt,data.bank_id,'lalall');
+            var ic_dt = await db_Insert('td_notification', `(bank_id, narration, created_by, created_dt)`, `('${data.bank_id}', '${data.msg}', '${data.user}', '${datetime}')`, null, 0)
+            resolve(ic_dt);
+        })
     }
 }

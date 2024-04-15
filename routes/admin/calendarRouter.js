@@ -1,4 +1,4 @@
-const { db_Insert } = require('../../modules/MasterModule');
+const { db_Insert, db_Delete } = require('../../modules/MasterModule');
 const { calData } = require('../../modules/admin/Calendar_adminModule');
 
 const calendarRouter = require('express').Router();
@@ -48,8 +48,8 @@ calendarRouter.post("/calendar_edit", async (req, res) => {
     id = data.sl_no;
     
     var table_name = "td_calendar",
-        fields = id > 0 ? `cal_dt = '${data.cal_dt}', cal_event = '${data.cal_event}', modified_by = '${user}', modified_dt = '${datetime}'`:"(bank_id, cal_dt, cal_event, created_by, created_dt)",
-        values = `(${bank_id}, '${data.cal_dt}', '${data.cal_event}', '${user}', '${datetime}')`,
+        fields = id > 0 ? `cal_dt = '${data.cal_dt}', cal_event = "${data.cal_event}", modified_by = '${user}', modified_dt = '${datetime}'`:"(bank_id, cal_dt, cal_event, created_by, created_dt)",
+        values = `(${bank_id}, '${data.cal_dt}', "${data.cal_event}", '${user}', '${datetime}')`,
         whr = id > 0 ? `sl_no = ${id}` : null,
         flag = id > 0 ? 1 : 0;
 
@@ -70,5 +70,14 @@ calendarRouter.post("/calendar_edit", async (req, res) => {
         res.redirect("/admin/calendar_edit?id=" + id);
     }
 });
+
+calendarRouter.get("/cal_data_delete", async (req, res) => {
+    var data = req.query
+    console.log(data);
+    var table_name = 'td_calendar',
+    whr = `sl_no=${data.id}`
+    var res_dt = await db_Delete(table_name,whr)
+   res.redirect('/admin/calendar')
+  });
 
 module.exports = { calendarRouter }

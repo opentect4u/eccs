@@ -51,25 +51,30 @@
                   <thead>
                     <tr>
                       <!-- <th></th> -->
-                      <th>#</th>
-                      <th>Date</th>
-                      <th>Event</th>
-                      <th>Action</th>
+                      <th class="text-center">#</th>
+                      <th class="text-center">Date</th>
+                      <th class="text-center">Event</th>
+                      <th class="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <% if(cal_dt.suc > 0){ var i = 1; cal_dt.msg.forEach((dt) =>
                     { %>
                     <tr>
-                      <td><%= i %></td>
-                      <td><%= dateFormat(dt.cal_dt, "dd/mm/yyyy") %></td>
-                      <td><%= dt.cal_event %></td>
-                      <td>
-                        <a
+                      <td class="text-center"><%= i %></td>
+                      <td class="text-center"><%= dateFormat(dt.cal_dt, "dd/mm/yyyy") %></td>
+                      <td class="text-center"><%= dt.cal_event %></td>
+                      <td class="text-center">
+                        <a class="text-primary"
                           href="calendar_edit?id=<%= dt.sl_no %>"
-                          class="btn btn-primary"
+                          title="Edit"
                         >
-                          Edit
+                        <i class='fas fa-edit'></i>/
+                        <a class="text-danger"
+                        href="cal_data_delete?id=<%= dt.sl_no %>"
+                        title="Delete"
+                      >
+                        <i class='fas fa-trash-alt'></i>
                         </a>
                       </td>
                     </tr>

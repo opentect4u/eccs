@@ -50,13 +50,14 @@ const login_data = (data) => {
   });
 };
 
-const profile_data = (bank_id) => {
+const profile_data = (bank_id,emp_code) => {
   return new Promise(async (resolve, reject) => {
     var select = "a.bank_id,a.emp_code,a.user_name,a.user_id,b.member_id",
     table_name = "td_user a, md_member_rpf b",
     whr = `a.emp_code = b.emp_code
     AND a.user_id = b.phone_no
-    AND a.bank_id = '${bank_id}';`,
+    AND a.bank_id = '${bank_id}'
+    AND a.emp_code = '${emp_code}'`,
     order = null;
   var profile_dt = await db_Select(select, table_name, whr, order);
   resolve(profile_dt);
@@ -74,4 +75,15 @@ const pass_data = (data) => {
   });
 };
 
-module.exports = { bank_details, user_details, save_user_data,login_data, profile_data, pass_data };
+const verify_phone = (bank_id,user_id) => {
+  return new Promise(async (resolve, reject) => {
+    var select = "id,user_id,bank_id,emp_code",
+      table_name = `td_user`,
+      whr = `bank_id = '${bank_id}' AND user_id = '${user_id}'`,
+      order = null;
+    var verify_dt = await db_Select(select, table_name, whr, order);
+    resolve(verify_dt);
+  });
+};
+
+module.exports = { bank_details, user_details, save_user_data,login_data, profile_data, pass_data,verify_phone };

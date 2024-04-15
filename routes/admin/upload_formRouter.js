@@ -1,6 +1,7 @@
 const { db_Select, db_Insert } = require('../../modules/MasterModule');
 const fs = require('fs');
 const fileUpload = require("express-fileupload");
+const { noti_save, notification_dtls } = require('../../modules/NotificationModule');
 
 const upload_formRouter = require('express').Router();
 
@@ -23,10 +24,11 @@ upload_formRouter.get('/form', async (req, res) =>{
 upload_formRouter.post('/upload_form', async(req, res) => {
    var data = req.body, err = [];
    var bank_id = req.session.user.bank_id
-   const user_id = req.session.user.id;
+   const user_id = req.session.user.id,
+   user_name = req.session.user.user_name;
    const datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-   console.log(data,'body');
-   console.log(req.files, 'Files');
+  //  console.log(data,'body');
+  //  console.log(req.files, 'Files');
    var photos = req.files ? req.files.photo ? true : false : false
    if(photos){
     var photo = req.files.photo
@@ -120,6 +122,16 @@ upload_formRouter.post('/upload_form', async(req, res) => {
       type: "success",
       message: "File uploaded Successfully",
     };
+    
+    try{
+      var noti_msg = await noti_save({bank_id: bank_id, msg: `New Form has been uploaded`, user: user_name})
+      if(noti_msg.suc > 0){
+          var not_dtls = await notification_dtls(bank_id)
+          req.io.emit('send notification', not_dtls)
+      }
+    }catch(err){
+      console.log(err);
+    }
     res.redirect("/admin/form");
    }else{
     req.session.message = {
