@@ -73,10 +73,14 @@ function Home({ navigation }) {
                             <Image source={require('../assets/calendar2.png')} style={{ width: 38, height: 38, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Calendar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('HolidayHome')}>
+                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Download')}>
+                            <Image source={require('../assets/download2.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Download</Text>
+                        </TouchableOpacity>
+                        {/* <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('HolidayHome')}>
                             <Image source={require('../assets/holiday_calendar2.png')} style={{ width: 38, height: 38, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Holiday Home</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         {/* <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} >
                             <Image source={require('../assets/calculator.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
@@ -85,29 +89,34 @@ function Home({ navigation }) {
 
                     </View>
                     <View style={{ height: rptBgCont,  width: 'screenWidth', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                        <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Download')}>
+                        {/* <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Download')}>
                             <Image source={require('../assets/download2.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Download</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Contacts')}>
                             <Image source={require('../assets/contact2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Contact</Text>
                         </TouchableOpacity>
-
-                    </View>
-                    <View style={{ height: rptBgCont,  width: 'screenWidth', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', }}>
-                        {/* <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('HolidayHome')}>
-                            <Image source={require('../assets/holiday_calendar.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
-                            <Text style={{ top: 5,color: 'gray', fontWeight: '900',fontFamily:'Montserrat-Bold' }}>Holiday Home</Text>
-                        </TouchableOpacity> */}
-
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Feedback')}>
                             <Image source={require('../assets/feedback2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Feedback</Text>
                         </TouchableOpacity>
 
+
                     </View>
+                    {/* <View style={{ height: rptBgCont,  width: 'screenWidth', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', }}> */}
+                        {/* <TouchableOpacity style={{ backgroundColor: 'white', width: 100, height: 100, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, }} onPress={() => navigation.navigate('HolidayHome')}>
+                            <Image source={require('../assets/holiday_calendar.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
+                            <Text style={{ top: 5,color: 'gray', fontWeight: '900',fontFamily:'Montserrat-Bold' }}>Holiday Home</Text>
+                        </TouchableOpacity> */}
+
+                        {/* <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Feedback')}>
+                            <Image source={require('../assets/feedback2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Feedback</Text>
+                        </TouchableOpacity> */}
+
+                    {/* </View> */}
                 </View>
                 </View>
                

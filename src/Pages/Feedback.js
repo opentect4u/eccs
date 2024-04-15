@@ -16,8 +16,9 @@ const Feedback = () => {
     
     const [rating, setRating] = React.useState(0);
     const [remarks, setremarks] = useState('');
+    const [charCount, setCharCount] = useState(0);
     const welcomContHeight = 0.25 * SCREEN_HEIGHT;
-
+    
     const handleRatingChange = (newRating) => {
         setRating(newRating);
         console.log(newRating, 'rating')
@@ -27,7 +28,8 @@ const Feedback = () => {
         // GetStorage()
         // notificationEmit()
     }, [])
-    const isDisabled = !rating || !remarks
+    
+
     const remarksSubmit = async () => {
         const asyncData = await AsyncStorage.getItem(`login_data`);
         const bank_id = JSON.parse(asyncData)?.bank_id
@@ -88,7 +90,16 @@ const Feedback = () => {
                 return '#FFA500'; // Default to orange for other cases
         }
     }
-
+    const maxChars = 200
+    const handleTextChange = (text) => {
+        if (text.length <= maxChars) {
+            setremarks(text)
+          setCharCount(text.length);
+        }
+      };
+      const isDisabled =  charCount === 0 || charCount > maxChars;
+      console.log(charCount,'charCount')
+      console.log(isDisabled,'isDisabled')
     return (
         <View>
             <HeaderComponent />
@@ -103,12 +114,14 @@ const Feedback = () => {
                             <View style={Styles.profileContainer}>
                                 <View style={{ alignItems: 'center' }}>
                                     <Text style={Styles.mainContHeader}>
-                                        Would you like to rate us?
+                                        {/* Would you like to rate us? */}
+                                        Have a Comment or Correction?
                                     </Text>
+                                    <Text style={Styles.mainContHeader}>Let Us Know!</Text>
                                 </View>
 
                                 <View>
-                                    <AirbnbRating
+                                    {/* <AirbnbRating
                                         count={5}
                                         reviews={['Terrible', 'Bad', 'Okay', 'Good', 'Great']}
                                         defaultRating={0}
@@ -117,17 +130,24 @@ const Feedback = () => {
                                         onFinishRating={handleRatingChange}
                                         selectedColor={getSelectedColor(rating)}
                                         reviewColor={getSelectedColor(rating)}
-                                    />
+                                    /> */}
 
                                     <TextInput
                                         mode="outlined"
-                                        label="Remarks"
-                                        placeholder="Remarks"
+                                        // label="Remarks"
+                                        placeholder="Write It Here "
                                         style={Styles.textInputStyle}
-                                        
+                                        multiline={true}
                                         value={remarks}
-                                        onChangeText={text => setremarks(text)}
+                                        // onChangeText={text => setremarks(text)}
+                                        onChangeText={handleTextChange}
+                                        outlineColor='#a20a3a'
+                                        activeOutlineColor='#a20a3a'
+                                        placeholderTextColor={'#a20a3a'}
+                                        
                                     />
+                                    <Text style={Styles.charCountText}>(
+                                        {charCount}/{maxChars})</Text>
                                     <TouchableOpacity style={[Styles.submitBtn,isDisabled && Styles.disabledBtn]} onPress={remarksSubmit} disabled={isDisabled}>
                                         <Text style={Styles.submitBtnTxt}>Submit</Text>
                                     </TouchableOpacity>
@@ -177,7 +197,7 @@ const Styles = StyleSheet.create({
         fontWeight: '900',
         padding: 15,
         // borderBottomWidth: 0.5,
-        borderBottomWidth: 1,
+        // borderBottomWidth: 1,
 
         // borderBottomColor: 'black',
         borderBottomColor:'#a20a3a'
@@ -214,6 +234,12 @@ const Styles = StyleSheet.create({
       disabledBtn: {
         // backgroundColor: 'lightblue', 
         backgroundColor:'#c28090'
+      },
+      charCountText: {
+        alignSelf: 'flex-end',
+        marginTop: 5,
+        color: '#a20a3a',
+        fontWeight:'900'
       },
 
 });

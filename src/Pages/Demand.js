@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, useColorScheme, StyleSheet, ScrollView, ActivityIndicator, Image } from 'react-native';
+import { View, useColorScheme, StyleSheet, ScrollView, ActivityIndicator, Image,PermissionsAndroid,Platform  } from 'react-native';
 import { Text, Overlay, Input } from 'react-native-elements';
 import HeaderComponent from '../Components/HeaderComponent';
 import RNPickerSelect from 'react-native-picker-select';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Table, Row, Rows } from 'react-native-table-component';
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import Toast from 'react-native-toast-message';
 import { BASE_URL } from '../config/config';
 import { Button } from 'react-native-paper';
@@ -71,10 +72,10 @@ const Demand = () => {
       console.log(response.data, 'demand-data')
       if (response.data.suc === 1) {
         setLoading(false)
-       setNoData(false)
+        setNoData(false)
         // console.log(response.data.msg[0].cl_interest, '-data')
         setResponseData(response.data.msg);
-        console.log(responseData,'response.data.msg')
+        console.log(responseData, 'response.data.msg')
         // console.log(responseData[0].gl_principal,'responseData')
         const totalValue =
           parseFloat(responseData[0].gl_principal) +
@@ -95,7 +96,7 @@ const Demand = () => {
     catch (error) {
       setLoading(false)
     }
-    
+
   };
   const tableHead = ['General Loan']
   const tableLabels = ['Recov GLIntl No.', 'Total GLIntl No.', 'Prinpl GL', 'Last GLLoan', 'O/S GLBal.', 'GLInt. Claim'];
@@ -141,14 +142,91 @@ const Demand = () => {
   ]
   );
   const isdisabled = !valueMonth || !valueYear
+  const handleDownloadPDF = async () => {
+   
+    try {
+      // Prepare HTML content for the PDF
+     
+      let htmlContent = `
+        <html>
+          <head>
+            <style>
+              table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              th, td {
+                border: 1px solid #fdbd30; /* Table cell border color */
+                padding: 8px;
+                text-align: center;
+              }
+              th {
+                background-color: rgba(253, 189, 48, 0.1); /* Table header background color */
+                font-weight: 700;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Demand Report</h1>
+            <table>
+              <thead>
+                <tr>
+                  ${tableHead_cl.map(label => `<th>${label}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${tableData_cl
+                  .map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`)
+                  .join('')}
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `;
+      if (Platform.OS === 'android') {
+     
+
+        // Request storage permission
+        const granted = await PermissionsAndroid.request(
+          console.log('hehe1'),
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          
+          {
+            title: 'Storage Permission Required',
+            message: 'This app needs permission to save PDF files to your device.',
+            buttonPositive: 'OK',
+          }
+        );
+  
+        // Check if permission is granted
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          throw new Error('Storage permission not granted');
+        }
+      }
+  
+      // Prepare HTML content and convert to PDF
+      // (code to generate HTML content and convert to PDF goes here...)
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error Downloading PDF!',
+        visibilityTime: 2000,
+      });
+    }
+  };
+
+
+  
   return (
     <>
       <HeaderComponent />
-      <View style={{ height: 40, 
+      <View style={{
+        height: 40,
         // backgroundColor: 'rgba(4,187,214,255)'
-        backgroundColor:'#a20a3a'
-         }}>
-        <Text style={{ alignSelf: 'center', fontSize: 20, color:'#fdbd30', fontWeight: '800', top: 5, fontFamily:'OpenSans-ExtraBold' }}>
+        backgroundColor: '#a20a3a'
+      }}>
+        <Text style={{ alignSelf: 'center', fontSize: 20, color: '#fdbd30', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' }}>
           Demand Report
         </Text>
       </View>
@@ -206,67 +284,79 @@ const Demand = () => {
         <View style={styles.containerRpt}>
 
           {/* {responseData && */}
-            <View>
-             
-              {
-                responseData.map((record, index) => (
-                  <View key={index} style={{ marginBottom: 10, padding: 15 }}>
-                    <View style={{ height: 30 }}>
-                      {/* <Text style={{ padding: 5, fontSize: 15, fontWeight: '900', fontFamily:'OpenSans-ExtraBold',color:'#a20a3a' }}>Month & Year: December,{valueYear}</Text> */}
-                    </View>
-                    <View style={{ marginBottom: 16 }}>
-                      <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
-                        <Row data={tableHead} style={{ height: 40, 
-                          // backgroundColor: '#f1f8ff'
-                          backgroundColor:'rgba(253, 189, 48, 0.1)'
-                           }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
-                        <Row data={tableLabels} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
-                        <Rows data={tableData} textStyle={{ textAlign: 'left', margin: 4, fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
-                      </Table>
-                    </View>
-                    <View style={{ marginBottom: 16 }}>
-                      <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30', }}>
-                        <Row data={tableHead_tf} style={{ height: 40, 
-                          // backgroundColor: '#f1f8ff'
-                          backgroundColor:'rgba(253, 189, 48, 0.1)'
-                           }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
-                        <Row data={tableLabels_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
-                        <Rows data={tableData_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
-                      </Table>
-                    </View>
-                    <View style={{ marginBottom: 16 }}>
-                      <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30'}}>
-                        <Row data={tableHead_cl} style={{ height: 40, 
-                          // backgroundColor: '#f1f8ff' 
-                          backgroundColor:'rgba(253, 189, 48, 0.1)'
-                          }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
-                        <Row data={tableLabels_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
-                        <Rows data={tableData_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
-                      </Table>
-                    </View>
-                    <View style={{ marginBottom: 16 }}>
-                      <Table borderStyle={{ borderWidth: 3, 
-                        // borderColor: '#c8e1ff'
-                        borderColor:'#fdbd30'
-                         }}>
-                        <Row data={tableHead_ltc} style={{ height: 40, 
-                         backgroundColor:'rgba(253, 189, 48, 0.1)'
-                       }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
-                        <Row data={tableLabels_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
-                        <Rows data={tableData_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily:'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
-                      </Table>
-                    </View>
+          <View>
+
+            {
+              responseData.map((record, index) => (
+                <View key={index} style={{ marginBottom: 10, padding: 15 }}>
+                  <View style={{ height: 30 }}>
+                    {/* <Text style={{ padding: 5, fontSize: 15, fontWeight: '900', fontFamily:'OpenSans-ExtraBold',color:'#a20a3a' }}>Month & Year: December,{valueYear}</Text> */}
                   </View>
-                ))
-              }
-            </View>
+                  <View style={{ marginBottom: 16 }}>
+                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                      <Row data={tableHead} style={{
+                        height: 40,
+                        // backgroundColor: '#f1f8ff'
+                        backgroundColor: 'rgba(253, 189, 48, 0.1)'
+                      }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                      <Row data={tableLabels} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
+                      <Rows data={tableData} textStyle={{ textAlign: 'left', margin: 4, fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                    </Table>
+                  </View>
+                  <View style={{ marginBottom: 16 }}>
+                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30', }}>
+                      <Row data={tableHead_tf} style={{
+                        height: 40,
+                        // backgroundColor: '#f1f8ff'
+                        backgroundColor: 'rgba(253, 189, 48, 0.1)'
+                      }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                      <Row data={tableLabels_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
+                      <Rows data={tableData_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                    </Table>
+                  </View>
+                  <View style={{ marginBottom: 16 }}>
+                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                      <Row data={tableHead_cl} style={{
+                        height: 40,
+                        // backgroundColor: '#f1f8ff' 
+                        backgroundColor: 'rgba(253, 189, 48, 0.1)'
+                      }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                      <Row data={tableLabels_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
+                      <Rows data={tableData_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                    </Table>
+                  </View>
+                  <View style={{ marginBottom: 16 }}>
+                    <Table borderStyle={{
+                      borderWidth: 3,
+                      // borderColor: '#c8e1ff'
+                      borderColor: '#fdbd30'
+                    }}>
+                      <Row data={tableHead_ltc} style={{
+                        height: 40,
+                        backgroundColor: 'rgba(253, 189, 48, 0.1)'
+                      }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                      <Row data={tableLabels_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
+                      <Rows data={tableData_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
+                    </Table>
+                  </View>
+                  <Button
+                    mode="contained"
+                    onPress={handleDownloadPDF}
+                    disabled={!responseData.length} // Disable button if no data
+                    style={{ backgroundColor: '#a20a3a', paddingHorizontal: 20 }}>
+                    Download PDF
+                  </Button>
+                </View>
+              ))
+            }
+          </View>
         </View>
 
 
       </ScrollView>
 
-      {noData && 
-    
+      {noData &&
+
         <View style={styles.containerRpt}>
           <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30 }}>
             <Image source={require('../assets/nodata2.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
@@ -281,8 +371,8 @@ const Demand = () => {
 const styles = StyleSheet.create({
   disabledBtn: {
     // backgroundColor: 'lightblue',
-    backgroundColor:'#c28090',
-    color:'white'
+    backgroundColor: '#c28090',
+    color: 'white'
   },
   containerRpt: {
     height: 'auto',
@@ -295,7 +385,7 @@ const styles = StyleSheet.create({
     //   alignItems: 'center',
     // height: 100,
     // backgroundColor: 'rgba(24,117,130,0.2)',
-    backgroundColor:'rgba(162, 10, 58, 0.1)',
+    backgroundColor: 'rgba(162, 10, 58, 0.1)',
     zIndex: 10,
     fontFamily: 'Roboto',
     padding: 10
