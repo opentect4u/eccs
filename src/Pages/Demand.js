@@ -11,6 +11,7 @@ import { BASE_URL } from '../config/config';
 import { Button } from 'react-native-paper';
 import Searchicon from 'react-native-vector-icons/Ionicons'
 import axios from 'axios';
+
 const pickerStyle = {
   inputIOS: {
     color: 'black',
@@ -142,12 +143,37 @@ const Demand = () => {
   ]
   );
   const isdisabled = !valueMonth || !valueYear
-  const handleDownloadPDF = async () => {
-   
+  const handleDownloadPDF = async (tableHead_cl, tableData_cl) => {
     try {
+      // Check platform OS before requesting storage permission
+      if (Platform.OS === 'android') {
+        console.log('Requesting storage permission...');
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'Storage Permission Required',
+            message: 'This app needs permission to save PDF files to your device.',
+            buttonPositive: 'OK',
+          }
+        );
+  
+        console.log('Permission result:', granted);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+         
+          console.log('WRITE_EXTERNAL_STORAGE permission is granted');
+          // Permission is granted, proceed with file operations
+        } else {
+          console.log('WRITE_EXTERNAL_STORAGE permission is not granted');
+          // Permission is not granted, handle accordingly
+        }
+  
+        // if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+        //   throw new Error('Storage permission not granted');
+        // }
+      }
+  
       // Prepare HTML content for the PDF
-     
-      let htmlContent = `
+      const htmlContent = `
         <html>
           <head>
             <style>
@@ -156,12 +182,12 @@ const Demand = () => {
                 border-collapse: collapse;
               }
               th, td {
-                border: 1px solid #fdbd30; /* Table cell border color */
+                border: 1px solid #fdbd30;
                 padding: 8px;
                 text-align: center;
               }
               th {
-                background-color: rgba(253, 189, 48, 0.1); /* Table header background color */
+                background-color: rgba(253, 189, 48, 0.1);
                 font-weight: 700;
               }
             </style>
@@ -171,51 +197,51 @@ const Demand = () => {
             <table>
               <thead>
                 <tr>
-                  ${tableHead_cl.map(label => `<th>${label}</th>`).join('')}
+                Consumer Loan
                 </tr>
               </thead>
               <tbody>
-                ${tableData_cl
-                  .map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`)
-                  .join('')}
+                abcd
               </tbody>
             </table>
           </body>
         </html>
       `;
-      if (Platform.OS === 'android') {
-     
-
-        // Request storage permission
-        const granted = await PermissionsAndroid.request(
-          console.log('hehe1'),
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          
-          {
-            title: 'Storage Permission Required',
-            message: 'This app needs permission to save PDF files to your device.',
-            buttonPositive: 'OK',
-          }
-        );
   
-        // Check if permission is granted
-        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-          throw new Error('Storage permission not granted');
-        }
-      }
-  
-      // Prepare HTML content and convert to PDF
-      // (code to generate HTML content and convert to PDF goes here...)
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      Toast.show({
-        type: 'error',
-        text1: 'Error Downloading PDF!',
-        visibilityTime: 2000,
+      // Convert HTML content to PDF using RNHTMLtoPDF
+      const { uri } = await RNHTMLtoPDF.convert({
+        html: htmlContent,
+        fileName: 'Demand_Report',
+        directory: 'Documents',
       });
-    }
-  };
-
+   
+      console.log('PDF Generated:', uri);
+  
+      // Show success message
+      // Toast.show({
+      //   type: 'success',
+      //   text1: 'PDF downloaded successfully!',
+      //   visibilityTime: 2000,
+      // });
+    } catch (error) {
+      // Handle permission errors
+      if (error.message === 'Storage permission not granted') {
+        console.log('Storage permission not granted');
+        Toast.show({
+          type: 'error',
+          text1: 'Storage permission not granted!',
+          visibilityTime: 2000,
+        });
+      } else {
+        // Handle other errors
+        console.error('Error generating PDF:', error);
+        Toast.show({
+          type: 'error',
+          text1: 'Error generating PDF!',
+          visibilityTime: 2000,
+        });
+      }
+    }};
 
   
   return (
