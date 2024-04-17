@@ -6,6 +6,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Table, Row, Rows } from 'react-native-table-component';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import RNFetchBlob from 'rn-fetch-blob';
 import Toast from 'react-native-toast-message';
 import { BASE_URL } from '../config/config';
 import { Button } from 'react-native-paper';
@@ -48,6 +49,7 @@ const Demand = () => {
   const [isLoading, setLoading] = useState(false)
   const [year, setYear] = useState('');
   const [noData, setNoData] = useState(false)
+  const [filepath,setfilepath] = useState('')
   const handleSearch = async () => {
     setLoading(true)
     // Implement your search logic here
@@ -174,57 +176,141 @@ const Demand = () => {
   
       // Prepare HTML content for the PDF
       const htmlContent = `
-        <html>
-          <head>
-            <style>
-              table {
-                width: 100%;
-                border-collapse: collapse;
-              }
-              th, td {
-                border: 1px solid #fdbd30;
-                padding: 8px;
-                text-align: center;
-              }
-              th {
-                background-color: rgba(253, 189, 48, 0.1);
-                font-weight: 700;
-              }
-            </style>
-          </head>
-          <body>
-            <h1>Demand Report</h1>
-            <table>
-              <thead>
-                <tr>
-                Consumer Loan
-                </tr>
-              </thead>
-              <tbody>
-                abcd
-              </tbody>
-            </table>
-          </body>
-        </html>
-      `;
+      <html>
+        <head>
+        <title>Cooperative Credit Society</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+        .headerDiv {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .address {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .contact {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .left-align {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .tableDiv {
+            max-width: 800px;
+            margin: 0 auto; /* Center align horizontally */
+            text-align: center;
+        }
+        table {
+            width: 100%; /* Take full width of parent container (.tableDiv) */
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid gray;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            font-weight: bold;
+        }
+    </style>
+        </head>
+        <body>
+        <div class="headerDiv">
+        <div class="header">PNB EMPLOYEES CO OPERATIVE CREDIT SOCIETY LTD</div>
+        <div class="address">135 B.R.B.B ROAD - Calcutta 700001</div>
+        <div class="contact">PRESIDENT - 980023709 &nbsp;&nbsp;&nbsp; OFFICE - 033-48079373 &nbsp;&nbsp;&nbsp; SECRETARY - 9432470019</div>
+        <div class="address"> DEMAND LIST FOR THE MONTH : DEC 26</div>
+        <div class="address"> DIST NO: 528</div>
+        </div>
+        <div class="left-align">
+        <div>TO</div>
+        <div>The Manager</div>
+        <div>Punjab National Bank</div>
+        <div>Dharmatala Street</div>
+        <div>120 LENIN SARANI</div>
+        <div>KOLKATA, (Ground Floor 700013)</div>
+
+        </div>
+        
+        
+        <div class="tableDiv">
+        <table>
+            <tr>
+                <th>Recov CLIntl No.</th>
+                <th>Total CLIntl No</th>
+                <th>Prinpl CL</th>
+                <th>Last CLLoan</th>
+                <th>O/S CLBal</th>
+                <th>CLInt. Claim</th>
+            </tr>
+            <tr>
+                <td>${responseData[0].cl_run}</td>
+                <td>${responseData[0].cl_tot}</td>
+                <td>${responseData[0].cl_principal}</td>
+                <td>${responseData[0].cl_loan_amt}</td>
+                <td>${responseData[0].cl_outstanding}</td>
+                <td>${responseData[0].cl_interest}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="headerDiv">
+    <div class="address"> Please deduct as per Demand list. Retain one copy and 
+    remit the proceed to our a/c no. 1964009300077211 one copy  of demand list to co-operative office as early as possible. Please ensure that amount of remittance
+    should tally with the total of Demand list updated upto....</div>
+    </div>
+        </body>
+      </html>
+    `;
+  //   <table>
+  //   <thead>
+  //     <tr>
+  //       ${tableHead.map(head => `<th>${head}</th>`).join('')}
+  //     </tr>
+  //   </thead>
+  //   <tbody>
+  //     ${tableData.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+  //   </tbody>
+  // </table>
   
       // Convert HTML content to PDF using RNHTMLtoPDF
-      const { uri } = await RNHTMLtoPDF.convert({
+      const  uri  = {
+        // html: htmlContent,
         html: htmlContent,
         fileName: 'Demand_Report',
         directory: 'Documents',
-      });
-   
+        base64:true
+      }
+      const file =  await RNHTMLtoPDF.convert(uri);
+      console.log(file,'file')
+      
       console.log('PDF Generated:', uri);
-  
-      // Show success message
-      // Toast.show({
-      //   type: 'success',
-      //   text1: 'PDF downloaded successfully!',
-      //   visibilityTime: 2000,
-      // });
-    } catch (error) {
-      // Handle permission errors
+      const moment = require('moment'); // Import moment library for timestamp formatting
+
+// Generate timestamp in the desired format (e.g., YYYYMMDD_HHmmss)
+const timestamp = moment().format('YYYYMMDD_HHmmss');
+
+      const filepath = `${RNFetchBlob.fs.dirs.DownloadDir}/Demand_Report_${timestamp}.pdf`;
+      RNFetchBlob.fs.writeFile(filepath, file.base64, 'base64')
+      .then(() => {
+        console.log('PDF file saved after RNFetchBlob :', filepath);
+        // Additional actions if needed after successful file save
+      })
+      .catch((error) => {
+        console.log('Error saving PDF:', error);
+      });
+} catch (error) {
+      
       if (error.message === 'Storage permission not granted') {
         console.log('Storage permission not granted');
         Toast.show({
@@ -233,7 +319,6 @@ const Demand = () => {
           visibilityTime: 2000,
         });
       } else {
-        // Handle other errors
         console.error('Error generating PDF:', error);
         Toast.show({
           type: 'error',
