@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, useColorScheme, StyleSheet, ScrollView, ActivityIndicator, Image,PermissionsAndroid,Platform  } from 'react-native';
+import { View, useColorScheme, StyleSheet, ScrollView, ActivityIndicator, Image, PermissionsAndroid, Platform } from 'react-native';
 import { Text, Overlay, Input } from 'react-native-elements';
 import HeaderComponent from '../Components/HeaderComponent';
 import RNPickerSelect from 'react-native-picker-select';
@@ -49,7 +49,7 @@ const Demand = () => {
   const [isLoading, setLoading] = useState(false)
   const [year, setYear] = useState('');
   const [noData, setNoData] = useState(false)
-  const [filepath,setfilepath] = useState('')
+  const [filepath, setfilepath] = useState('')
   const handleSearch = async () => {
     setLoading(true)
     // Implement your search logic here
@@ -158,22 +158,22 @@ const Demand = () => {
             buttonPositive: 'OK',
           }
         );
-  
+
         console.log('Permission result:', granted);
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-         
+
           console.log('WRITE_EXTERNAL_STORAGE permission is granted');
           // Permission is granted, proceed with file operations
         } else {
           console.log('WRITE_EXTERNAL_STORAGE permission is not granted');
           // Permission is not granted, handle accordingly
         }
-  
+
         // if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
         //   throw new Error('Storage permission not granted');
         // }
       }
-  
+
       // Prepare HTML content for the PDF
       const htmlContent = `
       <html>
@@ -186,29 +186,30 @@ const Demand = () => {
         }
         .headerDiv {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .header {
-            font-size: 24px;
+            font-size: 16px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .address {
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 14px;
+            margin-bottom: 5px;
         }
         .contact {
-            font-size: 16px;
-            margin-bottom: 20px;
+            font-size: 14px;
+            margin-bottom: 5px;
         }
         .left-align {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .tableDiv {
             max-width: 800px;
             margin: 0 auto; /* Center align horizontally */
             text-align: center;
+            margin-bottom: 10px;
         }
         table {
             width: 100%; /* Take full width of parent container (.tableDiv) */
@@ -218,10 +219,71 @@ const Demand = () => {
             border: 1px solid gray;
             padding: 8px;
             text-align: center;
+            font-size: 12px;
         }
         th {
             font-weight: bold;
         }
+        .aftertable{
+          text-align: left;
+          margin-top: 10px;
+        }
+        .textstyle{
+          font-size: 12px;
+          margin-bottom: 10px;
+          font-weight: bold;
+          text-align: left;
+        }
+        .signatureBlock {
+          text-align: right;
+      }
+      
+      .leftContent {
+          display: inline-block;
+          text-align: left;
+          font-size: 12px;
+          font-weight: bold;
+      }
+      
+      .middleContent {
+          display: inline-block;
+          font-size: 12px;
+          font-weight: bold;
+      }
+      
+      .rightContent, .nextLine, .bottomLine {
+          display: inline-block;
+          font-size: 12px;
+          font-weight: bold;
+      }
+      
+      .rightContent {
+          text-align: right;
+      }
+      
+      .signatureSpace {
+          display: block;
+          height: 30px; /* Adjust as needed for signature space */
+      }
+      .aftersignatureBlock{
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .aftersignaturetext{
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .container {
+        width: 95%; 
+        margin: 20px auto; /* Center the div horizontally with top margin */
+        padding: 10px; /* Padding inside the div */
+        border: 1px solid #000; /* Black border with 2px width */
+        box-sizing: border-box; 
+        font-size: 16px;
+        font-weight: bold;
+      }
     </style>
         </head>
         <body>
@@ -264,53 +326,88 @@ const Demand = () => {
         </table>
     </div>
 
-    <div class="headerDiv">
-    <div class="address"> Please deduct as per Demand list. Retain one copy and 
+    <div class="aftertable">
+    <div class="textstyle">
+     Please deduct as per Demand list. Retain one copy and 
     remit the proceed to our a/c no. 1964009300077211 one copy  of demand list to co-operative office as early as possible. Please ensure that amount of remittance
-    should tally with the total of Demand list updated upto....</div>
+    should tally with the total of Demand list updated upto 24.01.2024
     </div>
-        </body>
-      </html>
+    </div>
+    <div>
+    <span class="leftContent">Demand list no</span>
+    <span class="middleContent"> &nbsp;&nbsp;&nbsp;180 dated 26/02/2024</span>
+    </div>
+
+    <div class="signatureBlock">
+    <span class="rightContent">Thanking you,</span>
+    <br>
+    <span class="nextLine">Yours faithfully,</span>
+    <br>
+    <span class="signatureSpace"></span> 
+    <br>
+    <span class="bottomLine">Secretary</span>
+    </div>
+    <div class="aftersignatureBlock"> Remitted on &nbsp;&nbsp;/&nbsp;&nbsp;/&nbsp;&nbsp;  And Credited to A/C no 1964 0093 0007 7211 of  </div>
+
+    <div class="aftersignaturetext">PNB EMPLOYEES CO OPERATIVE CREDIT SOCIETY LTD</div> 
+    <div class="container">
+
+    <p>
+    BALANCE UPDATED UPTO 24/01/2024.Our email ID - (pnbcoopkol@gmail.com)
+    </p>
+    <p>Amendment: Mgr self service- Salary_Tds related-Amendment-Put emp.Id-search.
+    Add new assignment-deduction-(element name)- PNB CO OPE S-O.K. </p>
+</div>
+    </body>
+    </html>
     `;
-  //   <table>
-  //   <thead>
-  //     <tr>
-  //       ${tableHead.map(head => `<th>${head}</th>`).join('')}
-  //     </tr>
-  //   </thead>
-  //   <tbody>
-  //     ${tableData.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
-  //   </tbody>
-  // </table>
-  
-      // Convert HTML content to PDF using RNHTMLtoPDF
-      const  uri  = {
-        // html: htmlContent,
+      //   <table>
+      //   <thead>
+      //     <tr>
+      //       ${tableHead.map(head => `<th>${head}</th>`).join('')}
+      //     </tr>
+      //   </thead>
+      //   <tbody>
+      //     ${tableData.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+      //   </tbody>
+      // </table>
+
+      const uri = {
         html: htmlContent,
         fileName: 'Demand_Report',
         directory: 'Documents',
-        base64:true
+        base64: true
       }
-      const file =  await RNHTMLtoPDF.convert(uri);
-      console.log(file,'file')
-      
-      console.log('PDF Generated:', uri);
-      const moment = require('moment'); // Import moment library for timestamp formatting
+      const file = await RNHTMLtoPDF.convert(uri);
+      console.log(file, 'file')
 
-// Generate timestamp in the desired format (e.g., YYYYMMDD_HHmmss)
-const timestamp = moment().format('YYYYMMDD_HHmmss');
+      console.log('PDF Generated:', uri);
+      const RNFetchBlob = require('rn-fetch-blob');
+      const moment = require('moment'); 
+      const timestamp = moment().format('YYYYMMDD_HHmmss');
 
       const filepath = `${RNFetchBlob.fs.dirs.DownloadDir}/Demand_Report_${timestamp}.pdf`;
       RNFetchBlob.fs.writeFile(filepath, file.base64, 'base64')
-      .then(() => {
-        console.log('PDF file saved after RNFetchBlob :', filepath);
-        // Additional actions if needed after successful file save
-      })
-      .catch((error) => {
-        console.log('Error saving PDF:', error);
-      });
-} catch (error) {
-      
+        .then(() => {
+          console.log('PDF file saved after RNFetchBlob :', filepath);
+          RNFetchBlob.android
+            .actionViewIntent(filepath, 'application/pdf');
+          Toast.show({
+            type: 'success',
+            text1: 'PDF downloaded successfully!',
+            visibilityTime: 2000,
+          });
+        })
+        .catch((error) => {
+          console.log('Error saving PDF:', error);
+          Toast.show({
+            type: 'error',
+            text1: 'Error saving PDF:',
+            visibilityTime: 2000,
+          });
+        });
+    } catch (error) {
+
       if (error.message === 'Storage permission not granted') {
         console.log('Storage permission not granted');
         Toast.show({
@@ -326,9 +423,10 @@ const timestamp = moment().format('YYYYMMDD_HHmmss');
           visibilityTime: 2000,
         });
       }
-    }};
+    }
+  };
 
-  
+
   return (
     <>
       <HeaderComponent />
