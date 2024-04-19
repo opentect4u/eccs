@@ -12,6 +12,7 @@ import { BASE_URL } from '../config/config';
 import { Button } from 'react-native-paper';
 import Searchicon from 'react-native-vector-icons/Ionicons'
 import axios from 'axios';
+import { color } from 'react-native-elements/dist/helpers';
 
 const pickerStyle = {
   inputIOS: {
@@ -24,11 +25,12 @@ const pickerStyle = {
     fontWeight: '600'
   },
   placeholder: {
-    color: '#a20a3a',
+    // color: '#a20a3a',
+    color:'#3f50b5',
     fontSize: 20
   },
   inputAndroid: {
-    color: '#a20a3a',
+    color: '#3f50b5',
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderRadius: 30,
@@ -433,9 +435,10 @@ const Demand = () => {
       <View style={{
         height: 40,
         // backgroundColor: 'rgba(4,187,214,255)'
-        backgroundColor: '#a20a3a'
+        // backgroundColor: '#a20a3a'
+        backgroundColor: '#3f50b5'
       }}>
-        <Text style={{ alignSelf: 'center', fontSize: 20, color: '#fdbd30', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' }}>
+        <Text style={{ alignSelf: 'center', fontSize: 20, color: '#ffffff', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' }}>
           Demand Report
         </Text>
       </View>
@@ -478,7 +481,7 @@ const Demand = () => {
           ]}
         />
         <Button
-          style={[{ borderRadius: 5, marginHorizontal: 10, backgroundColor: '#a20a3a', }, isdisabled && styles.disabledBtn]}
+          style={[{ borderRadius: 5, marginHorizontal: 10, backgroundColor: '#3f50b5', }, isdisabled && styles.disabledBtn]}
           textColor='white'
           icon={() => <Searchicon name="search-outline" size={20} color={'white'} />}
           mode="elevated" onPress={handleSearch} disabled={isdisabled}>
@@ -488,7 +491,7 @@ const Demand = () => {
 
 
       <ScrollView vertical>
-        {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
+        {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
 
         <View style={styles.containerRpt}>
 
@@ -502,33 +505,33 @@ const Demand = () => {
                     {/* <Text style={{ padding: 5, fontSize: 15, fontWeight: '900', fontFamily:'OpenSans-ExtraBold',color:'#a20a3a' }}>Month & Year: December,{valueYear}</Text> */}
                   </View>
                   <View style={{ marginBottom: 16 }}>
-                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                    <Table borderStyle={{ borderWidth: 1, borderColor: '#3f50b5' }}>
                       <Row data={tableHead} style={{
                         height: 40,
                         // backgroundColor: '#f1f8ff'
-                        backgroundColor: 'rgba(253, 189, 48, 0.1)'
+                        backgroundColor: '#e9eafc'
                       }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                       <Row data={tableLabels} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
                       <Rows data={tableData} textStyle={{ textAlign: 'left', margin: 4, fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                     </Table>
                   </View>
                   <View style={{ marginBottom: 16 }}>
-                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30', }}>
+                    <Table borderStyle={{ borderWidth: 1, borderColor: '#3f50b5', }}>
                       <Row data={tableHead_tf} style={{
                         height: 40,
                         // backgroundColor: '#f1f8ff'
-                        backgroundColor: 'rgba(253, 189, 48, 0.1)'
+                        backgroundColor: '#e9eafc'
                       }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                       <Row data={tableLabels_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
                       <Rows data={tableData_tf} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                     </Table>
                   </View>
                   <View style={{ marginBottom: 16 }}>
-                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                    <Table borderStyle={{ borderWidth: 1, borderColor: '#3f50b5' }}>
                       <Row data={tableHead_cl} style={{
                         height: 40,
                         // backgroundColor: '#f1f8ff' 
-                        backgroundColor: 'rgba(253, 189, 48, 0.1)'
+                        backgroundColor: '#e9eafc'
                       }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                       <Row data={tableLabels_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
                       <Rows data={tableData_cl} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
@@ -536,13 +539,13 @@ const Demand = () => {
                   </View>
                   <View style={{ marginBottom: 16 }}>
                     <Table borderStyle={{
-                      borderWidth: 3,
+                      borderWidth: 1,
                       // borderColor: '#c8e1ff'
-                      borderColor: '#fdbd30'
+                      borderColor: '#3f50b5'
                     }}>
                       <Row data={tableHead_ltc} style={{
                         height: 40,
-                        backgroundColor: 'rgba(253, 189, 48, 0.1)'
+                        backgroundColor: '#e9eafc'
                       }} textStyle={{ textAlign: 'center', margin: 6, fontWeight: '700', fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
                       <Row data={tableLabels_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', fontWeight: '700', color: isDarkMode ? 'black' : 'black' }} />
                       <Rows data={tableData_ltc} textStyle={{ textAlign: 'left', margin: 6, fontFamily: 'OpenSans-ExtraBold', color: isDarkMode ? 'black' : 'black' }} />
@@ -552,7 +555,7 @@ const Demand = () => {
                     mode="contained"
                     onPress={handleDownloadPDF}
                     disabled={!responseData.length} // Disable button if no data
-                    style={{ backgroundColor: '#a20a3a', paddingHorizontal: 20 }}>
+                    style={{ backgroundColor: '#3f50b5', paddingHorizontal: 20,color:'#ffffff' }}>
                     Download PDF
                   </Button>
                 </View>
@@ -580,7 +583,7 @@ const Demand = () => {
 const styles = StyleSheet.create({
   disabledBtn: {
     // backgroundColor: 'lightblue',
-    backgroundColor: '#c28090',
+    backgroundColor:'#9298ed',
     color: 'white'
   },
   containerRpt: {
@@ -594,10 +597,11 @@ const styles = StyleSheet.create({
     //   alignItems: 'center',
     // height: 100,
     // backgroundColor: 'rgba(24,117,130,0.2)',
-    backgroundColor: 'rgba(162, 10, 58, 0.1)',
+    // backgroundColor: 'rgba(162, 10, 58, 0.1)',
+    backgroundColor:'#d2d4f9',
     zIndex: 10,
     fontFamily: 'Roboto',
-    padding: 10
+    padding: 15
   },
   overlayContainer: {
     flexDirection: 'row',

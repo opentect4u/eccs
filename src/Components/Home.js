@@ -42,8 +42,7 @@ function Home({ navigation }) {
             <View>
                 <ImageBackground
                     // source={require('../assets/bg3.jpg')}
-                    source={require('../assets/bg3.jpg')}
-
+                    source={require('../assets/bg5.jpg')}
                     style={{resizeMode: 'cover'}}
                 >         
                 <View style={{ height: welcomContHeight, width: 'screenWidth' }}>
@@ -51,18 +50,23 @@ function Home({ navigation }) {
                     <Text style={styles.userDtlsTxt}>Hello {userName}</Text>           
                  <View>
                     <View style={{ height: rptBodyHeight,borderTopLeftRadius:40,borderTopRightRadius:40,width:'100%',
-                    // backgroundColor:'white',
-                    backgroundColor: '#fdbd30',
+                    backgroundColor:'white',
+                    // backgroundColor: '#fdbd30',
+                    // backgroundColor:'#757ce8',
+                    // light: '#757ce8',
+                    // main: '#3f50b5',
+                    // dark: '#002884',
+                    // contrastText: '#fff',
                     alignSelf:'center',marginTop:25,padding:20 }}>
                     <View style={{ height: rptBgCont,flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                         <TouchableOpacity
                             style={styles.rptCard} onPress={() => navigation.navigate('Demand')}>
-                           <Image source={require('../assets/demand2.png')} style={{ width: 45, height: 40, resizeMode: 'contain' }} />
+                           <Image source={require('../assets/demand3.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Demand</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Networth')}>
-                            <Image source={require('../assets/networth2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                            <Image source={require('../assets/networth3.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Networth</Text>
                         </TouchableOpacity>
 
@@ -70,11 +74,11 @@ function Home({ navigation }) {
 
                     <View style={{ height: rptBgCont, width: 'screenWidth', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Calendar')}>
-                            <Image source={require('../assets/calendar2.png')} style={{ width: 38, height: 38, resizeMode: 'contain' }} />
+                            <Image source={require('../assets/calendar3.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Calendar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Download')}>
-                            <Image source={require('../assets/download2.png')} style={{ width: 35, height: 35, resizeMode: 'contain' }} />
+                            <Image source={require('../assets/download3.png')} style={{ width: 45, height: 45, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Download</Text>
                         </TouchableOpacity>
                         {/* <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('HolidayHome')}>
@@ -95,11 +99,11 @@ function Home({ navigation }) {
                         </TouchableOpacity> */}
 
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Contacts')}>
-                            <Image source={require('../assets/contact2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                            <Image source={require('../assets/contact4.png')} style={{ width: 45, height:45, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Contact</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Feedback')}>
-                            <Image source={require('../assets/feedback2.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                            <Image source={require('../assets/feedback4.png')} style={{ width: 45, height: 45, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Feedback</Text>
                         </TouchableOpacity>
 
@@ -141,15 +145,15 @@ const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
 
     bankDtlsTxt:{
-        fontSize: 20, color: '#fdbd30', alignSelf: 'center', marginTop: 30,fontFamily:'OpenSans-ExtraBold',fontWeight:'900',
+        fontSize: 20, color: '#ffffff', alignSelf: 'center', marginTop: 30,fontFamily:'OpenSans-ExtraBold',fontWeight:'900',
     },
-    userDtlsTxt:{ fontSize: 17, color: '#fdbd30', paddingLeft: 24, fontFamily:'OpenSans-ExtraBold',fontWeight:'900' },
+    userDtlsTxt:{ fontSize: 17, color: '#ffffff', paddingLeft: 24, fontFamily:'OpenSans-ExtraBold',fontWeight:'900' },
 
     rptCard:{
-        backgroundColor: '#a20a3a', width: 93, height: 90, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000',  shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
+        backgroundColor: '#e9eafc', width: 95, height: 105, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000',  shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
     },
     rptCardTxt:{
-        top: 5,color: '#ffffff',fontFamily:'OpenSans-ExtraBold',fontSize:13, 
+        top: 4,color: '#3f50b5',fontFamily:'OpenSans-ExtraBold',fontSize:15,fontWeight:'900'
     }
     
   });

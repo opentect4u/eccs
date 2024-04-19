@@ -30,7 +30,8 @@ const BottomNavigator = () => {
     screenOptions={{
       tabBarStyle: {
         // backgroundColor: 'white',
-        backgroundColor: '#a20a3a',
+        // backgroundColor: '#a20a3a',
+        backgroundColor:'#3f50b5',
 
         height: bottomNav,
       },   
@@ -45,7 +46,7 @@ const BottomNavigator = () => {
           <Image
             source={require('../assets/home.png')} // Replace with the actual path to your image
             // style={{ width: 20, height: 20,tintColor: focused ? '#ff8c00' : '#209fb2' }}
-            style={{ width: 20, height: 20,tintColor: focused ? '#ffffff' : '#fdbd30' }}
+            style={{ width: 20, height: 20,tintColor: focused ? '#ffffff' : '#bdbff5' }}
           />
         )
       }}
@@ -60,7 +61,7 @@ const BottomNavigator = () => {
           <Image
             source={require('../assets/user.png')} 
             // style={{ width: 20, height: 20,tintColor: focused ? '#ff8c00' : '#209fb2' }} 
-            style={{ width: 20, height: 20,tintColor: focused ? '#ffffff' : '#fdbd30' }}
+            style={{ width: 20, height: 20,tintColor: focused ? '#ffffff' : '#bdbff5' }}
           />
         )
       }}
@@ -75,7 +76,7 @@ const BottomNavigator = () => {
           <Image
             source={require('../assets/notification.png')}
             // style={{ width: 20, height: 20,tintColor: focused ? '#ff8c00' : '#209fb2' }} 
-            style={{ width: 20, height: 20,tintColor: focused ? '#ffffff' : '#fdbd30' }}
+            style={{ width: 20, height: 20,tintColor: focused ? '#ffffff' : '#bdbff5' }}
           />
            {countNoti > 0 &&<Badge count= {countNoti > 9 ? '9+' : countNoti} />}
           </View>

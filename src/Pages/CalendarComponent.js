@@ -95,7 +95,7 @@ function CalendarComponent() {
       <HeaderComponent />
 
       <ImageBackground
-        source={require('../assets/bg3.jpg')}
+        source={require('../assets/bg5.jpg')}
 
       >
         <View style={styles.container}>
@@ -103,8 +103,8 @@ function CalendarComponent() {
           <View style={{backgroundColor:'rgba(211, 211, 211,0.1)',height:200,width:'90%',top:20,borderRadius:50,alignSelf:'center',padding:20}}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
      
-      <Text style={{color:'#fdbd30',fontFamily:'OpenSans-ExtraBold',fontSize:18,fontWeight:'700'}}>{selectedDate ? `Selected Date: ${formatDate(selectedDate)}` : 'No date selected'}</Text>
-      {selectedevent ? <Text style={{color:'#fdbd30',fontFamily:'OpenSans-ExtraBold',fontSize:20,fontWeight:'700'}}>{selectedevent}</Text> : <Text style={{color:'#fdbd30',fontFamily:'OpenSans-ExtraBold',fontSize:20,fontWeight:'700'}}>No holiday</Text>
+      <Text style={{color:'#ffffff',fontFamily:'OpenSans-ExtraBold',fontSize:18,fontWeight:'700'}}>{selectedDate ? `Selected Date: ${formatDate(selectedDate)}` : 'No date selected'}</Text>
+      {selectedevent ? <Text style={{color:'#ffffff',fontFamily:'OpenSans-ExtraBold',fontSize:20,fontWeight:'700'}}>{selectedevent}</Text> : <Text style={{color:'#ffffff',fontFamily:'OpenSans-ExtraBold',fontSize:20,fontWeight:'700'}}>No holiday</Text>
 }
     </View>
       </View>
@@ -121,22 +121,22 @@ function CalendarComponent() {
             }}
               theme={{             
                 // textSectionTitleColor: '#209fb2',
-                textSectionTitleColor:'#a20a3a',
+                textSectionTitleColor:'#3f50b5',
                 // selectedDayBackgroundColor: '#00adf5',
-                selectedDayBackgroundColor:'#fdbd30',
+                selectedDayBackgroundColor:'#3f50b5',
                 selected: true,
                 selectedDayTextColor: '#ffffff',
                 // todayTextColor: '#209fb2',
-                todayTextColor:'#a20a3a',
-                todayBackgroundColor:'rgba(211, 211, 211,0.5)',
+                todayTextColor:'#3f50b5',
+                todayBackgroundColor:'rgba(211, 211, 211,0.6)',
                 dayTextColor: '#2d4150',
                 textDisabledColor: '#d9e1e8',
-                dotColor: '#00adf5',
+                dotColor: '#3f50b5',
                 selectedDotColor: '#ffffff',
                 // arrowColor: '#00adf5',
-                arrowColor:'#a20a3a',
+                arrowColor:'#3f50b5',
                 // monthTextColor: '#00adf5',
-                monthTextColor:'#a20a3a',
+                monthTextColor:'#3f50b5',
                 textDayFontFamily: 'OpenSans-ExtraBold',
                 textDayHeaderFontWeight: '900',
                 textMonthFontFamily: 'OpenSans-ExtraBold',
@@ -150,7 +150,7 @@ function CalendarComponent() {
               }}
               markedDates={{
                 ...holidays,
-                [selectedDate]: { selected: true, selectedColor: '#a20a3a' },
+                [selectedDate]: { selected: true, selectedColor: '#3f50b5' },
                 
               }}
               onDayPress={handleDayPress}

@@ -81,7 +81,7 @@ function Download() {
             <HeaderComponent />
             <View>
                 <ImageBackground
-                    source={require('../assets/bg3.jpg')} // Replace with the actual path to your image
+                    source={require('../assets/bg5.jpg')} 
                     style={{ resizeMode: 'cover' }}
                 >
                     <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
@@ -135,7 +135,8 @@ const styles = StyleSheet.create({
     },
     mainContHeader: {
         // color: '#209fb2',
-        color:'#a20a3a',
+        // color:'#a20a3a',
+        color:'#3f50b5',
         fontSize: 18,
         fontWeight: '900',
         padding: 15,
@@ -149,8 +150,8 @@ const styles = StyleSheet.create({
     containerText: {
         fontSize: 20,
         fontWeight: '900',
-        // color: 'white',
-        color:'#fdbd30',
+        color: 'white',
+        // color:'#fdbd30',
         top: 50,
         alignSelf: 'center'
     },

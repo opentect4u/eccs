@@ -15,6 +15,7 @@ import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import io from 'socket.io-client';
 import { SocketContext, SocketProvider } from '../Context/Socket';
 import { fonts } from 'react-native-elements/dist/config';
+import { color } from 'react-native-elements/dist/helpers';
 // import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 function Login({ navigation }) {
@@ -145,23 +146,26 @@ function Login({ navigation }) {
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <TextInput          
          backgroundColor='transparent'
-        
         //  outlineColor='#02a7bf'
-        outlineColor='#a20a3a'
-         activeOutlineColor='#a20a3a'
+        // outlineColor='#a20a3a'
+        outlineColor='#000'
+        //  activeOutlineColor='#a20a3a'
          mode="outlined"
          style={{ flex: 1 , marginTop:5,
         }}
-        textColor='#a20a3a'
+        // textColor='#a20a3a'
+        textColor='#3f50b5'
         placeholder={"Enter your phone no."}
-        placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
+        // placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
+        placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
         color={isDarkMode ? 'black' : 'black'}
         onChangeText={handlePhnNoChange}
         keyboardType="numeric"
         defaultValue={phnNo}
         left={<TextInput.Icon icon="account" 
         // color={'#02a7bf'}
-        color={'#a20a3a'}
+        // color={'#a20a3a'}
+        color={'#3f50b5'}
          />}
         // borderColor='#02a7bf'
 
@@ -193,11 +197,10 @@ function Login({ navigation }) {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
     <KeyboardAvoidingView behavior='padding' style={Styles.container}>
     
-      <ImageBackground
-        source={require('../assets/bg3.jpg')}
-      
-      >
-      <Image source={require('../assets/pnb_v.png')} style={{ resizeMode: 'contain', width: '50%', top: 90,alignSelf:'center' }} />
+      {/* <ImageBackground
+        source={require('../assets/bg4.jpg')} 
+      > */}
+      <Image source={require('../assets/pnbco.png')} style={{ resizeMode:'contain' ,alignSelf:'center',justifyContent:'center',marginTop:'30%'  }} />
 
       <View style={Styles.loginContainer}>
         {/* <Image
@@ -214,12 +217,14 @@ function Login({ navigation }) {
           <View style={Styles.messageContainer}>
             <Text style={{ 
               // color: '#02a7bf',
-              color:'#a20a3a',
+              // color:'#a20a3a',
+              color:'#ffffff',
               fontSize:16,fontFamily:'OpenSans-Bold', }}>Don't have an account?</Text>
             <TouchableOpacity onPress={handleRegister}>
               <Text style={{ 
                 // color: '#02a7bf',
-                color:'#a20a3a',
+                // color:'#a20a3a',
+                color:'#ffffff',
                  textDecorationLine: 'underline',fontFamily:'OpenSans-Bold', fontWeight: 900,fontSize:17}}> Register Now</Text>
             </TouchableOpacity>
           </View>
@@ -239,12 +244,14 @@ function Login({ navigation }) {
                   cellStyle={{
                     borderWidth: 3,
                     // borderColor: '#02a7bf',
-                    borderColor: '#a20a3a',
+                    // borderColor: '#a20a3a',
+                    borderColor:'#ffffff',
                     borderRadius:12
                   }}
                   textStyle={{
                     fontSize: 24, 
-                    color: '#a20a3a'
+                    // color: '#a20a3a'
+                    color:'#ffffff'
                   }}
                   textColor={'#a20a3a'}
                   codeLength={4}
@@ -265,13 +272,13 @@ function Login({ navigation }) {
             <View style={Styles.messageContainer}>
             <TouchableOpacity style={Styles.backBtn} onPress={() => decrementStep()}>
        <Text style={Styles.nextSubBtnFont}>
-       <Image source={require('../assets/left1.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
+       <Image source={require('../assets/left2.png')} style={{ resizeMode: 'contain', width:25, height:25 }} />
         Back</Text>
       </TouchableOpacity>
       <TouchableOpacity style={Styles.nextSubBtn} onPress={handleLogin} disabled={ (step === 2 && varOtp.length !== 4)}>
         <Text style={Styles.nextSubBtnFont}>
         Next
-        <Image source={require('../assets/right1.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
+        <Image source={require('../assets/right2.png')} style={{ resizeMode: 'contain', width:25, height:25 }} />
         </Text>
        </TouchableOpacity>
       
@@ -305,7 +312,7 @@ function Login({ navigation }) {
           </>
         }
       </View>
-      </ImageBackground>
+      {/* </ImageBackground> */}
      
     </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
@@ -323,7 +330,9 @@ const Styles = StyleSheet.create({
   },
   disabledBtn: {
     // backgroundColor: 'lightblue', 
-    backgroundColor:'#c28090'
+    // backgroundColor:'#c28090'
+    backgroundColor:'#9298ed'
+    
   },
 
   underlineStyleBase: {
@@ -338,17 +347,25 @@ const Styles = StyleSheet.create({
   container: {
     flex: 1,
     height: SCREEN_HEIGHT,
-    backgroundColor: 'rgba(32,159,178,255)',
-    justifyContent: 'flex-end',
+    // backgroundColor: 'rgba(32,159,178,255)',
+    // justifyContent: 'flex-end',
+    position:'relatived',
+    // backgroundColor:'rgba(117, 124, 232,0.1)'
+    backgroundColor:'#ffffff'
 
   },
   loginContainer: {
     width: '100%',
-    height: '55%',
-    backgroundColor: '#fdbd30',
+    height: '50%',
+    // backgroundColor: '#fdbd30',
+    // backgroundColor:'rgba(23,6,245,0.3)',
+    backgroundColor:'#3f50b5',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    padding: 10
+    padding: 10,
+    position:'absolute',
+    bottom:0
+    
 
 
   },
@@ -365,7 +382,8 @@ const Styles = StyleSheet.create({
   header: {
     fontSize: 22,
     // color: '#02a7bf',
-    color:'#a20a3a',
+    // color:'#a20a3a',
+    color:'#ffffff',
     fontFamily: 'EBGaramond-Bold'
   },
   introContainer: {
@@ -382,10 +400,12 @@ const Styles = StyleSheet.create({
     paddingLeft: 50,
   },
   nextBtn: {
-    width: '80%',
-    height: 50,
+    width: '60%',
+    height: 40,
     // backgroundColor: '#04bbd6',
-    backgroundColor:'#a20a3a',
+    // backgroundColor:'#a20a3a',
+    // backgroundColor:'#757ce8',
+    backgroundColor:'#ffffff',
     alignSelf: 'center',
     marginTop: 75,
     borderRadius: 45,
@@ -413,13 +433,14 @@ const Styles = StyleSheet.create({
   },
   nextBtnFont: {
     fontFamily: 'OpenSans-Bold',
-    color: 'white',
+    color:'#3f50b5',
     fontSize: 16,
-    // fontWeight:'700'
+    fontWeight:'800'
   },
   nextSubBtnFont: {
     // color: '#02a7bf',
-    color:'#a20a3a',
+    // color:'#a20a3a',
+    color:'#ffffff',
     fontSize: 20,
     fontFamily: 'OpenSans-Bold'
   },
