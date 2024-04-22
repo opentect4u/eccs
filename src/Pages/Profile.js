@@ -136,7 +136,7 @@ const Profile = () => {
       <HeaderComponent />
       <View>
         <ImageBackground
-          source={require('../assets/bg3.jpg')}
+          source={require('../assets/bg5.jpg')}
           style={{ resizeMode: 'cover', height: welcomContHeight }}
 
         >
@@ -270,7 +270,8 @@ const styles = StyleSheet.create({
   containerText: {
     fontSize: 20,
     fontWeight: '900',
-    color: '#fdbd30',
+    // color: '#fdbd30',
+    color:'white',
     top: 50,
     alignSelf: 'center'
   },
@@ -312,7 +313,8 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-ExtraBold',
     fontWeight: 'bold',
     // color: 'black',
-    color: '#a20a3a',
+    // color: '#a20a3a',
+    color:'#3f50b5',
     fontSize: 16
   },
   titleReset: {
@@ -387,7 +389,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     // color: '#209fb2',
-    color: '#a20a3a',
+    // color: '#a20a3a',
+    color:'#3f50b5'
   },
   input: {
     height: 50,
@@ -417,7 +420,8 @@ const styles = StyleSheet.create({
   },
   submitBtn: {
     // backgroundColor: '#04bbd6',
-    backgroundColor: '#a20a3a',
+    // backgroundColor: '#a20a3a',
+    backgroundColor:'#3f50b5',
     width: 100,
     padding: 10,
     borderRadius: 10,

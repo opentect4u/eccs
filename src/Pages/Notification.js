@@ -140,7 +140,7 @@ const handlePress = async (item) => {
                 <TouchableOpacity key={item.id} onPress={() => handlePress(item)}>
                 <View style={styles.notificationItem}>
                   <View style={styles.notificationIconContainer}>
-                    <Image source={require('../assets/bell3.png')} style={styles.notificationIcon} />
+                    <Image source={require('../assets/bell4.png')} style={styles.notificationIcon} />
                   </View>
                   <View style={styles.notificationTextContainer}>
                     <Text style={styles.notificationText}>{item.narration}</Text>
@@ -264,7 +264,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     // backgroundColor: 'rgba(211, 211, 211,0.3)',
-    backgroundColor:'rgba(162, 10, 58, 0.1)',
+    // backgroundColor:'rgba(162, 10, 58, 0.1)',
+    backgroundColor: '#e9eafc',
     borderRadius: 40,
     marginBottom: 10,
   },

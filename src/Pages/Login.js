@@ -47,7 +47,7 @@ function Login({ navigation }) {
 
   }
   const incrementStep = async () => {
-    if (step == 1 && phnNo.length >= 10) {
+    if (step == 1 && phnNo.length >= 4) {
       setStep(stepCount => stepCount + 1)   
     }
 
@@ -65,10 +65,10 @@ function Login({ navigation }) {
       // console.log(JSON.parse(asyncData)?.bank_id)
       const apiParams = {
         // bank_id: 10001,
-        user_id: phnNo,
+        member_id: phnNo,
         password: varOtp
       };
-      console.log(apiParams)
+      console.log(apiParams, 'login') 
       // setStep(stepCount => stepCount + 1)
       // navigation.navigate('Home');
       try {
@@ -155,7 +155,7 @@ function Login({ navigation }) {
         }}
         // textColor='#a20a3a'
         textColor='#3f50b5'
-        placeholder={"Enter your phone no."}
+        placeholder={"Enter your member Id"}
         // placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
         placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
         color={isDarkMode ? 'black' : 'black'}
@@ -180,7 +180,7 @@ function Login({ navigation }) {
   };
   
   const nextButton = () => {
-    const isDisabled = step === 1 && phnNo.length != 10 ;
+    const isDisabled = step === 1 && phnNo.length != 4 ;
     return (
       
       <TouchableOpacity style={[Styles.nextBtn,isDisabled && Styles.disabledBtn]} onPress={() => incrementStep().then} disabled={isDisabled}>

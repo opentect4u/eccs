@@ -105,7 +105,7 @@ const Feedback = () => {
             <HeaderComponent />
             <View>
                 <ImageBackground
-                    source={require('../assets/bg3.jpg')} // Replace with the actual path to your image
+                    source={require('../assets/bg5.jpg')} // Replace with the actual path to your image
                     style={{ resizeMode: 'cover' }}
                 >
                     <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
@@ -141,9 +141,10 @@ const Feedback = () => {
                                         value={remarks}
                                         // onChangeText={text => setremarks(text)}
                                         onChangeText={handleTextChange}
-                                        outlineColor='#a20a3a'
-                                        activeOutlineColor='#a20a3a'
-                                        placeholderTextColor={'#a20a3a'}
+                                        // outlineColor='#a20a3a'
+                                        outlineColor='#3f50b5'
+                                        activeOutlineColor='#3f50b5'
+                                        placeholderTextColor={'#3f50b5'}
                                         
                                     />
                                     <Text style={Styles.charCountText}>(
@@ -185,14 +186,15 @@ const Styles = StyleSheet.create({
     containerText: {
         fontSize: 20,
         fontWeight: '900',
-        // color: 'white',
-        color:'#fdbd30',
+        color: 'white',
+        // color:'#fdbd30',
         top: 50,
         alignSelf: 'center'
     },
     mainContHeader: {
         // color: '#209fb2',
-        color:'#a20a3a',
+        // color:'#a20a3a',
+        color:'#3f50b5',
         fontSize: 18,
         fontWeight: '900',
         padding: 15,
@@ -217,7 +219,8 @@ const Styles = StyleSheet.create({
     },
     submitBtn: {
         // backgroundColor: '#04bbd6',
-        backgroundColor:'#a20a3a',
+        // backgroundColor:'#a20a3a',
+        backgroundColor:'#3f50b5',
         width: 100,
         padding: 10,
         borderRadius: 10,
@@ -233,12 +236,14 @@ const Styles = StyleSheet.create({
       },
       disabledBtn: {
         // backgroundColor: 'lightblue', 
-        backgroundColor:'#c28090'
+        // backgroundColor:'#c28090'
+        backgroundColor:'#7985cb' 
       },
       charCountText: {
         alignSelf: 'flex-end',
         marginTop: 5,
-        color: '#a20a3a',
+        // color: '#a20a3a',
+        color:'#3f50b5',
         fontWeight:'900'
       },
 

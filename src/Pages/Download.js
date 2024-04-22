@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator, Linking } from 'react-native';
+import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator, Linking,ScrollView } from 'react-native';
 import axios from 'axios';
 import { Calendar } from 'react-native-calendars';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
@@ -7,6 +7,8 @@ import HeaderComponent from '../Components/HeaderComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from '../config/config';
 import Toast from 'react-native-toast-message';
+import PDFView from 'react-native-pdf';
+import RNFetchBlob from 'rn-fetch-blob';
 
 
 function Download() {
@@ -17,10 +19,40 @@ function Download() {
     const [userName, setUserName] = useState(null);
     const [responseData, setResponseData] = useState([]);
 
-    useEffect(() => {
-        GetStorage()
-        downloadRes()
-    }, [])
+    const [pdfUri, setPdfUri] = useState(null);
+
+    const loadPDF = async () => {
+        try {
+          const pdfUrl = 'http://202.21.38.178:3002/forms/10001/loan_form.pdf';
+    
+          const response = await RNFetchBlob.config({
+            fileCache: true,
+            appendExt: 'pdf',
+          }).fetch('GET', pdfUrl);
+    
+          const pdfPath = `file://${response.path()}`;
+          setPdfUri(pdfPath);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error loading PDF:', error);
+          setLoading(false);
+        }
+      };
+    
+      // Load PDF when component mounts
+      useEffect(() => {
+        loadPDF();
+      }, []);
+    
+      // Load PDF when component mounts
+      useEffect(() => {
+        loadPDF();
+      }, []);
+
+    // useEffect(() => {
+    //     GetStorage()
+    //     downloadRes()
+    // }, [])
 
     const GetStorage = async () => {
         try {
@@ -79,13 +111,13 @@ function Download() {
     return (
         <>
             <HeaderComponent />
-            <View>
+            {/* <View>
                 <ImageBackground
                     source={require('../assets/bg5.jpg')} 
                     style={{ resizeMode: 'cover' }}
                 >
                     <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
-                        {/* <Text style={styles.containerText}>{`Hello! ${userName}`}</Text> */}
+                        <Text style={styles.containerText}>{`Hello! ${userName}`}</Text>
                         <Text style={styles.containerText}>Download</Text>
                         <View style={styles.mainContainer}>
                             <View style={styles.profileContainer}>
@@ -108,14 +140,24 @@ function Download() {
                                     </View>
                                 ))}
                             </View>
-                            {/* </View> */}
+                            
 
                         </View>
                     </View>
                 </ImageBackground>
 
 
-            </View>
+            </View> */}
+
+<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      {pdfUri && (
+        <PDFView
+          fadeInDuration={250.0}
+          style={{ flex: 1, width: '100%', height: 500 }}
+          source={{ uri: pdfUri }} // Provide the source prop correctly
+        />
+      )}
+    </ScrollView>
         </>
 
     )

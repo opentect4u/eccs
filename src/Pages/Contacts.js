@@ -71,7 +71,7 @@ function Contacts() {
       <View>
 
         <ImageBackground
-          source={require('../assets/bg3.jpg')}
+          source={require('../assets/bg5.jpg')}
           style={{ resizeMode: 'cover', height: welcomContHeight }}
 
         >
@@ -128,7 +128,8 @@ function Contacts() {
         containerText: {
           fontSize: 20,
           fontWeight: '900',
-          color: '#fdbd30',
+          // color: '#fdbd30',
+          color:'#ffffff',
           top: 50,
           alignSelf:'center'
       },
@@ -186,7 +187,8 @@ function Contacts() {
         title: {
           fontWeight: 'bold',
         // color: 'black',
-        color:'#a20a3a',
+        // color:'#a20a3a',
+        color:'#3f50b5',
         fontSize: 16
       },
         titleReset:{
@@ -292,7 +294,7 @@ function Contacts() {
         alignItems: 'center',
       },
         submitBtn: {
-          backgroundColor: '#04bbd6',
+        backgroundColor: '#04bbd6',
         width: 100,
         padding: 10,
         borderRadius: 10,
