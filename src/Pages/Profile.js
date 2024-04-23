@@ -7,7 +7,7 @@ import { BASE_URL } from '../config/config';
 import Toast from 'react-native-toast-message';
 import { TextInput } from 'react-native-paper';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
-
+import {ImagePicker,launchImageLibrary} from 'react-native-image-picker';
 
 
 const Profile = () => {
@@ -22,7 +22,7 @@ const Profile = () => {
   const [showNewPass, setShowNewPass] = useState(false);
   const [isOldPasswordValid, setIsOldPasswordValid] = useState(true);
   const [isNewPasswordValid, setIsNewPasswordValid] = useState(true);
-
+  const [selectedImage, setSelectedImage] = useState(null);
   useEffect(() => {
 
     GetStorage()
@@ -45,17 +45,19 @@ const Profile = () => {
   const profileDtls = async () => {
     setLoading(true)
     const asyncData = await AsyncStorage.getItem(`login_data`);
+    console.log(asyncData,'asyncData')
     const bankId = JSON.parse(asyncData)?.bank_id
     const empCode = JSON.parse(asyncData)?.emp_code
+    const member_id = JSON.parse(asyncData)?.member_id
     console.log(empCode, 'empcode')
     try {
-      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?bank_id=${bankId}&emp_code=${empCode}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?member_id=${member_id}&emp_code=${empCode}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
-      console.log(response.data.msg[0], 'profileDtls')
+      console.log(response.data.msg, 'profileDtls')
       if (response.data.suc === 1) {
         setLoading(false)
         setResponseData(response.data.msg[0]);
@@ -72,6 +74,25 @@ const Profile = () => {
     catch (error) {
       setLoading(false)
       console.log(error);
+    }
+  };
+
+  const handleImagePicker = async () => {
+    try {
+      const options = {
+        mediaType: 'photo', // Specify 'photo' or 'video' for media type
+        quality: 0.5, // 0 to 1, where 1 = highest quality
+      };
+
+      const response = await ImagePicker.launchImageLibrary(options);
+
+      if (!response.didCancel && !response.error) {
+        setSelectedImage({ uri: response.uri });
+      } else {
+        console.log('Image picker cancelled or encountered an error.');
+      }
+    } catch (error) {
+      console.log('Error during image selection:', error);
     }
   };
   const openModal = () => {
@@ -126,11 +147,16 @@ const Profile = () => {
     }
     closeModal();
   }
+
+  
+  
   const toggleOldPass = () => setIsOldPasswordValid(!isOldPasswordValid);
   const toggleNewPass = () => setIsNewPasswordValid(!isNewPasswordValid);
   const submitButtonStyle = !isOldPasswordValid || !isNewPasswordValid
     ? [styles.submitBtn, styles.submitBtnDisabled]
     : styles.submitBtn;
+
+    
   return (
     <View>
       <HeaderComponent />
@@ -141,29 +167,85 @@ const Profile = () => {
 
         >
           <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
+            <View style={{ height:70,width:70,backgroundColor:'#ffffff',alignSelf:'center',borderRadius:35,top:8,alignItems:'center',justifyContent:'center'}}>
+            <Image source={require('../assets/man.png')} style={{ resizeMode:'contain' ,alignSelf:'center',height:40,width:40}} />
 
+            {/* <TouchableOpacity
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            backgroundColor: '#007AFF',
+            borderRadius: 15,
+           
+          }}
+          onPress={handleImagePicker}
+          >
+          <Image source={require('../assets/edit.png')} style={{ height: 22, width: 22, tintColor: '#ffffff' }} />
+        </TouchableOpacity> */}
+
+            </View>
             <Text style={styles.containerText}>{`Hello! ${responseData.user_name}`}</Text>
+            <Text style={styles.containerText}>{responseData.user_id}</Text>
+            {/* <Text style={styles.containerText}>Designation: {responseData.designation}</Text> */}
             <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
                 {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
 
 
-                <View style={styles.profileView}>
+                {/* <View style={styles.profileView}>
                   <Text style={styles.title}> User name</Text>
                   <Text style={styles.content}> {responseData.user_name}</Text>
-                </View>
-                <View style={styles.profileView}>
+                </View> */}
+                {/* <View style={styles.profileView}>
                   <Text style={styles.title}>Mobile No.</Text>
                   <Text style={styles.content}>{responseData.user_id}</Text>
+                </View> */}
+               
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Date of Appointment </Text>
+                  <Text style={styles.content}>{responseData.doa}</Text>
                 </View>
                 <View style={styles.profileView}>
-                  <Text style={styles.title}>Member id </Text>
-                  <Text style={styles.content}>{responseData.member_id}</Text>
+                  <Text style={styles.title}>Date of Birth </Text>
+                  <Text style={styles.content}>{responseData.dob}</Text>
                 </View>
                 <View style={styles.profileView}>
-                  <Text style={styles.title}>Employee Code </Text>
+                  <Text style={styles.title}>Father/Husband's Name </Text>
+                  <Text style={styles.content}>{responseData.gurdian_name}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>SOL ID. </Text>
+                  <Text style={styles.content}>{responseData.sol_id}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Account No. </Text>
+                  <Text style={styles.content}>{responseData.account_no}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>P.F No. </Text>
+                  <Text style={styles.content}>{responseData.pf_no}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Permanent Address </Text>
+                  <Text style={styles.content}>{responseData.permanent_add}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>P.O </Text>
+                  <Text style={styles.content}>{responseData.po}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Dist. </Text>
                   <Text style={styles.content}>{responseData.emp_code}</Text>
                 </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Pin </Text>
+                  <Text style={styles.content}>{responseData.pin}</Text>
+                </View>
+                {/* <View style={styles.profileView}>
+                  <Text style={styles.title}>Employee Code </Text>
+                  <Text style={styles.content}>{responseData.emp_code}</Text>
+                </View> */}
                 <View style={styles.profileViewPass}>
 
                   <Text style={styles.titleReset}>Need to Reset Your PIN? <TouchableOpacity>
@@ -248,7 +330,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'#fdbd30',
     alignSelf: 'center',
     position: 'absolute',
-    top: 120,
+    top: 140,
     padding: 20,
   },
   nameContainer: {
@@ -268,11 +350,11 @@ const styles = StyleSheet.create({
 
   },
   containerText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '900',
     // color: '#fdbd30',
     color:'white',
-    top: 50,
+    top: 15,
     alignSelf: 'center'
   },
   introText: {
@@ -284,15 +366,15 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomColor: '#a20a3a',
     borderBottomWidth: 0.5,
-    paddingBottom: 7,
-    paddingTop: 15,
+    paddingBottom: 5,
+    paddingTop: 5,
   },
   profileViewPass: {
     width: '100%',
     borderBottomColor: 'gray',
     borderBottomWidth: 0.5,
-    paddingBottom: 15,
-    paddingTop: 15,
+    paddingBottom: 5,
+    paddingTop: 5,
     // alignItems:'center'
   },
   listView: {
@@ -315,12 +397,12 @@ const styles = StyleSheet.create({
     // color: 'black',
     // color: '#a20a3a',
     color:'#3f50b5',
-    fontSize: 16
+    fontSize: 13
   },
   titleReset: {
     fontFamily: 'OpenSans-ExtraBold',
-    color: 'gray',
-    fontSize: 16,
+    color: 'black',
+    fontSize: 12,
     fontWeight: '600'
   },
 
@@ -330,12 +412,12 @@ const styles = StyleSheet.create({
     color: '#ff8c00',
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid',
-    fontSize: 14
+    fontSize: 13
   },
   content: {
     fontFamily: 'OpenSans-ExtraBold',
-    color: 'gray',
-    fontSize: 20
+    color: 'black',
+    fontSize: 13
   },
   logoContainer: {
     borderBottomRightRadius: 30,
