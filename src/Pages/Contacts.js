@@ -37,13 +37,13 @@ function Contacts() {
     const bankId = JSON.parse(asyncData)?.bank_id
 
     try {
-      const response = await axios.get(`${BASE_URL}/api/get_contact_dtls?bank_id=${bankId}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/get_contact_dtls`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
-      // console.log(response.data.msg[0], 'get_contact_dtls')
+      console.log(response.data.msg, 'get_contact_dtls')
       if (response.data.suc === 1) {
         setLoading(false)
 
@@ -90,22 +90,31 @@ function Contacts() {
                     <View style={styles.container}>
                     <View style={styles.profileView}>
                       <Text style={styles.title}>President</Text>
-                      <Text style={styles.content}>Name:</Text>
-                      <Text style={styles.content}>(M):</Text>
+                      {responseData.find(person =>person.designation) == 'President'?
+                      <>
+                      <Text style={styles.content}>{responseData.contact_person}</Text>
+                      <Text style={styles.content}>(M):{responseData.contact_phone}</Text>
+                      </> : <></>}
 
                     </View>
                     <View style={styles.profileView}>
                     <Text style={styles.title}>Vice President</Text>
-                    <Text style={styles.content}>Name:</Text>
-                      <Text style={styles.content}>(M):</Text>
+                    {responseData.designation == 'Vice President'?
+                      <>
+                      <Text style={styles.content}>{responseData.contact_person}</Text>
+                      <Text style={styles.content}>(M):{responseData.contact_phone}</Text>
+                      </> : <></>}
                     </View>
                     </View>
 
                     <View style={styles.container}>
                     <View style={styles.profileView}>
                       <Text style={styles.title}>Secretary</Text>
-                      <Text style={styles.content}>Name:</Text>
-                      <Text style={styles.content}>(M):</Text>
+                      {responseData.designation == 'Vice President'?
+                      <>
+                      <Text style={styles.content}>{responseData.contact_person}</Text>
+                      <Text style={styles.content}>(M):{responseData.contact_phone}</Text>
+                      </> : <></>}
 
                     </View>
                     <View style={styles.profileView}>
@@ -279,7 +288,7 @@ function Contacts() {
         content: {
           // color: 'gray',
         color:'black',
-        fontSize: 15
+        fontSize: 13
       },
         logoContainer: {
           borderBottomRightRadius: 30,
