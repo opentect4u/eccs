@@ -1,5 +1,5 @@
 const { db_Insert } = require("../../modules/MasterModule");
-const { bank_details, user_details, save_user_data, login_data, profile_data, pass_data, verify_phone } = require("../../modules/UserModule");
+const { bank_details, user_details, save_user_data, login_data, profile_data, pass_data, verify_phone, member_details } = require("../../modules/UserModule");
 
 const userRouter = require("express").Router();
 const bcrypt = require('bcrypt');
@@ -51,9 +51,9 @@ res.send({ suc: 1, msg: 'Otp Sent', otp: 1234 })
 
 userRouter.post('/save_user', async (req, res) =>{
   var data = req.body;
-  // console.log(data);
+  console.log(data);
   var user_save_dt = await save_user_data(data);
-  // console.log(user_save_dt);
+  console.log(user_save_dt);
   if(user_save_dt.suc > 0){
     if(user_save_dt.msg.length > 0){
        res.send({suc: 1, msg: "Saved Successfully"})
@@ -65,18 +65,34 @@ userRouter.post('/save_user', async (req, res) =>{
   }
 });
 
+userRouter.get("/member_dt", async (req, res) => {
+  var data = req.query;
+  console.log(data);
+  var member_dtls = await member_details(data.member_id);
+  console.log(member_dtls);
+  if(member_dtls.suc > 0){
+    if(member_dtls.msg.length > 0){
+       res.send(member_dtls)
+    }else{
+       res.send({suc: 0, msg: "Data not found"})
+    }
+  }else{
+     res.send(member_dtls)
+  }
+});
+
 userRouter.post("/login", async (req, res) => {
   var data = req.body,
     result;
   const datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-  // console.log(data);
+  console.log(data);
   var log_dt = await login_data(data);
   // console.log(log_dt);
   if (log_dt.suc > 0) {
     if (log_dt.msg.length > 0) {
         if (await bcrypt.compare(data.password, log_dt.msg[0].password)) {
           try{
-            await db_Insert('td_user', `last_login="${datetime}"`, null, `user_id=${log_dt.msg[0].user_id}`, 1)
+            await db_Insert('td_user', `last_login="${datetime}"`, null, `member_id=${log_dt.msg[0].member_id}`, 1)
           }catch(err){
             // console.log(err);
           }
@@ -104,7 +120,7 @@ userRouter.post("/login", async (req, res) => {
 userRouter.get("/get_pofile_dtls", async (req, res) =>{
   var data = req.query;
   console.log(data,'123');
-  var profile_dtls = await profile_data(data.bank_id,data.emp_code)
+  var profile_dtls = await profile_data(data.member_id,data.emp_code)
   console.log(profile_dtls);
   if(profile_dtls.suc > 0){
     if(profile_dtls.msg.length > 0){

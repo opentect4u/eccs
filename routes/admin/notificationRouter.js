@@ -7,10 +7,10 @@ notiRouter.get("/notification", async (req, res) => {
     var bank_id = req.session.user.bank_id
     var fields = "emp_code, user_name",
         table_name = "td_user",
-        where = `bank_id = ${bank_id} AND user_type != 'A' AND active_flag = 'Y'`,
+        where = `user_type != 'A' AND active_flag = 'Y'`,
         order = null;
     var resDt = await db_Select(fields, table_name, where, order);
-    // console.log(res_dt);
+    // console.log(resDt);
     res.render("notification/entry", {
         heading: "Send Notification",
         emp_list: resDt.suc > 0 ? resDt.msg : null,
@@ -25,21 +25,21 @@ notiRouter.post("/notification", async (req, res) => {
     if(data.user_id != 'all' && data.user_id > 0){
         var table_name = "td_notification",
             fields = "(bank_id, narration, send_user_id, created_by, created_dt)",
-            values = `(${bank_id}, '${data.narration}', '${data.user_id}', '${user}', '${datetime}')`,
+            values = `('0', '${data.narration}', '${data.user_id}', '${user}', '${datetime}')`,
             whr = null,
             flag = 0;
         resDt = await db_Insert(table_name, fields, values, whr, flag);
     }else{
         var fields = "emp_code, user_name",
         table_name = "td_user",
-        where = `bank_id = ${bank_id} AND user_type != 'A' AND active_flag = 'Y'`,
+        where = `user_type != 'A' AND active_flag = 'Y'`,
         order = null;
         var user_list = await db_Select(fields, table_name, where, order);
         if(user_list.suc > 0){
             for(let dt of user_list.msg){
                 var table_name = "td_notification",
                     fields = "(bank_id, narration, send_user_id, created_by, created_dt)",
-                    values = `(${bank_id}, '${data.narration}', '${dt.emp_code}', '${user}', '${datetime}')`,
+                    values = `('0', '${data.narration}', '${dt.emp_code}', '${user}', '${datetime}')`,
                     whr = null,
                     flag = 0;
                 resDt = await db_Insert(table_name, fields, values, whr, flag);
@@ -72,7 +72,7 @@ const SendNotification = (bank_id) => {
     return new Promise(async (resolve, reject) => {
     var fields = "emp_code, user_name",
         table_name = "td_user",
-        where = `bank_id = ${bank_id} AND user_type != 'A' AND active_flag = 'Y'`,
+        where = `user_type != 'A' AND active_flag = 'Y'`,
         order = null;
     var resDt = await db_Select(fields, table_name, where, order);
     resolve(resDt)

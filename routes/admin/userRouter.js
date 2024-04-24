@@ -13,7 +13,7 @@ adminUserRouter.post('/login', async (req, res) => {
     var data = req.body,
         result;
     const datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-    // console.log(data);
+    // console.log(data,'pp');
     var log_dt = await admin_login_data(data);
     // console.log(log_dt);
     if (log_dt.suc > 0) {
@@ -22,7 +22,7 @@ adminUserRouter.post('/login', async (req, res) => {
                 try {
                     await db_Insert('td_user', `last_login="${datetime}"`, null, `user_id='${log_dt.msg[0].user_id}'`, 1)
                 } catch (err) {
-                    // console.log(err);
+                    console.log(err);
                 }
                 req.session.message = {
                     type: "success",
@@ -62,7 +62,7 @@ adminUserRouter.get('/logout', async (req, res) => {
 
   adminUserRouter.get('/user_list', async (req, res) => {
     var bank_id = req.session.user.bank_id;
-    var resDt = await AllUserList(bank_id);
+    var resDt = await AllUserList();
     res.render("user/user_list", {
         req_dt: resDt,
         heading: "Registered User List",
@@ -91,11 +91,11 @@ adminUserRouter.get('/user_delete', async (req, res) => {
     }
 })
 
-const AllUserList = (bank_id) => {
+const AllUserList = () => {
     return new Promise(async (resolve, reject) => {
         var fields = "id, emp_code, user_name, user_id, last_login",
             table_name = "td_user",
-            where = `bank_id = ${bank_id} AND user_type != 'A' AND active_flag = 'Y'`,
+            where = `user_type != 'A' AND active_flag = 'Y'`,
             order = null;
         var resDt = await db_Select(fields, table_name, where, order);
         resolve(resDt)

@@ -5,8 +5,10 @@ const calendarRouter = require('express').Router();
 
 calendarRouter.get("/calendar", async (req, res) => {
     var id = req.query.sl_no > 0 ? req.query.sl_no : null;
-    var bank_id = req.session.user.bank_id
-    var resDt = await calData(id, bank_id);
+    // var bank_id = req.session.user.bank_id
+    var member_id = req.session.user.member_id
+    // console.log(req.session.user,'oo');
+    var resDt = await calData(id);
     // console.log(resDt,'123');
     // if (resDt.suc > 0) {
     res.render("admin/calendar_view", {
@@ -23,7 +25,7 @@ calendarRouter.get("/calendar_edit", async (req, res) => {
     var bank_id = req.session.user.bank_id
     var calDt = null;
     if (id > 0) {
-        var res_dt = await calData(id, bank_id);
+        var res_dt = await calData(id);
         calDt = res_dt.suc > 0 ? res_dt.msg : null;
         console.log(calDt,'123');
     }
@@ -49,7 +51,7 @@ calendarRouter.post("/calendar_edit", async (req, res) => {
     
     var table_name = "td_calendar",
         fields = id > 0 ? `cal_dt = '${data.cal_dt}', cal_event = "${data.cal_event}", modified_by = '${user}', modified_dt = '${datetime}'`:"(bank_id, cal_dt, cal_event, created_by, created_dt)",
-        values = `(${bank_id}, '${data.cal_dt}', "${data.cal_event}", '${user}', '${datetime}')`,
+        values = `('0', '${data.cal_dt}', "${data.cal_event}", '${user}', '${datetime}')`,
         whr = id > 0 ? `sl_no = ${id}` : null,
         flag = id > 0 ? 1 : 0;
 

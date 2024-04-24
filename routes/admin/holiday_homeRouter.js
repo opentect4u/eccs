@@ -6,7 +6,7 @@ const holiday_homeRouter = require('express').Router();
 holiday_homeRouter.get('/holiday_home', async (req, res) => {
     var id = req.query.sl_no > 0 ? req.query.sl_no : null;
     var bank_id = req.session.user.bank_id
-    var resDt = await getholidayhome(id,bank_id);
+    var resDt = await getholidayhome(id);
     // console.log(resDt);
     res.render("holiday_home/view", {
       req_dt: resDt,
@@ -21,7 +21,7 @@ holiday_homeRouter.get('/holiday_home', async (req, res) => {
     var bank_id = req.session.user.bank_id
     var holidayDt = null;
     if (id > 0) {
-        var res_dt = await getholidayhome(id, bank_id);
+        var res_dt = await getholidayhome(id);
         holidayDt = res_dt.suc > 0 ? res_dt.msg : null;
         // console.log(holidayDt,'123');
     }
@@ -49,7 +49,7 @@ holiday_homeRouter.post("/holiday_home_edit", async (req, res) => {
   var table_name = "td_holiday_home",
       fields = id > 0 ? `hh_place = '${data.place}', hh_address = '${data.address}', 
       hh_phone = '${data.phone}', hh_email = '${data.email}', hh_contact_person = '${data.contact_person}', hh_charge = '${data.charge}', modified_by = '${user}', modified_dt = '${datetime}'`:"(bank_id, hh_place, hh_address, hh_phone, hh_email, hh_contact_person, hh_charge, created_by, created_dt)",
-      values = `('${bank_id}', '${data.place}', '${data.address}', '${data.phone}', '${data.email}', '${data.contact_person}', '${data.charge}', '${user}', '${datetime}')`,
+      values = `('0', '${data.place}', '${data.address}', '${data.phone}', '${data.email}', '${data.contact_person}', '${data.charge}', '${user}', '${datetime}')`,
       whr = id > 0 ? `sl_no = ${id}` : null,
       flag = id > 0 ? 1 : 0;
 

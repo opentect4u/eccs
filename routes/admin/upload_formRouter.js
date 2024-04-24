@@ -11,7 +11,7 @@ upload_formRouter.get('/form', async (req, res) =>{
     var bank_id = req.session.user.bank_id
     var fields = "sl_no, bank_id, title, file_path, created_by, created_dt",
         table_name = "td_forms",
-        where = `bank_id = ${bank_id}`,
+        where = null,
         order = null;
     var resDt = await db_Select(fields, table_name, where, order);
     // console.log(resDt,'lala');
@@ -62,7 +62,7 @@ upload_formRouter.post('/upload_form', async(req, res) => {
                 // } else {
                   var table_name = "td_forms",
                     fields = `(bank_id, title, file_path, created_by, created_dt)`,
-                    values = `('${bank_id}', '${title}', '${fileName}','${user_id}','${datetime}')`;
+                    values = `('0', '${title}', '${fileName}','${user_id}','${datetime}')`;
                   whr = null, 
                   flag = 0;
                   res_dt = await db_Insert(table_name, fields, values, whr, flag);
@@ -99,7 +99,7 @@ upload_formRouter.post('/upload_form', async(req, res) => {
               // } else {
                 var table_name = "td_forms",
                   fields = `(bank_id, title, file_path, created_by, created_dt)`,
-                  values = `('${bank_id}', '${title}', '${fileName}','${user_id}','${datetime}')`;
+                  values = `('0', '${title}', '${fileName}','${user_id}','${datetime}')`;
                 whr = null, 
                 flag = 0;
                 res_dt = await db_Insert(table_name, fields, values, whr, flag);
@@ -126,7 +126,7 @@ upload_formRouter.post('/upload_form', async(req, res) => {
     try{
       var noti_msg = await noti_save({bank_id: bank_id, msg: `New Form has been uploaded`, user: user_name})
       if(noti_msg.suc > 0){
-          var not_dtls = await notification_dtls(bank_id)
+          var not_dtls = await notification_dtls()
           req.io.emit('send notification', not_dtls)
       }
     }catch(err){
