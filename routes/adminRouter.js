@@ -2,6 +2,7 @@ const express = require('express'),
     adminRouter = express.Router();
 
 const { calendarRouter } = require('./admin/calendarRouter');
+const { contactRouter } = require('./admin/contactRouter');
 const { dashboardRouter } = require('./admin/dashboardRouter');
 const { feedbackRouter } = require('./admin/feedbackRouter');
 const { holiday_homeRouter } = require('./admin/holiday_homeRouter');
@@ -29,5 +30,6 @@ adminRouter.use(holiday_homeRouter);
 adminRouter.use(upload_formRouter);
 adminRouter.use(upload_demandRouter);
 adminRouter.use(upload_networthRouter);
+adminRouter.use(contactRouter);
 
 module.exports = {adminRouter}

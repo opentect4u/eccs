@@ -5,8 +5,8 @@ const calendarRouter = require('express').Router();
 calendarRouter.get("/get_cal_dtls", async (req, res) =>{
     var data = req.query;
     // console.log(data);
-    var cal_dtls = await calendar_dtls(data.bank_id);
-    // console.log(cal_dtls);
+    var cal_dtls = await calendar_dtls();
+   //  console.log(cal_dtls);
     if(cal_dtls.suc > 0){
         if(cal_dtls.msg.length > 0){
            res.send(cal_dtls)

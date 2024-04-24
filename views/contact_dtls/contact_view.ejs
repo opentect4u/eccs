@@ -1,0 +1,109 @@
+<%- include('../template/header'); %>
+<div class="content-wrapper">
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1><%= heading %></h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <% if(message){ %>
+      <div
+        class="alert alert-<%= message.type; %> alert-dismissible fade show"
+        role="alert"
+      >
+        <strong><%= message.message; %></strong>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% } %>
+      <!-- SELECT2 EXAMPLE -->
+      <div class="card card-default">
+        <div class="card-header">
+          <h3 class="card-title"><%= sub_heading %></h3>
+          <div class="card-tools">
+            <a href="/admin/contact_edit?id=0" class="btn btn-primary"
+              >Add New</a
+            >
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <form action="/tnx_srch" method="post">
+            <div class="row" id="divToPrint">
+              <div class="col-md-12">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <!-- <th></th> -->
+                      <th class="text-center">#</th>
+                      <th class="text-center">Designation</th>
+                      <th class="text-center">Contact Person</th>
+                      <th class="text-center">Contact Phone</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if(con_dt.suc > 0){ var i = 1; con_dt.msg.forEach((dt) =>
+                        { %>
+                        <tr>
+                          <td class="text-center"><%= i %></td>
+                          <td class="text-center"><%= dt.designation %></td>
+                          <td class="text-center"><%= dt.contact_person %></td>
+                          <td class="text-center"><%= dt.contact_phone %></td>
+                          <td class="text-center">
+                            <a class="text-primary"
+                              href="calendar_edit?id=<%= dt.id %>"
+                              title="Edit"
+                            >
+                            <i class='fas fa-edit'></i>/
+                            <a class="text-danger"
+                            href="cal_data_delete?id=<%= dt.id %>"
+                            title="Delete"
+                          >
+                            <i class='fas fa-trash-alt'></i>
+                            </a>
+                          </td>
+                        </tr>
+                        <% i++; }) }else{ %>
+                        <tr>
+                          <td colspan="5" class="text-center">No data found</td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<%- include('../template/footer'); %>
+
+<script>
+  $(function () {
+    $("#example2").DataTable({
+      paging: true,
+      lengthChange: false,
+      searching: false,
+      ordering: true,
+      info: true,
+      autoWidth: false,
+      responsive: true,
+    });
+  });
+</script>
