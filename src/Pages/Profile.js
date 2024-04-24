@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, Text, ImageBackground, Modal, Button, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet, Text, ImageBackground, Modal, Alert, ActivityIndicator } from 'react-native';
 import HeaderComponent from '../Components/HeaderComponent';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,13 +8,15 @@ import Toast from 'react-native-toast-message';
 import { TextInput } from 'react-native-paper';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import {ImagePicker,launchImageLibrary} from 'react-native-image-picker';
+import moment from 'moment';
 
-
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const welcomContHeight = 0.35 * SCREEN_HEIGHT;
   const isDisabled = !oldPassword || !newPassword
   const [isLoading, setLoading] = useState(false)
   const [responseData, setResponseData] = useState([]);
+  const [formattedDoa,setformattedDoa] = useState([]);
+  const [formattedDob,setformattedDob] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -24,7 +26,36 @@ const Profile = () => {
   const [isNewPasswordValid, setIsNewPasswordValid] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   useEffect(() => {
-
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      console.log('Profile screen focused');
+      Alert.alert(
+        'Please Note!',
+        'If you find any incorrect information, please submit it to the feedback section so we can correct it.',
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false }
+      );
+    });
+  
+    return () => {
+      unsubscribeFocus(); 
+    };
+  }, [navigation]);
+  
+  // useEffect(() => {
+    
+  //   Alert.alert(
+  //   'Please Note!',
+  //   'If you find any incorrect information, please submit it to the feedback section so we can correct it.',
+  //     [
+  //       {
+  //         text: 'OK',
+  //         onPress: () => console.log('OK Pressed')
+  //       }
+  //     ],
+  //     { cancelable: false }
+  //   );
+  // }, []); 
+  useEffect(() => {
     GetStorage()
     profileDtls()
   }, [])
@@ -61,6 +92,9 @@ const Profile = () => {
       if (response.data.suc === 1) {
         setLoading(false)
         setResponseData(response.data.msg[0]);
+        setformattedDoa(moment(responseData.doa).format('DD MMMM YYYY'));
+        setformattedDob(moment(responseData.dob).format('DD MMMM YYYY'));
+        // console.log(formattedDob,'formattedDob')
       }
       else {
         setLoading(false)
@@ -78,22 +112,9 @@ const Profile = () => {
   };
 
   const handleImagePicker = async () => {
-    try {
-      const options = {
-        mediaType: 'photo', // Specify 'photo' or 'video' for media type
-        quality: 0.5, // 0 to 1, where 1 = highest quality
-      };
+    const result = await launchImageLibrary();
 
-      const response = await ImagePicker.launchImageLibrary(options);
-
-      if (!response.didCancel && !response.error) {
-        setSelectedImage({ uri: response.uri });
-      } else {
-        console.log('Image picker cancelled or encountered an error.');
-      }
-    } catch (error) {
-      console.log('Error during image selection:', error);
-    }
+   
   };
   const openModal = () => {
     setModalVisible(true);
@@ -168,9 +189,11 @@ const Profile = () => {
         >
           <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
             <View style={{ height:70,width:70,backgroundColor:'#ffffff',alignSelf:'center',borderRadius:35,top:8,alignItems:'center',justifyContent:'center'}}>
-            <Image source={require('../assets/man.png')} style={{ resizeMode:'contain' ,alignSelf:'center',height:40,width:40}} />
+              {responseData.gender =='M'?
+            <Image source={require('../assets/man.png')} style={{ resizeMode:'contain' ,alignSelf:'center',height:40,width:40}} />: <Image source={require('../assets/woman.png')} style={{ resizeMode:'contain' ,alignSelf:'center',height:40,width:40}} />
+            }
 
-            {/* <TouchableOpacity
+            <TouchableOpacity
           style={{
             position: 'absolute',
             bottom: 0,
@@ -182,11 +205,12 @@ const Profile = () => {
           onPress={handleImagePicker}
           >
           <Image source={require('../assets/edit.png')} style={{ height: 22, width: 22, tintColor: '#ffffff' }} />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
             </View>
             <Text style={styles.containerText}>{`Hello! ${responseData.user_name}`}</Text>
-            <Text style={styles.containerText}>{responseData.user_id}</Text>
+            <Text style={styles.containerText}>+91{responseData.user_id}</Text>
+            <Text style={styles.containerText}>Email ID: {responseData.email_id}</Text>
             {/* <Text style={styles.containerText}>Designation: {responseData.designation}</Text> */}
             <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
@@ -201,31 +225,59 @@ const Profile = () => {
                   <Text style={styles.title}>Mobile No.</Text>
                   <Text style={styles.content}>{responseData.user_id}</Text>
                 </View> */}
-               
+                {/* <View style={{alignSelf:'center'}}> */}
+                <View style={styles.container}>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Gender </Text>
+                  {responseData.gender =='M'?
+                  <Text style={styles.content}>Male</Text>: <Text style={styles.content}>Female</Text>}
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Designation </Text>
+                  <Text style={styles.content}>{responseData.designation}</Text>
+                </View>
+                </View>
+               <View style={styles.container}>
                 <View style={styles.profileView}>
                   <Text style={styles.title}>Date of Appointment </Text>
-                  <Text style={styles.content}>{responseData.doa}</Text>
+                  <Text style={styles.content}>{formattedDoa}</Text>
                 </View>
                 <View style={styles.profileView}>
                   <Text style={styles.title}>Date of Birth </Text>
-                  <Text style={styles.content}>{responseData.dob}</Text>
+                  <Text style={styles.content}>{formattedDob}</Text>
                 </View>
-                <View style={styles.profileView}>
-                  <Text style={styles.title}>Father/Husband's Name </Text>
-                  <Text style={styles.content}>{responseData.gurdian_name}</Text>
                 </View>
-                <View style={styles.profileView}>
-                  <Text style={styles.title}>SOL ID. </Text>
-                  <Text style={styles.content}>{responseData.sol_id}</Text>
-                </View>
+                <View style={styles.container}>
                 <View style={styles.profileView}>
                   <Text style={styles.title}>Account No. </Text>
                   <Text style={styles.content}>{responseData.account_no}</Text>
                 </View>
                 <View style={styles.profileView}>
+                  <Text style={styles.title}>SOL ID. </Text>
+                  <Text style={styles.content}>{responseData.sol_id}</Text>
+                </View>
+                </View>
+                <View style={styles.container}>
+               <View style={styles.profileView}>
+                  <Text style={styles.title}>Father/Husband's Name </Text>
+                  <Text style={styles.content}>{responseData.gurdian_name}</Text>
+                </View>
+                <View style={styles.profileView}>
                   <Text style={styles.title}>P.F No. </Text>
                   <Text style={styles.content}>{responseData.pf_no}</Text>
                 </View>
+                </View>
+                <View style={styles.container}>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Branch </Text>
+                  <Text style={styles.content}>{responseData.branch_name}</Text>
+                </View>
+                <View style={styles.profileView}>
+                  <Text style={styles.title}>Nominee Name </Text>
+                  <Text style={styles.content}>{responseData.nominee_name}</Text>
+                </View>
+                </View>
+                <View style={styles.container}>
                 <View style={styles.profileView}>
                   <Text style={styles.title}>Permanent Address </Text>
                   <Text style={styles.content}>{responseData.permanent_add}</Text>
@@ -234,27 +286,24 @@ const Profile = () => {
                   <Text style={styles.title}>P.O </Text>
                   <Text style={styles.content}>{responseData.po}</Text>
                 </View>
+                </View>
+                <View style={styles.container}>
                 <View style={styles.profileView}>
                   <Text style={styles.title}>Dist. </Text>
-                  <Text style={styles.content}>{responseData.emp_code}</Text>
+                  <Text style={styles.content}>{responseData.dist}</Text>
                 </View>
                 <View style={styles.profileView}>
                   <Text style={styles.title}>Pin </Text>
                   <Text style={styles.content}>{responseData.pin}</Text>
                 </View>
-                {/* <View style={styles.profileView}>
-                  <Text style={styles.title}>Employee Code </Text>
-                  <Text style={styles.content}>{responseData.emp_code}</Text>
-                </View> */}
+                </View>
+                
                 <View style={styles.profileViewPass}>
-
                   <Text style={styles.titleReset}>Need to Reset Your PIN? <TouchableOpacity>
                     <Text style={styles.titleClick} onPress={openModal}> Click Here</Text>
                   </TouchableOpacity> </Text>
-
-                  {/* <Text style={styles.content}>{responseData.emp_code}</Text> */}
                 </View>
-
+                {/* </View> */}
 
                 {/* <hr/> */}
               </View>
@@ -322,7 +371,7 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    height: 700,
+    height: 660,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     width: '100%',
@@ -330,7 +379,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'#fdbd30',
     alignSelf: 'center',
     position: 'absolute',
-    top: 140,
+    top: 155,
     padding: 20,
   },
   nameContainer: {
@@ -350,11 +399,11 @@ const styles = StyleSheet.create({
 
   },
   containerText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '900',
     // color: '#fdbd30',
     color:'white',
-    top: 15,
+    top: 10,
     alignSelf: 'center'
   },
   introText: {
@@ -362,19 +411,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10
   },
-  profileView: {
-    width: '100%',
-    borderBottomColor: '#a20a3a',
+  container: {
+    flexDirection:'row',
+    justifyContent:'space-between', 
+    width: '95%',
+    marginLeft:10,
+    gap:50,
+    // borderBottomColor: '#a20a3a',
+    borderBottomColor:'#3f50b5',
     borderBottomWidth: 0.5,
-    paddingBottom: 5,
+  },
+  profileView: {
+    flex:1,
+    width: '100%',
+    // borderBottomColor: '#a20a3a',
+    // borderBottomWidth: 0.5,
+    paddingBottom: 10,
     paddingTop: 5,
   },
   profileViewPass: {
     width: '100%',
-    borderBottomColor: 'gray',
-    borderBottomWidth: 0.5,
+    // borderBottomColor: 'gray',
+    // borderBottomWidth: 0.5,
     paddingBottom: 5,
-    paddingTop: 5,
+    paddingTop: 10,
+    marginLeft:5
     // alignItems:'center'
   },
   listView: {
@@ -397,27 +458,27 @@ const styles = StyleSheet.create({
     // color: 'black',
     // color: '#a20a3a',
     color:'#3f50b5',
-    fontSize: 13
+    fontSize: 14
   },
   titleReset: {
     fontFamily: 'OpenSans-ExtraBold',
-    color: 'black',
-    fontSize: 12,
-    fontWeight: '600'
+    color: 'gray',
+    fontSize: 14,
+    fontWeight: '900'
   },
 
   titleClick: {
     fontFamily: 'OpenSans-ExtraBold',
-    fontWeight: '800',
+    fontWeight: '900',
     color: '#ff8c00',
-    textDecorationLine: 'underline',
+    textDecorationLine:'underline',
     textDecorationStyle: 'solid',
-    fontSize: 13
+    fontSize: 14
   },
   content: {
     fontFamily: 'OpenSans-ExtraBold',
-    color: 'black',
-    fontSize: 13
+    color: 'gray',
+    fontSize: 16
   },
   logoContainer: {
     borderBottomRightRadius: 30,

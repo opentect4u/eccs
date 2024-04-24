@@ -81,24 +81,85 @@ function Contacts() {
 
             <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
-                  {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
+                  {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
                  
-                    <View style={styles.profileView}>
+                    {/* <View style={styles.profileView}>
                       <Text style={styles.title}>Bank Name</Text>
                       <Text style={styles.content}>{responseData.bank_name}</Text>
+                    </View> */}
+                    <View style={styles.container}>
+                    <View style={styles.profileView}>
+                      <Text style={styles.title}>President</Text>
+                      <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+
                     </View>
                     <View style={styles.profileView}>
-                      <Text style={styles.title}>Email id</Text>
-                      <Text style={styles.content}>{responseData.email_id}</Text>
+                    <Text style={styles.title}>Vice President</Text>
+                    <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+                    </View>
+                    </View>
+
+                    <View style={styles.container}>
+                    <View style={styles.profileView}>
+                      <Text style={styles.title}>Secretary</Text>
+                      <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+
                     </View>
                     <View style={styles.profileView}>
-                      <Text style={styles.title}>Telephone no. </Text>
-                      <Text style={styles.content}>{responseData.telephone_no}</Text>
+                    <Text style={styles.title}>Asstt. Secretary</Text>
+                    <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+                    </View>
+                    </View>
+
+                    <View style={styles.container}>
+                    <View style={styles.profileView}>
+                      <Text style={styles.title}>Director</Text>
+                      <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+
                     </View>
                     <View style={styles.profileView}>
+                    <Text style={styles.title}>Director</Text>
+                    <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+                    </View>
+                    </View>
+
+                    <View style={styles.container}>
+                    <View style={styles.profileView}>
+                      <Text style={styles.title}>Director</Text>
+                      <Text style={styles.content}>Sakti Prasad Kulavi</Text>
+                      <Text style={styles.content}>(M):</Text>
+
+                    </View>
+                    <View style={styles.profileView}>
+                    <Text style={styles.title}>Director</Text>
+                    <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+                    </View>
+                    </View>
+                    <View style={styles.container}>
+                    <View style={styles.profileView}>
+                      <Text style={styles.title}>Director</Text>
+                      <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+
+                    </View>
+                    {/* <View style={styles.profileView}>
+                    <Text style={styles.title}>Director</Text>
+                    <Text style={styles.content}>Name:</Text>
+                      <Text style={styles.content}>(M):</Text>
+                    </View> */}
+                    </View>
+                    
+                    {/* <View style={styles.profileView}>
                       <Text style={styles.title}>Bank address </Text>
                       <Text style={styles.content}>{responseData.bank_address}</Text>
-                    </View>
+                    </View> */}
                   
                 
                 </View>
@@ -154,10 +215,21 @@ function Contacts() {
         justifyContent: 'center',
         marginTop: 50
       },
-        profileView: {
-          width: '100%',
-          borderBottomColor:'#a20a3a',
+      container: {
+        flexDirection:'row',
+        justifyContent:'space-between', 
+        width: '95%',
+        marginLeft:10,
+        gap:30,
+        // borderBottomColor: '#a20a3a',
+        borderBottomColor:'#3f50b5',
         borderBottomWidth: 0.5,
+      },
+        profileView: {
+        flex:1,
+        width: '100%',
+        // borderBottomColor:'#a20a3a',
+        // borderBottomWidth: 0.5,
         paddingBottom: 7,
         paddingTop: 15,
       },
@@ -207,7 +279,7 @@ function Contacts() {
         content: {
           // color: 'gray',
         color:'black',
-        fontSize: 18
+        fontSize: 15
       },
         logoContainer: {
           borderBottomRightRadius: 30,

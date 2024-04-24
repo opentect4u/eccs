@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HeaderComponent from '../Components/HeaderComponent';
-import {View, StyleSheet, Image, Alert , Text, TouchableOpacity, ImageBackground, Dimensions,ActivityIndicator,ScrollView } from 'react-native';
+import { View, StyleSheet, Image, Alert, Text, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from '../config/config';
@@ -15,144 +15,147 @@ import Toast from 'react-native-toast-message';
 const Notification = () => {
   const { socketOndata } = useSocket();
   const welcomContHeight = 0.25 * SCREEN_HEIGHT;
- 
+
   useEffect(() => {
     GetStorage()
-    console.log(socketOndata,'socketOndata noti')
-}, [])
+    console.log(socketOndata, 'socketOndata noti')
+  }, [])
 
-const GetStorage = async () => {
-  try {
+  const GetStorage = async () => {
+    try {
       const asyncData = await AsyncStorage.getItem(`login_data`);
-  }
-  catch (err) {
+    }
+    catch (err) {
       console.log(err);
+    }
   }
-}
 
 
-const handlePress = async (item) => {
-  Alert.alert(
-    'Notification',
-    item.narration,
-    [
-      {
-        text: 'OK',
-        onPress: async () => {
-        const asyncDatalg = await AsyncStorage.getItem(`login_data`);
-        const user_name = JSON.parse(asyncDatalg)?.user_name;
-        const bank_id = JSON.parse(asyncDatalg)?.bank_id
-        
-        const apidata = {
-           id:item.id,
-           user:user_name,
-           bank_id:bank_id
-        };
-        console.log(apidata,'apidata alert')
-      
-        try {
-          const response = await axios.post(`${BASE_URL}/api/noti_view_flag`, apidata, {
-            headers: {
-              'Content-Type': 'application/json'
+  const handlePress = async (item) => {
+    Alert.alert(
+      'Notification',
+      item.narration,
+      [
+        {
+          text: 'OK',
+          onPress: async () => {
+            const asyncDatalg = await AsyncStorage.getItem(`login_data`);
+            const user_name = JSON.parse(asyncDatalg)?.user_name;
+            const bank_id = JSON.parse(asyncDatalg)?.bank_id
+
+            const apidata = {
+              id: item.id,
+              user: user_name,
+              bank_id: bank_id
+            };
+            console.log(apidata, 'apidata alert')
+
+            try {
+              const response = await axios.post(`${BASE_URL}/api/noti_view_flag`, apidata, {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+              console.log(response.data, 'noti flag')
+              if (response.data.suc === 1) {
+                Toast.show({
+                  type: 'success',
+                  text1: 'Thank you for your feedback',
+                  visibilityTime: 5000
+                })
+              }
+              else if (response.data.suc === 0) {
+
+                Toast.show({
+                  type: 'error',
+                  text1: 'API error',
+                  visibilityTime: 5000
+                })
+              }
             }
-          });
-          console.log(response.data, 'noti flag')
-          if (response.data.suc === 1) {
-            Toast.show({
-              type: 'success',
-              text1: 'Thank you for your feedback',
-              visibilityTime: 5000
-            })
+            catch (error) {
+              console.log(error);
+            }
           }
-          else if (response.data.suc === 0) {
-            
-            Toast.show({
-              type: 'error',
-              text1: 'API error',
-              visibilityTime: 5000
-            })
-          }
-        }
-        catch (error) {
-          console.log(error);
-        }
-       }
-      },
-    ],
-    { cancelable: false }
-  );
- 
+        },
+      ],
+      { cancelable: false }
+    );
 
-};
+
+  };
   return (
-  //  <View>
-  //   <HeaderComponent/>
-  //   <View>
-  //       <ImageBackground
-  //         source={require('../assets/bg.png')} // Replace with the actual path to your image
-  //         style={{ resizeMode: 'cover' }}
-  //       >
-  //          <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
-  //           <Text style={Styles.containerText}> Notification</Text>
-            
-  //           <View style={Styles.mainContainer}>
-  //           <ScrollView vertical>
-  //             <View style={Styles.profileContainer}>
-  //               <View style={{ alignItems: 'center' }}>
-  //                 <Text style={Styles.mainContHeader}>
-  //                   Get your notifications here
-  //                 </Text>
-  //               </View>
-    
-  //   {socketOndata.map(item => (
-  //       <View key={item.id} style={{height:60,width:'100%',backgroundColor:'rgba(211, 211, 211,0.3)',marginTop:10,borderRadius:40,alignSelf:'center',flex:1,flexDirection:'row'}}>
-  //         <View style={{height:40,width:40,borderRadius:20,backgroundColor:'white',top:10,left:10,alignItems:'center',justifyContent:'center'}}>
-  //          <Image source={require('../assets/bell.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
-  //         </View>
-  //         <View style={{width:290,height:70,left:20}}>
-  //         <Text style={{color:'black',fontSize:18,top:15}}>{item.narration}</Text>
-  //         </View>
-  //       </View>
-  //     ))}
-    
-  //             </View>
-  //             </ScrollView>
-  //           </View>
+    //  <View>
+    //   <HeaderComponent/>
+    //   <View>
+    //       <ImageBackground
+    //         source={require('../assets/bg.png')} // Replace with the actual path to your image
+    //         style={{ resizeMode: 'cover' }}
+    //       >
+    //          <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
+    //           <Text style={Styles.containerText}> Notification</Text>
+
+    //           <View style={Styles.mainContainer}>
+    //           <ScrollView vertical>
+    //             <View style={Styles.profileContainer}>
+    //               <View style={{ alignItems: 'center' }}>
+    //                 <Text style={Styles.mainContHeader}>
+    //                   Get your notifications here
+    //                 </Text>
+    //               </View>
+
+    //   {socketOndata.map(item => (
+    //       <View key={item.id} style={{height:60,width:'100%',backgroundColor:'rgba(211, 211, 211,0.3)',marginTop:10,borderRadius:40,alignSelf:'center',flex:1,flexDirection:'row'}}>
+    //         <View style={{height:40,width:40,borderRadius:20,backgroundColor:'white',top:10,left:10,alignItems:'center',justifyContent:'center'}}>
+    //          <Image source={require('../assets/bell.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
+    //         </View>
+    //         <View style={{width:290,height:70,left:20}}>
+    //         <Text style={{color:'black',fontSize:18,top:15}}>{item.narration}</Text>
+    //         </View>
+    //       </View>
+    //     ))}
+
+    //             </View>
+    //             </ScrollView>
+    //           </View>
 
 
-  //         </View>
-  //       </ImageBackground>
-  //     </View>
-   
-  //  </View>
+    //         </View>
+    //       </ImageBackground>
+    //     </View>
+
+    //  </View>
 
 
 
-  <View style={styles.container}>
+    <View style={styles.container}>
       <HeaderComponent />
       <ImageBackground source={require('../assets/bg.png')} style={styles.backgroundImage}>
-        <View style={[styles.container, { height: welcomContHeight,backgroundColor:'white' }]}>
+        <View style={[styles.container, { height: welcomContHeight, backgroundColor: 'white' }]}>
           <Text style={styles.containerText}>Notification</Text>
           <ScrollView style={styles.scrollView}>
-          
+
             <View style={styles.notificationContainer}>
               {socketOndata.map(item => (
                 <TouchableOpacity key={item.id} onPress={() => handlePress(item)}>
-                <View style={styles.notificationItem}>
-                  <View style={styles.notificationIconContainer}>
-                    <Image source={require('../assets/bell4.png')} style={styles.notificationIcon} />
+                  <View style={styles.notificationItem}>
+                    <View style={styles.notificationIconContainer}>
+                      <Image source={require('../assets/bell4.png')} style={styles.notificationIcon} />
+                    </View>
+                    <View style={styles.notificationTextContainer}>
+                      <Text style={styles.notificationText}>
+                        {item.narration.length > 25 ? `${item.narration.substring(0, 25)}...` : item.narration}
+                      </Text>
+                      {/* <Text style={styles.notificationText}>{item.id}</Text> */}
+                    </View>
+                    {item.view_flag == 'N' && <View style={styles.notificationSeen}>
+                      <View style={{
+                        height: 8, width: 8, borderRadius: 4, backgroundColor: '#a20a3a',
+                      }}>
+                      </View>
+                    </View>}
                   </View>
-                  <View style={styles.notificationTextContainer}>
-                    <Text style={styles.notificationText}>{item.narration}</Text>
-                    {/* <Text style={styles.notificationText}>{item.id}</Text> */}
-                  </View>
-                  {item.view_flag == 'N' &&<View style={styles.notificationSeen}>
-                   <View style={{ height:8,width:8,borderRadius:4,backgroundColor:'#a20a3a',
-                  }}>
-                   </View>
-                  </View>}
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
               ))}
               {/* <View style={styles.notificationItem}>
                   <View style={styles.notificationIconContainer}>
@@ -163,7 +166,7 @@ const handlePress = async (item) => {
                   </View>
                   
                 </View> */}
-              
+
             </View>
           </ScrollView>
         </View>
@@ -246,7 +249,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   containerText: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
@@ -268,6 +271,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e9eafc',
     borderRadius: 40,
     marginBottom: 10,
+    height: 50
   },
   notificationIconContainer: {
     width: 40,
@@ -284,17 +288,23 @@ const styles = StyleSheet.create({
     height: 20,
   },
   notificationTextContainer: {
-    flex: 1,
+    // flex: 1,
+    height: 40,
+    width: '75%',
     marginLeft: 10,
+    // backgroundColor:'black'
   },
-  notificationSeen:{
-    flex:1,
-    marginLeft:210
+  notificationSeen: {
+    height: 20,
+    width: 20,
+    // backgroundColor:'black'
+    // flex:1,
+
   },
   notificationText: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     color: 'black',
-    fontSize: 18,
+    fontSize: 17,
   },
 });
 

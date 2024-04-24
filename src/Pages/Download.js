@@ -22,6 +22,7 @@ function Download() {
     const [pdfUri, setPdfUri] = useState(null);
 
     const loadPDF = async () => {
+        setLoading(true)
         try {
           const pdfUrl = 'http://202.21.38.178:3002/forms/10001/loan_form.pdf';
     
@@ -150,6 +151,7 @@ function Download() {
             </View> */}
 
 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+{isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
       {pdfUri && (
         <PDFView
           fadeInDuration={250.0}
