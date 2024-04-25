@@ -78,8 +78,8 @@ function Home({ navigation }) {
                             <Text style={styles.rptCardTxt}>Calendar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Download')}>
-                            <Image source={require('../assets/download3.png')} style={{ width: 45, height: 45, resizeMode: 'contain' }} />
-                            <Text style={styles.rptCardTxt}>Download</Text>
+                            <Image source={require('../assets/form.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                            <Text style={styles.rptCardTxt}>Forms</Text>
                         </TouchableOpacity>
                         {/* <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('HolidayHome')}>
                             <Image source={require('../assets/holiday_calendar2.png')} style={{ width: 38, height: 38, resizeMode: 'contain' }} />
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     rptCardTxt:{
         top: 4,color: '#3f50b5',fontFamily:'OpenSans-ExtraBold',fontSize:15,fontWeight:'900'
     }
-    
+
   });
 
 export default Home;

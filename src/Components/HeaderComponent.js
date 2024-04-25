@@ -21,7 +21,7 @@ function HeaderComponent() {
     // handleEvent()
     if (isConnected) {
       
-      // console.log('Socket is connected!,header');
+      console.log('Socket is connected!,header');
      
     } else {
       console.log('Socket is disconnected!');

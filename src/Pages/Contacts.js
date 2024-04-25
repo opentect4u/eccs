@@ -43,11 +43,11 @@ function Contacts() {
         }
       });
 
-      console.log(response.data.msg, 'get_contact_dtls')
+      // console.log(response.data.msg, 'get_contact_dtls')
       if (response.data.suc === 1) {
         setLoading(false)
 
-        setResponseData(response.data.msg[0]);
+        setResponseData(response.data.msg);
       }
       else {
         setLoading(false)
@@ -82,48 +82,34 @@ function Contacts() {
             <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
                   {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
-                 
+                  {responseData.map((item,index) => (
+                    <>
+                    <View style={styles.container}>
+                      
+                    <View style={styles.profileView}>
+                      <Text style={styles.title}>{item.designation}  </Text>
+                      <Text style={styles.content}>{item.contact_person}</Text>
+                      <Text style={styles.content}>(M):{item.contact_phone}</Text>
+                    </View>
+                  
                     {/* <View style={styles.profileView}>
-                      <Text style={styles.title}>Bank Name</Text>
-                      <Text style={styles.content}>{responseData.bank_name}</Text>
+                      <Text style={styles.title}>{item.designation}{index}  </Text>
+                      <Text style={styles.content}>{item.contact_person}</Text>
+                      <Text style={styles.content}>(M):{item.contact_phone}</Text>
                     </View> */}
-                    <View style={styles.container}>
+                    </View>
+                    {/* <View style={styles.container}>
                     <View style={styles.profileView}>
-                      <Text style={styles.title}>President</Text>
-                      {responseData.find(person =>person.designation) == 'President'?
-                      <>
-                      <Text style={styles.content}>{responseData.contact_person}</Text>
-                      <Text style={styles.content}>(M):{responseData.contact_phone}</Text>
-                      </> : <></>}
-
+                      <Text style={styles.title}>{item.designation}</Text>
+                      <Text style={styles.content}>{item.contact_person}</Text>
+                      <Text style={styles.content}>(M):{item.contact_phone}</Text>
                     </View>
                     <View style={styles.profileView}>
-                    <Text style={styles.title}>Vice President</Text>
-                    {responseData.designation == 'Vice President'?
-                      <>
-                      <Text style={styles.content}>{responseData.contact_person}</Text>
-                      <Text style={styles.content}>(M):{responseData.contact_phone}</Text>
-                      </> : <></>}
+                    <Text style={styles.title}>{item.designation}</Text>
+                    <Text style={styles.content}>{item.contact_person}</Text>
+                      <Text style={styles.content}>(M):{item.contact_phone}</Text>
                     </View>
                     </View>
-
-                    <View style={styles.container}>
-                    <View style={styles.profileView}>
-                      <Text style={styles.title}>Secretary</Text>
-                      {responseData.designation == 'Vice President'?
-                      <>
-                      <Text style={styles.content}>{responseData.contact_person}</Text>
-                      <Text style={styles.content}>(M):{responseData.contact_phone}</Text>
-                      </> : <></>}
-
-                    </View>
-                    <View style={styles.profileView}>
-                    <Text style={styles.title}>Asstt. Secretary</Text>
-                    <Text style={styles.content}>Name:</Text>
-                      <Text style={styles.content}>(M):</Text>
-                    </View>
-                    </View>
-
                     <View style={styles.container}>
                     <View style={styles.profileView}>
                       <Text style={styles.title}>Director</Text>
@@ -137,7 +123,6 @@ function Contacts() {
                       <Text style={styles.content}>(M):</Text>
                     </View>
                     </View>
-
                     <View style={styles.container}>
                     <View style={styles.profileView}>
                       <Text style={styles.title}>Director</Text>
@@ -150,7 +135,7 @@ function Contacts() {
                     <Text style={styles.content}>Name:</Text>
                       <Text style={styles.content}>(M):</Text>
                     </View>
-                    </View>
+                    </View> 
                     <View style={styles.container}>
                     <View style={styles.profileView}>
                       <Text style={styles.title}>Director</Text>
@@ -158,17 +143,9 @@ function Contacts() {
                       <Text style={styles.content}>(M):</Text>
 
                     </View>
-                    {/* <View style={styles.profileView}>
-                    <Text style={styles.title}>Director</Text>
-                    <Text style={styles.content}>Name:</Text>
-                      <Text style={styles.content}>(M):</Text>
                     </View> */}
-                    </View>
-                    
-                    {/* <View style={styles.profileView}>
-                      <Text style={styles.title}>Bank address </Text>
-                      <Text style={styles.content}>{responseData.bank_address}</Text>
-                    </View> */}
+                    </>
+                    ))}
                   
                 
                 </View>
@@ -228,7 +205,7 @@ function Contacts() {
         flexDirection:'row',
         justifyContent:'space-between', 
         width: '95%',
-        marginLeft:10,
+        marginLeft:8,
         gap:30,
         // borderBottomColor: '#a20a3a',
         borderBottomColor:'#3f50b5',
@@ -239,8 +216,8 @@ function Contacts() {
         width: '100%',
         // borderBottomColor:'#a20a3a',
         // borderBottomWidth: 0.5,
-        paddingBottom: 7,
-        paddingTop: 15,
+        paddingBottom: 5,
+        // paddingTop: 15,
       },
         profileViewPass: {
           width: '100%',

@@ -356,7 +356,6 @@ const Profile = ({ navigation }) => {
                 <Text style={styles.submitBtnTxt}>Submit</Text>
                 </TouchableOpacity>        
                   </>
-                  
                 ) : (
                   <Text>No image selected</Text>
                 )}

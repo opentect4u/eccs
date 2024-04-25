@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator, Linking,ScrollView } from 'react-native';
+import { View, StyleSheet, Image, TextInput, Text, Button, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator, Linking, ScrollView } from 'react-native';
 import axios from 'axios';
 import { Calendar } from 'react-native-calendars';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
@@ -9,10 +9,10 @@ import { BASE_URL } from '../config/config';
 import Toast from 'react-native-toast-message';
 import PDFView from 'react-native-pdf';
 import RNFetchBlob from 'rn-fetch-blob';
+import { ScreenHeight } from 'react-native-elements/dist/helpers';
 
 
 function Download() {
-
     const [isLoading, setLoading] = useState(false)
     const welcomContHeight = 0.25 * SCREEN_HEIGHT;
     // const rptBodyHeight = 0.8 * SCREEN_HEIGHT;
@@ -24,37 +24,32 @@ function Download() {
     const loadPDF = async () => {
         setLoading(true)
         try {
-          const pdfUrl = 'http://202.21.38.178:3002/forms/10001/loan_form.pdf';
-    
-          const response = await RNFetchBlob.config({
-            fileCache: true,
-            appendExt: 'pdf',
-          }).fetch('GET', pdfUrl);
-    
-          const pdfPath = `file://${response.path()}`;
-          setPdfUri(pdfPath);
-          setLoading(false);
+            const pdfUrl = 'http://202.21.38.178:3002/forms/10001/loan_form.pdf';
+
+            const response = await RNFetchBlob.config({
+                fileCache: true,
+                appendExt: 'pdf',
+            }).fetch('GET', pdfUrl);
+
+            const pdfPath = `file://${response.path()}`;
+            setPdfUri(pdfPath);
+            setLoading(false);
         } catch (error) {
-          console.error('Error loading PDF:', error);
-          setLoading(false);
+            console.error('Error loading PDF:', error);
+            setLoading(false);
         }
-      };
-    
-      // Load PDF when component mounts
-      useEffect(() => {
+    };
+    useEffect(() => {
         loadPDF();
-      }, []);
-    
-      // Load PDF when component mounts
-      useEffect(() => {
+    }, []);
+    useEffect(() => {
         loadPDF();
-      }, []);
+    }, []);
 
     // useEffect(() => {
     //     GetStorage()
     //     downloadRes()
     // }, [])
-
     const GetStorage = async () => {
         try {
             const asyncData = await AsyncStorage.getItem(`login_data`);
@@ -96,8 +91,6 @@ function Download() {
             console.log(error);
         }
     };
-
-
     const handleDownload = (fileUrl) => {
         Linking.openURL(`${BASE_URL}/${fileUrl}`)
             .then(() => {
@@ -108,58 +101,22 @@ function Download() {
             });
     };
 
-
     return (
         <>
             <HeaderComponent />
-            {/* <View>
-                <ImageBackground
-                    source={require('../assets/bg5.jpg')} 
-                    style={{ resizeMode: 'cover' }}
-                >
-                    <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
-                        <Text style={styles.containerText}>{`Hello! ${userName}`}</Text>
-                        <Text style={styles.containerText}>Download</Text>
-                        <View style={styles.mainContainer}>
-                            <View style={styles.profileContainer}>
-                                <View style={{ alignItems: 'center' }}>
-                                    <Text style={styles.mainContHeader}>
-                                        Get Your Forms Here
-                                    </Text>
-                                </View>
-                                {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
-                                {responseData.map((document, index) => (
-                                    <View style={styles.profileView} key={index}>
-
-                                        <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
-                                            <Text style={styles.title}>{document.title} </Text>
-                                            <TouchableOpacity onPress={() => handleDownload(document.file_path)}>
-                                                <Image source={require('../assets/pdf3.png')} style={{ width: 30, height: 30, resizeMode: 'contain' }} />
-                                            </TouchableOpacity>
-                                        </View>
-
-                                    </View>
-                                ))}
-                            </View>
-                            
-
-                        </View>
-                    </View>
-                </ImageBackground>
-
-
-            </View> */}
-
-<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-{isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
-      {pdfUri && (
-        <PDFView
-          fadeInDuration={250.0}
-          style={{ flex: 1, width: '100%', height: 500 }}
-          source={{ uri: pdfUri }} // Provide the source prop correctly
-        />
-      )}
-    </ScrollView>
+            <View style={{ height: ScreenHeight, width: '100%', backgroundColor: '#ffffff', borderTopLeftRadius: 50,borderTopRightRadius: 50, }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
+                {pdfUri && (
+                    <PDFView
+                        fadeInDuration={250.0}
+                        style={{ flex: 1, width: '100%', height: 500 }}
+                        source={{ uri: pdfUri }} // Provide the source prop correctly
+                    />
+                )}
+                
+            </ScrollView>
+            </View>
         </>
 
     )
@@ -180,7 +137,7 @@ const styles = StyleSheet.create({
     mainContHeader: {
         // color: '#209fb2',
         // color:'#a20a3a',
-        color:'#3f50b5',
+        color: '#3f50b5',
         fontSize: 18,
         fontWeight: '900',
         padding: 15,
@@ -209,7 +166,7 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: '700',
         // color: 'black',
-        color:'#a20a3a',
+        color: '#a20a3a',
         fontSize: 17
     },
     content: {

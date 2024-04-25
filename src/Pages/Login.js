@@ -84,11 +84,7 @@ function Login({ navigation }) {
           await AsyncStorage.setItem('login_data', JSON.stringify(response.data.data[0]));
           setAuthDT(await AsyncStorage.getItem(`login_data`));
           socket.connect();
-          // console.log(socket,'sss');
-
-          // console.log(await AsyncStorage.getItem(`login_data`), 'AsyncStorage')
           navigation.navigate('BottomNav');
-          // navigation.replace('BottomNav');
 
         }
         else if (response.data.suc === 0) {
