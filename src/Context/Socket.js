@@ -23,11 +23,10 @@ export const SocketProvider = ({ children }) => {
     const newSocket = io("http://202.21.38.178:3002");
     setSocket(newSocket);
     newSocket.on('connect', () => {
-      setIsConnected(true); 
-      console.log('connect')
+      setIsConnected(true);
     });
     newSocket.on('disconnect', () => {
-      setIsConnected(false);
+      setIsConnected(false); 
     });
     return () => {
       newSocket.disconnect();

@@ -424,11 +424,11 @@ function Registration({ navigation }) {
     // setSubmitDisabled(password !== confirmPassword);
     if (password.length != 0 && confirmPassword.length != 0) {
       if (password.length !== 4 || confirmPassword.length !== 4) {
-        setError("*Password must be 4 characters long");
+        setError("*Pin no. length should be 4");
         setSubmitDisabled(true);
       }
       else if (password !== confirmPassword) {
-        setError("*Password mismatch");
+        setError("*pin mismatch");
         setSubmitDisabled(true);
       }
       else {
@@ -622,24 +622,24 @@ function Registration({ navigation }) {
               <>
                 {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text>
           <Text style={Styles.textStyle}>Customer Name: {custName}</Text> */}
-                <Text style={{ fontSize: 17, color: '#a20a3a', fontFamily: 'OpenSans-Bold', fontWeight: '900' }}>Create Your PIN</Text>
+                <Text style={{ fontSize: 17, color: '#ffffff', fontFamily: 'OpenSans-Bold', fontWeight: '900' }}>Create Your PIN</Text>
                 <View style={Styles.inputContainer}>
                   <TextInput
                     backgroundColor='transparent'
-                    outlineColor='#a20a3a'
-                    activeOutlineColor='#a20a3a'
+                    outlineColor='#ffffff'
+                    activeOutlineColor='#ffffff'
                     mode="outlined"
                     style={{
                       flex: 1,
                     }}
-                    textColor='#a20a3a'
+                    textColor='#3f50b5'
                     onChangeText={handlePasswordChange}
                     keyboardType="numeric"
                     secureTextEntry={!showPin}
-                    right={<TextInput.Icon icon={showPin ? 'eye' : 'eye-off'} color={'#a20a3a'} onPress={toggleShowPin} />}
+                    right={<TextInput.Icon icon={showPin ? 'eye' : 'eye-off'} color={'#3f50b5'} onPress={toggleShowPin} />}
                     placeholder="Enter PIN"
-                    placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
-                    color={isDarkMode ? '#a20a3a' : '#a20a3a'}
+                    placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
+                    color={isDarkMode ? '#3f50b5' : '#3f50b5'}
                   />
 
                 </View>
@@ -647,20 +647,20 @@ function Registration({ navigation }) {
                 <View style={Styles.inputContainer}>
                   <TextInput
                     backgroundColor='transparent'
-                    outlineColor='#a20a3a'
-                    activeOutlineColor='#a20a3a'
+                    outlineColor='#ffffff'
+                    activeOutlineColor='#ffffff'
                     mode="outlined"
                     style={{
                       flex: 1
                     }}
-                    textColor='#a20a3a'
+                    textColor='#3f50b5'
                     onChangeText={handleConfirmPasswordChange}
                     keyboardType="numeric"
                     secureTextEntry={!showConPin}
-                    right={<TextInput.Icon icon={showConPin ? 'eye' : 'eye-off'} color={'#a20a3a'} onPress={toggleShowConPin} />}
+                    right={<TextInput.Icon icon={showConPin ? 'eye' : 'eye-off'} color={'#3f50b5'} onPress={toggleShowConPin} />}
                     placeholder="Confirm PIN"
-                    placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
-                    color={isDarkMode ? '#a20a3a' : '#a20a3a'}
+                    placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
+                    color={isDarkMode ? '#3f50b5' : '#3f50b5'}
                   />
                 </View>
                 <View style={{ top: 5 }}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
@@ -750,7 +750,8 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
   },
   errorText: {
-    color: 'red',
+    // color: 'red',
+    color:'#ffffff',
     fontSize: 15,
     fontWeight: '600'
   },

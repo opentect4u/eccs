@@ -90,7 +90,7 @@ function Login({ navigation }) {
         else if (response.data.suc === 0) {
           Toast.show({
             type: 'error',
-            text1: 'Pin no. mismatch!',
+            text1: 'Member ID or PIN no. mismatch!',
             visibilityTime: 5000
           })
         }

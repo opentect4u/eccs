@@ -57,7 +57,7 @@ const toastConfig = {
         alignItems:'center',
       }}
       contentContainerStyle={{
-        paddingHorizontal:40,
+        paddingHorizontal:20,
         alignItems:'center'
       }}
       text1Style={{
@@ -83,7 +83,7 @@ const toastConfig = {
         
       }}
       contentContainerStyle={{
-        paddingHorizontal:40,
+        paddingHorizontal:20,
         alignItems:'center'
       }}
       text1Style={{
