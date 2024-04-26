@@ -11,7 +11,6 @@ const RouteGaurdProvider = ({children}) =>{
                     const authDT = await AsyncStorage.getItem('login_data');
                     setAuthDT(authDT);
                }
-        
                fetchStorageDT();
     }, [])
     

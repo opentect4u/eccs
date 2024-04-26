@@ -9,6 +9,7 @@ import { BASE_URL } from '../config/config';
 import { Button } from 'react-native-paper';
 import Searchicon from 'react-native-vector-icons/Ionicons'
 import axios from 'axios';
+import { color } from 'react-native-elements/dist/helpers';
 
 
 const pickerStyle = {
@@ -22,11 +23,13 @@ const pickerStyle = {
     fontWeight: '600'
   },
   placeholder: {
-    color: '#a20a3a',
+    // color: '#a20a3a',
+    color:'black',
     fontSize: 20
   },
   inputAndroid: {
-    color: '#a20a3a',
+    // color: '#a20a3a',
+    color:'black',
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderRadius: 30,
@@ -126,9 +129,10 @@ const Networth = () => {
     <><HeaderComponent />
       <View style={{ height: 40, 
         // backgroundColor: 'rgba(4,187,214,255)'
-        backgroundColor:'#a20a3a'
+        // backgroundColor:'#a20a3a'
+        backgroundColor:'#3f50b5'
          }}>
-        <Text style={{ alignSelf: 'center', fontSize: 20, color: '#fdbd30', top: 5, fontWeight: '700',fontFamily:'OpenSans-ExtraBold' }}>
+        <Text style={{ alignSelf: 'center', fontSize: 20, color: '#ffffff', top: 5, fontWeight: '700',fontFamily:'OpenSans-ExtraBold' }}>
           Net-Worth Report
         </Text>
       </View>
@@ -141,7 +145,7 @@ const Networth = () => {
             label: 'Select Month',
             value: valueMonth,
           }}
-          placeholderTextColor="red"
+          placeholderTextColor='#d2d4f9'
           onValueChange={(value) => setValueMonth(value)}
           items={[
             { label: 'January', value: '01' },
@@ -173,7 +177,7 @@ const Networth = () => {
           ]}
         />
         <Button
-          style={[{ borderRadius: 5, marginHorizontal: 10,backgroundColor: '#a20a3a'},isdisabled && styles.disabledBtn ]}
+          style={[{ borderRadius: 5, marginHorizontal: 10,backgroundColor:'#3f50b5'},isdisabled && styles.disabledBtn ]}
           textColor='white'
           icon={() => <Searchicon name="search-outline" size={20} color={'white'}/>}
           mode="elevated" onPress={handleSearch} disabled={isdisabled}>
@@ -186,7 +190,7 @@ const Networth = () => {
       <ScrollView vertical>
       <View style={{ padding: 10 }}>
         
-        {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
+        {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
         {responseData?.length > 0 &&
          
 
@@ -195,17 +199,22 @@ const Networth = () => {
               {depositData?.length > 0 &&
                 <><View style={{ height: 40, 
                 // backgroundColor: '#f1f8ff'
-                backgroundColor:'rgba(253, 189, 48, 0.1)'
+                // backgroundColor:'rgba(253, 189, 48, 0.1)'
+                backgroundColor: '#e9eafc'
                  }}>
                   <Text style={{ alignSelf: 'center', fontSize: 18, color: 'black', top: 5, fontWeight: '700', fontFamily:'OpenSans-ExtraBold' }}>
                     Liability
                   </Text>
                 </View>
                   <View style={{ marginBottom: 16 }}>
-                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                    <Table borderStyle={{ borderWidth: 1,
+                      //  borderColor: '#fdbd30'
+                      borderColor: '#3f50b5' 
+                        }}>
                       <Row data={tableHead} style={{ height: 40, 
                         // backgroundColor: '#f1f8ff'
-                        backgroundColor:'rgba(253, 189, 48, 0.1)',
+                        // backgroundColor:'rgba(253, 189, 48, 0.1)',
+                        backgroundColor: '#e9eafc'
                          }} textStyle={{ margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold',color:isDarkMode? 'black':'black' }} />
                       <Rows data={tableData} textStyle={{ margin: 6,color:isDarkMode? 'black':'black' }} />
                       {/* {depositData.map((rowData, index) => (
@@ -215,7 +224,8 @@ const Networth = () => {
                       {/* Total Row */}
                       <Row data={totalRow} style={{ height: 40,
                         //  backgroundColor: '#f1f8ff'
-                        backgroundColor:'rgba(253, 189, 48, 0.1)' 
+                        // backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        backgroundColor: '#e9eafc' 
                          }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
                   </View></>}
@@ -223,17 +233,19 @@ const Networth = () => {
               {loanData?.length > 0 &&
                 <><View style={{ height: 40, 
                 // backgroundColor: '#f1f8ff' 
-                backgroundColor:'rgba(253, 189, 48, 0.1)'
+                // backgroundColor:'rgba(253, 189, 48, 0.1)'
+                backgroundColor: '#e9eafc'
                 }}>
                   <Text style={{ alignSelf: 'center', fontSize: 18, color: 'black', top: 5, fontWeight: '700', fontFamily:'OpenSans-ExtraBold' }}>
                     Asset
                   </Text>
                 </View>
                   <View style={{ marginBottom: 16 }}>
-                    <Table borderStyle={{ borderWidth: 3, borderColor: '#fdbd30' }}>
+                    <Table borderStyle={{ borderWidth: 1,  borderColor: '#3f50b5' }}>
                       <Row data={tableHead_l} style={{ height: 40, 
                         // backgroundColor: '#f1f8ff'
-                        backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        // backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        backgroundColor: '#e9eafc'
                         }} textStyle={{ margin: 6, fontWeight: '700',color:isDarkMode? 'black':'black' }} />
                       <Rows data={tableData_l} textStyle={{ margin: 6,color:isDarkMode? 'black':'black' }} />
                       {/* {depositData.map((rowData, index) => (
@@ -243,11 +255,13 @@ const Networth = () => {
                       {/* Total Row */}
                       <Row data={totalRow_l} style={{ height: 40, 
                         // backgroundColor: '#f1f8ff'
-                        backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        // backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        backgroundColor: '#e9eafc'
                          }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                       <Row data={totNetWorthRow} style={{ height: 40, 
                         // backgroundColor: '#f1f8ff' 
-                        backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        // backgroundColor:'rgba(253, 189, 48, 0.1)'
+                        backgroundColor: '#e9eafc'
                         }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
                   </View></>
@@ -297,9 +311,9 @@ const Networth = () => {
     {noData &&
     <View style={styles.containerRpt}>
       <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30 }}>
-        <Image source={require('../assets/nodata2.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
+        <Image source={require('../assets/nodata4.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
 
-        <Text style={{ color: '#a20a3a', fontSize: 17, alignSelf: 'center', fontFamily:'OpenSans-ExtraBold', marginTop: 10 }}>No data Found..</Text>
+        <Text style={{ color: '#3f50b5', fontSize: 17, alignSelf: 'center', fontFamily:'OpenSans-ExtraBold', marginTop: 10 }}>No data Found..</Text>
       </View>
     </View>}
     </>
@@ -313,7 +327,8 @@ const styles = StyleSheet.create({
     top: 10
   },
   container: {
-    backgroundColor:'rgba(162, 10, 58, 0.1)',
+    // backgroundColor:'rgba(162, 10, 58, 0.1)',
+    backgroundColor:'#d2d4f9',
     zIndex: 10,
     fontFamily:'OpenSans-ExtraBold',
     padding: 10
@@ -354,7 +369,8 @@ const styles = StyleSheet.create({
   },
   disabledBtn: {
     // backgroundColor: 'lightblue', 
-    backgroundColor:'#c28090',
+    // backgroundColor:'#c28090',
+    backgroundColor:'#9298ed',
     color:'white'
   },
 });

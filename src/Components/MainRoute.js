@@ -21,10 +21,10 @@ const MainRoute = () => {
   const { authDT } = useContext(RouteGaurdContext);
 
   useEffect(() => {
-      // console.log(authDT, `authDT`)
+      console.log(authDT, `authDT main`)
   }, [])
   
-
+  console.log(authDT, `authDT2`)
   return (
     <Stack.Navigator>
 

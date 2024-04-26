@@ -488,8 +488,6 @@ const Demand = () => {
           Search
         </Button>
       </View>
-
-
       <ScrollView vertical>
         {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
 

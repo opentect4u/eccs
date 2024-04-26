@@ -29,7 +29,10 @@ export const SocketProvider = ({ children }) => {
       setIsConnected(false); 
     });
     return () => {
-      newSocket.disconnect();
+      // Disconnect socket
+      if (socket) {
+        socket.disconnect();
+      }
     };
   }, []);
   useEffect(() => {

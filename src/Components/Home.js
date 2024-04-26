@@ -20,7 +20,7 @@ function Home({ navigation }) {
 
     useEffect(() => {
         GetStorage()
-        // console.log(authDT)
+        console.log(authDT,'home')
     }, [])
 
     const GetStorage = async () => {

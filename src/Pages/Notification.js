@@ -7,6 +7,7 @@ import { BASE_URL } from '../config/config';
 import { useSocket } from '../Context/Socket';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import Toast from 'react-native-toast-message';
+import io from 'socket.io-client';
 
 
 
@@ -19,6 +20,11 @@ const Notification = () => {
   useEffect(() => {
     GetStorage()
     console.log(socketOndata, 'socketOndata noti')
+    const socket = io("http://202.21.38.178:3002");
+
+    return () => {
+      socket.off('send notification');
+    };
   }, [])
 
   const GetStorage = async () => {
