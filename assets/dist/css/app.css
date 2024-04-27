@@ -120,7 +120,8 @@ width: 100%;
 h3.loginTitle{margin:0; padding:0; color: #202124; font-size:24px; text-align:center;padding-bottom: 30px;}
 .card-outlineCustom p.login-box-msg{font-size: 18px; color: #202124; padding-bottom:30px;}
 .form_controlCustomLogin{font-size: 18px; height: 55px;}
-body.login-page{background-color: #fff;}
+/* body.login-page{background-color: #fff;} */
+body.login-page{background-color: #6f78a7;}
 .card_bodyCustom{padding-left:25px; padding-right:25px; padding-bottom: 60px;}
 a.helpLink{font-size:15px; color: #757575;}
 /*a.helpLink:focus {
@@ -220,7 +221,8 @@ label:not(.form-check-label):not(.custom-file-label) {
 .btn{color: #fff; font-size: 18px; background: #3d62a6; border-radius:30px !important; border: none; padding: 6px 20px;}
 .btn:hover{color: #fff; font-size: 18px; font-weight: 500; background: #1e3560;}
 
-.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active{background-color: #3d62a6;}
+/* .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active{background-color: #3d62a6;} */
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active{background-color: #3f50b5;}
 .active .bs-stepper-circle {background-color: #3d62a6;}
 
 .navbarCustome .navbar-nav li{color: #353637;}
@@ -270,6 +272,15 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .my-float {
     margin-top: 12px;
+}
+
+.des {
+    color: black;
+    margin-left: 8px;
+}
+
+.side_color {
+    color: #3f50b5;
 }
 
 /* END */

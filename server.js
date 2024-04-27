@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
   socket.on('notification', async (data) => {
     // console.log(data);
 
-    var notify_dtls = await notification_dtls(data.bank_id)
+    var notify_dtls = await notification_dtls()
     // console.log(notify_dtls);
     socket.emit('send notification', notify_dtls)
 

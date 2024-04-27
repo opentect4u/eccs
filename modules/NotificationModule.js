@@ -17,9 +17,9 @@ module.exports = {
     notify_flag_save: (data, io) =>{
         return new Promise(async (resolve, reject) => {
             var datetime = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')
-            // console.log(noti_dt,data.bank_id,'lalall');
+            // console.log(noti_dt,'lalall');
             var ic_dt = await db_Insert('td_notification',`view_flag = 'Y', modified_by = '${data.user}', modified_dt = '${datetime}'`, null, `id = ${data.id}`, 1)
-            var noti_dt = await notification_dtls(data.bank_id);
+            var noti_dt = await notification_dtls();
             io.emit('send notification', noti_dt)
             resolve(ic_dt);
         });
