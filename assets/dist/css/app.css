@@ -288,6 +288,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 .log_btn {
     margin-left: 8vw;
     background-color: #3f50b5;
+    border-radius: 20px;
 }
 
 .input_btn {
