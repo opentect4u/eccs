@@ -129,9 +129,11 @@ a.helpLink{font-size:15px; color: #757575;}
 }*/
 
 .mb3Custom{margin-bottom: 30px !important;}
-.login-boxCuston{width: 450px;}
+/* .login-boxCuston{width: 450px;} */
+.login-boxCuston{width: 434px;}
 
-.logoLogin img{width:125px;}
+/* .logoLogin img{width:125px;} */
+.logoLogin img{width:141px;}
 
 
 ul.topMenuRight {
@@ -281,6 +283,15 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .side_color {
     color: #3f50b5;
+}
+
+.log_btn {
+    margin-left: 8vw;
+    background-color: #3f50b5;
+}
+
+.input_btn {
+    border-radius: 9px;
 }
 
 /* END */

@@ -19,17 +19,19 @@
 
       <form action="/admin/login" method="post">
         <div class="input-group mb-3 mb3Custom">
-          <input type="text" class="form-control form_controlCustomLogin" name="user_id" id="user_id" placeholder="User ID">
+          <span class="input-group-text"><i class='fas fa-user-alt' style='font-size:24px'></i></span>
+          <input type="text" class="form-control form_controlCustomLogin input_btn" name="user_id" id="user_id"  placeholder="User ID">
         </div>
         <div class="input-group mb-3 mb3Custom">
-          <input type="password" class="form-control form_controlCustomLogin" name="password" id="password" placeholder="Password">
+          <span class="input-group-text"><i class='fas fa-lock' style='font-size:24px'></i></span>
+          <input type="password" class="form-control form_controlCustomLogin input_btn" name="password" id="password" placeholder="Password">
         </div>
         <div class="row">
-          <div class="col-8">
+          <div class="col-5">
+         <button type="submit" class="btn btn-primary btn-block log_btn">Sign In</button>
           </div>
           <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          <div class="col-7">
           </div>
           <!-- /.col -->
         </div>
