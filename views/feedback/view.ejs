@@ -45,7 +45,7 @@
                       <th>Date</th>
                       <th>User</th>
                       <th>Rating</th>
-                      <th>Remarks</th>
+                      <!-- <th>Remarks</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -56,11 +56,11 @@
                       <td><%= dateFormat(dt.date, "dd/mm/yyyy") %></td>
                       <td><%= dt.created_by %></td>
                       <td><%= dt.rating %></td>
-                      <td><%= dt.remarks %></td>
+                      <!-- <td><%= dt.remarks %></td> -->
                     </tr>
                     <% i++; }) }else{ %>
                     <tr>
-                      <td colspan="5" class="text-center">No data found</td>
+                      <td colspan="4" class="text-center">No data found</td>
                     </tr>
                     <% } %>
                   </tbody>
