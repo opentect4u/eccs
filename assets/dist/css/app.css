@@ -174,7 +174,8 @@ ul.topMenuRight li.userDrop span.nav-profile-name{color: #353637;font-size: 18px
 .main_sidebarCustom{background: #f7f7f7;}
 .sidebarCustom{padding-left: 0; padding-right: 0;}
 ul.navCustomLeft li a{padding-left: 0; padding-right: 0; color: #364051;}
-ul.navCustomLeft li a.nav-link  {color:#3f50b5 ;
+/* ul.navCustomLeft li a.nav-link  {color:#3f50b5 ; */
+    ul.navCustomLeft li a.nav-link  {color: black;
 font-size: 17px;
 padding-left: 10px;
 margin: 0 !important;
@@ -221,6 +222,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 .content_wrapperCustom, .content-wrapper{background: #fff;}
 
 .btn{color: #fff; font-size: 18px; background: #3f50b5; border-radius:30px !important; border: none; padding: 6px 20px;}
+
 .btn:hover{color: #fff; font-size: 18px; font-weight: 500; background: #3f50b5;}
 
 /* .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active{background-color: #3d62a6;} */
@@ -299,4 +301,15 @@ label:not(.form-check-label):not(.custom-file-label) {
     text-decoration: none;
     background-color: #3f50b5;
 }
+
+.box {
+    width: 40px; /* Adjust the size as needed */
+    height: 40px; /* Adjust the size as needed */
+    background-color: #3f50b5; /* Box background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    color: white;
+  }
 /* END */

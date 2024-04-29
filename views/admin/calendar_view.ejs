@@ -6,7 +6,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1><%= heading %></h1>
+          <h1><b><%= heading %></b></h1>
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
       <!-- SELECT2 EXAMPLE -->
       <div class="card card-default">
         <div class="card-header">
-          <h3 class="card-title"><%= sub_heading %></h3>
+          <h3 class="card-title"><b><%= sub_heading %></b></h3>
           <div class="card-tools side_color">
             <a href="/admin/calendar_edit?id=0" class="btn btn-primary"
               >Add New</a
@@ -65,7 +65,7 @@
                       <td class="text-center"><%= dateFormat(dt.cal_dt, "dd/mm/yyyy") %></td>
                       <td class="text-center"><%= dt.cal_event %></td>
                       <td class="text-center">
-                        <a class="text-primary"
+                        <a class="side_color"
                           href="calendar_edit?id=<%= dt.sl_no %>"
                           title="Edit"
                         >

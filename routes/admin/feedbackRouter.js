@@ -1,5 +1,5 @@
 const { getFeedBack } = require('../../modules/admin/Feedback_adminModule');
-
+const dateFormat = require('dateformat');
 const feedbackRouter = require('express').Router();
 
 feedbackRouter.get('/feedback', async (req, res) => {
@@ -12,6 +12,7 @@ feedbackRouter.get('/feedback', async (req, res) => {
       sub_heading: "Feedback List",
       dateFormat,
     });
-  })
+  });
+
 
 module.exports = {feedbackRouter}

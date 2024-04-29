@@ -63,6 +63,7 @@ adminUserRouter.get('/logout', async (req, res) => {
   adminUserRouter.get('/user_list', async (req, res) => {
     var bank_id = req.session.user.bank_id;
     var resDt = await AllUserList();
+    console.log(resDt);
     res.render("user/user_list", {
         req_dt: resDt,
         heading: "Registered User List",
@@ -93,7 +94,7 @@ adminUserRouter.get('/user_delete', async (req, res) => {
 
 const AllUserList = () => {
     return new Promise(async (resolve, reject) => {
-        var fields = "id, emp_code, user_name, user_id, last_login",
+        var fields = "id, member_id, emp_code, user_name, user_id, active_flag, last_login",
             table_name = "td_user",
             where = `user_type != 'A' AND active_flag = 'Y'`,
             order = null;
@@ -138,5 +139,22 @@ adminUserRouter.post('/password', async (req, res) =>{
       res.redirect("/admin/dashboard");
     }
 });
+
+adminUserRouter.post('/save_flag', async (req, res) =>{
+    user = req.session.user
+    user_name = req.session.user.user_name
+    console.log(user,"123456");
+    const datetime = dateFormat(new Date(), "yyyy-mm-dd");
+    
+    var data = req.body;
+    console.log(data);
+    var table_name = "td_user",
+          fields = `active_flag = '${data.isChecked}', modified_by='${user_name}', modified_dt='${datetime}'`,
+          where2 = `emp_code = '${data.emp_code}'`,
+          flag = 1;
+          var active_dt = await db_Insert(table_name,fields,null,where2,flag)
+          console.log(active_dt,'pp');
+    res.send(active_dt)    
+})
 
 module.exports = { adminUserRouter }
