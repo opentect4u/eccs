@@ -6,7 +6,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1><%= heading %></h1>
+          <h1><b><%= heading %></b></h1>
           <h6><%- breadcrumb %></h6>
         </div>
       </div>
@@ -35,9 +35,11 @@
       <% } %>
       <!-- SELECT2 EXAMPLE -->
       <div class="card card-default">
+        <div class="card card-primary card-outline">
         <div class="card-header">
-          <h3 class="card-title"><%= sub_heading %></h3>
+          <h3 class="card-title"><b><%= sub_heading %></b></h3>
         </div>
+      </div>
         <!-- /.card-header -->
         <div class="card-body">
           <form action="/admin/calendar_edit" method="post">
