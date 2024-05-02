@@ -4,6 +4,7 @@ import HeaderComponent from './HeaderComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import RouteGaurdContext from '../Context/AuthGuard';
+// import Animated,{ BounceInLeft, BounceInRight, }from 'react-native-reanimated';
 import { assets } from '../../react-native.config';
 
 
@@ -59,11 +60,13 @@ function Home({ navigation }) {
                     // contrastText: '#fff',
                     alignSelf:'center',marginTop:25,padding:20 }}>
                     <View style={{ height: rptBgCont,flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                    {/* <Animated.View entering={BounceInLeft.duration(1000)} exiting={BounceInRight.duration(500)}> */}
                         <TouchableOpacity
                             style={styles.rptCard} onPress={() => navigation.navigate('Demand')}>
                            <Image source={require('../assets/demand3.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
                             <Text style={styles.rptCardTxt}>Demand</Text>
                         </TouchableOpacity>
+                        {/* </Animated.View> */}
 
                         <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Networth')}>
                             <Image source={require('../assets/networth3.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
@@ -148,7 +151,6 @@ const styles = StyleSheet.create({
         fontSize: 20, color: '#ffffff', alignSelf: 'center', marginTop: 30,fontFamily:'OpenSans-ExtraBold',fontWeight:'900',
     },
     userDtlsTxt:{ fontSize: 17, color: '#ffffff', paddingLeft: 24, fontFamily:'OpenSans-ExtraBold',fontWeight:'900' },
-
     rptCard:{
         backgroundColor: '#e9eafc', width: 95, height: 105, justifyContent: 'center',borderRadius:20, alignItems: 'center', color: 'black', shadowColor: '#000',  shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
     },

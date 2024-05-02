@@ -37,7 +37,7 @@ const Feedback = () => {
         const user_name = JSON.parse(asyncData)?.user_name
         const date = new Date()
         const apidata = {
-            bank_id: bank_id,
+            bank_id: 0,
             emp_code: emp_code,
             user_name: user_name,
             rating: rating,

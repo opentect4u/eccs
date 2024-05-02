@@ -132,7 +132,7 @@ const Networth = () => {
         // backgroundColor:'#a20a3a'
         backgroundColor:'#3f50b5'
          }}>
-        <Text style={{ alignSelf: 'center', fontSize: 20, color: '#ffffff', top: 5, fontWeight: '700',fontFamily:'OpenSans-ExtraBold' }}>
+        <Text style={styles.textHeader}>
           Net-Worth Report
         </Text>
       </View>
@@ -321,6 +321,7 @@ const Networth = () => {
 };
 
 const styles = StyleSheet.create({
+  textHeader:{ alignSelf: 'center', fontSize: 20, color: '#ffffff', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' },
   containerRpt: {
     height: 'auto',
     backgroundColor: 'white',

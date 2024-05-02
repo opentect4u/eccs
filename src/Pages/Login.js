@@ -320,17 +320,14 @@ const Styles = StyleSheet.create({
     width: 30,
     height: 45
   },
-
   borderStyleHighLighted: {
     borderColor: "#03DAC6",
   },
   disabledBtn: {
     // backgroundColor: 'lightblue', 
     // backgroundColor:'#c28090'
-    backgroundColor:'#9298ed'
-    
+    backgroundColor:'#9298ed'  
   },
-
   underlineStyleBase: {
     width: 30,
     height: 45,
@@ -348,7 +345,6 @@ const Styles = StyleSheet.create({
     position:'relatived',
     // backgroundColor:'rgba(117, 124, 232,0.1)'
     backgroundColor:'#ffffff'
-
   },
   loginContainer: {
     width: '100%',
@@ -361,16 +357,12 @@ const Styles = StyleSheet.create({
     padding: 10,
     position:'absolute',
     bottom:0
-    
-
-
   },
   inputContainer: {
     width: '78%',
     height: 60,
     alignSelf: 'center',
     marginTop: 30
-
   },
   placeHolderText: {
     color: 'grey',

@@ -84,7 +84,7 @@ function Contacts() {
                   {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
                   {responseData.map((item,index) => (
                     <>
-                    <View style={styles.container}>
+                    <View style={styles.container} key={item.id}>
                       
                     <View style={styles.profileView}>
                       <Text style={styles.title}>{item.designation}  </Text>
@@ -146,14 +146,11 @@ function Contacts() {
                     </View> */}
                     </>
                     ))}
-                  
-                
                 </View>
               </View>
               </View>
             </ImageBackground>
           </View>
-
         </>
 
         )
@@ -281,7 +278,6 @@ function Contacts() {
         height: 150,
         overflow: 'none'
       },
-
         image: {
           height: 105,
         width: 105,

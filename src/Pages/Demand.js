@@ -438,7 +438,7 @@ const Demand = () => {
         // backgroundColor: '#a20a3a'
         backgroundColor: '#3f50b5'
       }}>
-        <Text style={{ alignSelf: 'center', fontSize: 20, color: '#ffffff', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' }}>
+        <Text style={styles.textHeader}>
           Demand Report
         </Text>
       </View>
@@ -579,6 +579,7 @@ const Demand = () => {
   );
 };
 const styles = StyleSheet.create({
+  textHeader:{ alignSelf: 'center', fontSize: 20, color: '#ffffff', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' },
   disabledBtn: {
     // backgroundColor: 'lightblue',
     backgroundColor:'#9298ed',

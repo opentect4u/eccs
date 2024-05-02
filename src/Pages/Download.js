@@ -104,7 +104,7 @@ function Download() {
     return (
         <>
             <HeaderComponent />
-            <View style={{ height: ScreenHeight, width: '100%', backgroundColor: '#ffffff', borderTopLeftRadius: 50,borderTopRightRadius: 50, }}>
+            <View style={styles.bgContainer}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
                 {pdfUri && (
@@ -123,6 +123,7 @@ function Download() {
 }
 
 const styles = StyleSheet.create({
+    bgContainer:{ height: ScreenHeight, width: '100%', backgroundColor: '#ffffff', borderTopLeftRadius: 50,borderTopRightRadius: 50, },
     mainContainer: {
         height: 700,
         borderTopLeftRadius: 40,

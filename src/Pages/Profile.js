@@ -91,10 +91,12 @@ const Profile = ({ navigation }) => {
         }
       });
 
-      console.log(response.data.msg, 'profileDtls')
+      // console.log(response.data.msg, 'profileDtls')
       if (response.data.suc === 1) {
         setLoading(false)
         setResponseData(response.data.msg[0]);
+      // console.log(response.data.msg[0].doa, 'doa')
+
         setformattedDoa(moment(responseData.doa).format('DD MMMM YYYY'));
         setformattedDob(moment(responseData.dob).format('DD MMMM YYYY'));
         // console.log(formattedDob,'formattedDob')
@@ -113,7 +115,6 @@ const Profile = ({ navigation }) => {
       console.log(error);
     }
   };
-
   const handleImagePicker = async () => {
     try {
       const options = {}; 
