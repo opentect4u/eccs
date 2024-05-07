@@ -29,27 +29,21 @@ export const SocketProvider = ({ children }) => {
       setIsConnected(false); 
     });
     return () => {
-      // Disconnect socket
       if (socket) {
         socket.disconnect();
       }
     };
   }, []);
-  useEffect(() => {
-    if (bankid !== null) {
-      handleEmit(); // Call handleEmit only when bankid and empCode are available
-    }
-  }, [bankid, empCode]);
+  // useEffect(() => {
+  //   if (bankid !== null) {
+  //     handleEmit(); // Call handleEmit only when bankid and empCode are available
+  //   }
+  // }, [bankid, empCode]);
   const GetStorage = async () => {
     try {
         const asyncData = await AsyncStorage.getItem(`login_data`);
-        // console.log('async data ',asyncData)
         setbankid(JSON.parse(asyncData)?.bank_id)
-        // console.log(bankid,'bankid getstorage~')
         setEmpCode(JSON.parse(asyncData).emp_code)
-        // console.log(empCode,'empcode')
-        // console.log('GetStorage calling.....')
-
     }
     catch (err) {
         // console.log(err);
@@ -66,13 +60,16 @@ export const SocketProvider = ({ children }) => {
   // };
   
   const handleEmit = async () => {
+    console.log('handleEmit callinggggggggg')
     try {
       var socket = io("http://202.21.38.178:3002")
       // emitEvent('notification', bankid, { message: 'Update bank data!' })
       // console.log('bankid in socket',bankid)
-      socket.emit('notification',{bank_id:bankid, message: 'Update bank data!' })
+      // socket.emit('notification',{bank_id:bankid, message: 'Update bank data!' })
+      socket.emit('notification',{bank_id:0, message: 'Update bank data!' }) //bank_id = 0
+
       socket.on('send notification', data => {
-          // console.log('Response data notification:', data.msg);
+            console.log('socket_data:' + JSON.stringify(data));
           setSocketOnData(data.msg)
           // console.log('ON')
           // console.log(bankid,'bankid emitttttt')

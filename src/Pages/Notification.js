@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import HeaderComponent from '../Components/HeaderComponent';
 import { View, StyleSheet, Image, Alert, Text, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
+import { Button } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from '../config/config';
@@ -8,6 +9,7 @@ import { useSocket } from '../Context/Socket';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import Toast from 'react-native-toast-message';
 import io from 'socket.io-client';
+import { color } from 'react-native-elements/dist/helpers';
 
 
 
@@ -15,11 +17,12 @@ import io from 'socket.io-client';
 
 const Notification = () => {
   const { socketOndata } = useSocket();
-  const welcomContHeight = 0.25 * SCREEN_HEIGHT;
+  const [empCode,setEmpCode] = useState();
+  const welcomContHeight = 0.5 * SCREEN_HEIGHT;
 
   useEffect(() => {
     GetStorage()
-    console.log(socketOndata, 'socketOndata noti')
+    console.log(socketOndata, 'socketOndata in notification page')
     const socket = io("http://202.21.38.178:3002");
 
     return () => {
@@ -30,6 +33,8 @@ const Notification = () => {
   const GetStorage = async () => {
     try {
       const asyncData = await AsyncStorage.getItem(`login_data`);
+      setEmpCode(JSON.parse(asyncData)?.emp_code)
+      console.log(empCode,'empCode')
     }
     catch (err) {
       console.log(err);
@@ -88,8 +93,40 @@ const Notification = () => {
       { cancelable: false }
     );
 
-
   };
+
+  const handleDltAll = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/clear_all_notify?send_user_id=${147}`, {}, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log(response.data, 'clear_all_notify')
+      if (response.data.suc === 1) {  
+        console.log('deleted')
+        Toast.show({
+          type: 'success',
+          text1: 'All notification removed',
+          visibilityTime: 5000
+        })
+
+      }
+      else {
+        console.log('not deleted')
+        Toast.show({
+          type: 'error',
+          text1: 'API error',
+          visibilityTime: 5000
+        })
+       
+      }
+    }
+    catch (error) {   
+    }
+  };
+
   return (
     //  <View>
     //   <HeaderComponent/>
@@ -136,33 +173,68 @@ const Notification = () => {
 
     <View style={styles.container}>
       <HeaderComponent />
-      <ImageBackground source={require('../assets/bg.png')} style={styles.backgroundImage}>
-        <View style={[styles.container, { height: welcomContHeight, backgroundColor: 'white' }]}>
-          <Text style={styles.containerText}>Notification</Text>
+      {/* <ImageBackground source={require('../assets/bg.png')} style={styles.backgroundImage}> */}
+      <View style={{height:100,width:'100%',backgroundColor:'#3f50b5',alignItems:'center',justifyContent:'center'}}>
+        <Text style={{fontSize: 20,fontWeight: '900',color:'#ffffff'}}>Notification</Text>
+      </View>
+        {/* <View style={[styles.container, { height: welcomContHeight, backgroundColor: 'white' }]}> */}
+        <View style={[styles.container]}>
+
+          {/* <Text style={styles.containerText}>Notification</Text> */}
           <ScrollView style={styles.scrollView}>
 
             <View style={styles.notificationContainer}>
-              {socketOndata.map(item => (
+            {socketOndata.filter(item => item.send_user_id === empCode).length > 0 ? (
+              socketOndata.map(item => (
+                empCode === item.send_user_id && (
                 <TouchableOpacity key={item.id} onPress={() => handlePress(item)}>
                   <View style={styles.notificationItem}>
+                  {item.view_flag == 'N' && <View style={styles.notificationSeen}>
+                      <View style={{
+                        height: 8, width: 8, borderRadius: 4, backgroundColor: '#3f50b5',
+                      }}>
+                      </View>
+                    </View>}
                     <View style={styles.notificationIconContainer}>
                       <Image source={require('../assets/bell4.png')} style={styles.notificationIcon} />
                     </View>
                     <View style={styles.notificationTextContainer}>
-                      <Text style={styles.notificationText}>
-                        {item.narration.length > 25 ? `${item.narration.substring(0, 25)}...` : item.narration}
+                      <Text style={[styles.notificationText,item.view_flag === 'N' &&  styles.unseenNotificationText ]}>
+                        {item.narration.length > 25 ? `${item.narration.substring(0,35)}...` : item.narration}
                       </Text>
                       {/* <Text style={styles.notificationText}>{item.id}</Text> */}
                     </View>
-                    {item.view_flag == 'N' && <View style={styles.notificationSeen}>
+                    {/* {item.view_flag == 'N' && <View style={styles.notificationSeen}>
                       <View style={{
                         height: 8, width: 8, borderRadius: 4, backgroundColor: '#a20a3a',
                       }}>
                       </View>
-                    </View>}
+                    </View>} */}
                   </View>
                 </TouchableOpacity>
-              ))}
+                )
+              ))
+            )
+            :
+            (
+              <View>
+                 <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30,padding:5 }}>
+            <Image source={require('../assets/nodata4.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
+
+            <Text style={{ color: '#3f50b5', fontSize: 17, alignSelf: 'center', fontFamily: 'OpenSans-ExtraBold', marginTop: 10,fontWeight:'900' }}>No new notifications at the moment.</Text>
+          </View>
+              </View>
+            )}
+
+
+                {socketOndata.filter(item => item.send_user_id === empCode).length > 0 && (
+              <Button
+                    mode="contained"
+                    onPress={handleDltAll}
+                    style={{ backgroundColor: '#3f50b5', paddingHorizontal: 20,color:'#ffffff',width:'90%',height:45,alignSelf:'center',fontSize:17,marginBottom:10 }}>
+                    Delete all
+                  </Button>
+                    )}
               {/* <View style={styles.notificationItem}>
                   <View style={styles.notificationIconContainer}>
                     <Image source={require('../assets/bell.png')} style={styles.notificationIcon} />
@@ -174,9 +246,11 @@ const Notification = () => {
                 </View> */}
 
             </View>
+
+            
           </ScrollView>
         </View>
-      </ImageBackground>
+      {/* </ImageBackground> */}
     </View>
 
 
@@ -264,20 +338,28 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 5,
   },
   notificationContainer: {
-    padding: 20,
+    padding: 10,
   },
   notificationItem: {
     flexDirection: 'row',
     alignItems: 'center',
     // backgroundColor: 'rgba(211, 211, 211,0.3)',
     // backgroundColor:'rgba(162, 10, 58, 0.1)',
-    backgroundColor: '#e9eafc',
-    borderRadius: 40,
-    marginBottom: 10,
-    height: 50
+    backgroundColor: '#d9dcf0',
+    borderRadius: 8,
+    marginBottom: 7,
+    height: 70,
+    shadowColor: '#c5cbe9',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.1,
+  shadowRadius: 3,
+  elevation: 3, // This is for Android
   },
   notificationIconContainer: {
     width: 40,
@@ -286,7 +368,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 10,
+    marginLeft: 6,
   },
   notificationIcon: {
     resizeMode: 'contain',
@@ -298,12 +380,15 @@ const styles = StyleSheet.create({
     height: 40,
     width: '75%',
     marginLeft: 10,
-    // backgroundColor:'black'
+    // backgroundColor:'black',
+    justifyContent:'center'
   },
   notificationSeen: {
-    height: 20,
-    width: 20,
-    // backgroundColor:'black'
+    height: 8,
+    width: 8,
+    // backgroundColor:'black',
+    alignItems:'center',
+    marginLeft:5
     // flex:1,
 
   },
@@ -311,7 +396,14 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-ExtraBold',
     color: 'black',
     fontSize: 17,
+    fontWeight:'600'
   },
+  unseenNotificationText:{
+    fontFamily: 'OpenSans-ExtraBold',
+    color: 'black',
+    fontSize: 17,
+    fontWeight:'900'
+  }
 });
 
 

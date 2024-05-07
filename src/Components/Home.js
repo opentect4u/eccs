@@ -4,7 +4,7 @@ import HeaderComponent from './HeaderComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import RouteGaurdContext from '../Context/AuthGuard';
-// import Animated,{ BounceInLeft, BounceInRight, }from 'react-native-reanimated';
+// import Animated,{ BounceInLeft, BounceInRight}from 'react-native-reanimated';
 import { assets } from '../../react-native.config';
 
 
