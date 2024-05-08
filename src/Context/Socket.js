@@ -71,6 +71,13 @@ export const SocketProvider = ({ children }) => {
       socket.on('send notification', data => {
             console.log('socket_data:' + JSON.stringify(data));
           setSocketOnData(data.msg)
+          // data.msg.forEach(item => {
+          //   if (item.send_user_id === 147) {
+          //     filteredObjects.push(item);
+          //   }
+          // });
+
+          console.log(socketOndata,'socketOndata socket')
           // console.log('ON')
           // console.log(bankid,'bankid emitttttt')
           const v = data.msg.filter(dt=>(dt.send_user_id==empCode || dt.send_user_id==0) && dt.view_flag != "Y").length

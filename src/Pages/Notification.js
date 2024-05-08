@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HeaderComponent from '../Components/HeaderComponent';
-import { View, StyleSheet, Image, Alert, Text, TouchableOpacity, ImageBackground, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
+import { View, StyleSheet, Image, Alert, Text, TouchableOpacity, TouchableWithoutFeedback,Modal,ImageBackground, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
 import { Button } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,14 +10,17 @@ import { SCREEN_HEIGHT } from 'react-native-normalize';
 import Toast from 'react-native-toast-message';
 import io from 'socket.io-client';
 import { color } from 'react-native-elements/dist/helpers';
+import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 
 
 
 
-const Notification = () => {
+const Notification = (item ) => {
   const { socketOndata } = useSocket();
-  const [empCode,setEmpCode] = useState();
+  const [empCode, setEmpCode] = useState();
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
   const welcomContHeight = 0.5 * SCREEN_HEIGHT;
 
   useEffect(() => {
@@ -34,7 +37,7 @@ const Notification = () => {
     try {
       const asyncData = await AsyncStorage.getItem(`login_data`);
       setEmpCode(JSON.parse(asyncData)?.emp_code)
-      console.log(empCode,'empCode')
+      console.log(empCode, 'empCode')
     }
     catch (err) {
       console.log(err);
@@ -94,6 +97,49 @@ const Notification = () => {
     );
 
   };
+  const handleLongPress = (item) => {
+    console.log('Handle long press, maybe show delete button')
+    console.log(item.id,'handleLongPress id') 
+    setSelectedItem(item.id);
+    setShowBottomSheet(true);
+    // setShowDeleteButton(true);
+  };
+  const handleDelete = async () => {
+    console.log("Delete button pressed for item",item.id);
+    console.log(item.id,'handleDelete id')
+    console.log(selectedItem,'selectedItem')
+
+    try {
+      const response = await axios.get(`${BASE_URL}/api/notify_delete?id=${selectedItem}`, {}, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log(response.data, 'notify_delete')
+      if (response.data.suc === 1) {
+        console.log('deleted one notification')
+        Toast.show({
+          type: 'success',
+          text1: 'Notification deleted',
+          visibilityTime: 5000
+        })
+        setShowBottomSheet(false)
+
+      }
+      else {
+        console.log('not deleted')
+        Toast.show({
+          type: 'error',
+          text1: 'API error',
+          visibilityTime: 5000
+        })
+
+      }
+    }
+    catch (error) {
+    }
+  };
 
   const handleDltAll = async () => {
     try {
@@ -104,7 +150,7 @@ const Notification = () => {
       });
 
       console.log(response.data, 'clear_all_notify')
-      if (response.data.suc === 1) {  
+      if (response.data.suc === 1) {
         console.log('deleted')
         Toast.show({
           type: 'success',
@@ -120,122 +166,83 @@ const Notification = () => {
           text1: 'API error',
           visibilityTime: 5000
         })
-       
+
       }
     }
-    catch (error) {   
+    catch (error) {
     }
   };
 
   return (
-    //  <View>
-    //   <HeaderComponent/>
-    //   <View>
-    //       <ImageBackground
-    //         source={require('../assets/bg.png')} // Replace with the actual path to your image
-    //         style={{ resizeMode: 'cover' }}
-    //       >
-    //          <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
-    //           <Text style={Styles.containerText}> Notification</Text>
-
-    //           <View style={Styles.mainContainer}>
-    //           <ScrollView vertical>
-    //             <View style={Styles.profileContainer}>
-    //               <View style={{ alignItems: 'center' }}>
-    //                 <Text style={Styles.mainContHeader}>
-    //                   Get your notifications here
-    //                 </Text>
-    //               </View>
-
-    //   {socketOndata.map(item => (
-    //       <View key={item.id} style={{height:60,width:'100%',backgroundColor:'rgba(211, 211, 211,0.3)',marginTop:10,borderRadius:40,alignSelf:'center',flex:1,flexDirection:'row'}}>
-    //         <View style={{height:40,width:40,borderRadius:20,backgroundColor:'white',top:10,left:10,alignItems:'center',justifyContent:'center'}}>
-    //          <Image source={require('../assets/bell.png')} style={{ resizeMode: 'contain', width:20, height:20 }} />
-    //         </View>
-    //         <View style={{width:290,height:70,left:20}}>
-    //         <Text style={{color:'black',fontSize:18,top:15}}>{item.narration}</Text>
-    //         </View>
-    //       </View>
-    //     ))}
-
-    //             </View>
-    //             </ScrollView>
-    //           </View>
-
-
-    //         </View>
-    //       </ImageBackground>
-    //     </View>
-
-    //  </View>
-
-
 
     <View style={styles.container}>
       <HeaderComponent />
-      {/* <ImageBackground source={require('../assets/bg.png')} style={styles.backgroundImage}> */}
-      <View style={{height:100,width:'100%',backgroundColor:'#3f50b5',alignItems:'center',justifyContent:'center'}}>
-        <Text style={{fontSize: 20,fontWeight: '900',color:'#ffffff'}}>Notification</Text>
+      <View style={{ height: 100, width: '100%', backgroundColor: '#3f50b5', alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 20, fontWeight: '900', color: '#ffffff' }}>Notification</Text>
       </View>
-        {/* <View style={[styles.container, { height: welcomContHeight, backgroundColor: 'white' }]}> */}
-        <View style={[styles.container]}>
+      <View style={[styles.container]}>
+        <ScrollView style={styles.scrollView}>
 
-          {/* <Text style={styles.containerText}>Notification</Text> */}
-          <ScrollView style={styles.scrollView}>
-
-            <View style={styles.notificationContainer}>
+          <View style={styles.notificationContainer}>
             {socketOndata.filter(item => item.send_user_id === empCode).length > 0 ? (
               socketOndata.map(item => (
                 empCode === item.send_user_id && (
-                <TouchableOpacity key={item.id} onPress={() => handlePress(item)}>
-                  <View style={styles.notificationItem}>
-                  {item.view_flag == 'N' && <View style={styles.notificationSeen}>
-                      <View style={{
-                        height: 8, width: 8, borderRadius: 4, backgroundColor: '#3f50b5',
-                      }}>
+                  <TouchableWithoutFeedback key={item.id}
+                    onLongPress={() => handleLongPress(item)}
+                    onPress={() => handlePress(item)}>
+                    <View style={styles.notificationItem}>
+                      {item.view_flag == 'N' && <View style={styles.notificationSeen}>
+                        <View style={{
+                          height: 8, width: 8, borderRadius: 4, backgroundColor: '#3f50b5',
+                        }}>
+                        </View>
+                      </View>}
+                      <View style={styles.notificationIconContainer}>
+                        <Image source={require('../assets/bell4.png')} style={styles.notificationIcon} />
                       </View>
-                    </View>}
-                    <View style={styles.notificationIconContainer}>
-                      <Image source={require('../assets/bell4.png')} style={styles.notificationIcon} />
-                    </View>
-                    <View style={styles.notificationTextContainer}>
-                      <Text style={[styles.notificationText,item.view_flag === 'N' &&  styles.unseenNotificationText ]}>
-                        {item.narration.length > 25 ? `${item.narration.substring(0,35)}...` : item.narration}
-                      </Text>
-                      {/* <Text style={styles.notificationText}>{item.id}</Text> */}
-                    </View>
-                    {/* {item.view_flag == 'N' && <View style={styles.notificationSeen}>
+                      <View style={styles.notificationTextContainer}>
+                        <Text style={[styles.notificationText, item.view_flag === 'N' && styles.unseenNotificationText]}>
+                          {item.narration.length > 25 ? `${item.narration.substring(0, 35)}...` : item.narration}
+                        </Text>
+                        {/* <Text style={styles.notificationText}>{item.id}</Text> */}
+                      </View>
+                      {/* {item.view_flag == 'N' && <View style={styles.notificationSeen}>
                       <View style={{
                         height: 8, width: 8, borderRadius: 4, backgroundColor: '#a20a3a',
                       }}>
                       </View>
                     </View>} */}
-                  </View>
-                </TouchableOpacity>
+                      {/* {showDeleteButton && selectedItem && selectedItem.id === item.id && (
+                        <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
+                          <Text style={styles.deleteButtonText}></Text>
+                        </TouchableOpacity>
+                      )} */}
+                    </View>
+                  </TouchableWithoutFeedback>
                 )
               ))
             )
-            :
-            (
-              <View>
-                 <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30,padding:5 }}>
-            <Image source={require('../assets/nodata4.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
+              :
+              (
+                <View>
+                  <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30, padding: 5 }}>
+                    <Image source={require('../assets/nodata4.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
 
-            <Text style={{ color: '#3f50b5', fontSize: 17, alignSelf: 'center', fontFamily: 'OpenSans-ExtraBold', marginTop: 10,fontWeight:'900' }}>No new notifications at the moment.</Text>
-          </View>
-              </View>
-            )}
+                    <Text style={{ color: '#3f50b5', fontSize: 17, alignSelf: 'center', fontFamily: 'OpenSans-ExtraBold', marginTop: 10, fontWeight: '900' }}>No new notifications at the moment.</Text>
+                  </View>
+                </View>
+              )}
 
 
-                {socketOndata.filter(item => item.send_user_id === empCode).length > 0 && (
+            {/* {socketOndata.filter(item => item.send_user_id === empCode).length > 0 && (
               <Button
                     mode="contained"
                     onPress={handleDltAll}
                     style={{ backgroundColor: '#3f50b5', paddingHorizontal: 20,color:'#ffffff',width:'90%',height:45,alignSelf:'center',fontSize:17,marginBottom:10 }}>
                     Delete all
                   </Button>
-                    )}
-              {/* <View style={styles.notificationItem}>
+                    )} */}
+            {/* <View style={styles.notificationItem}>
                   <View style={styles.notificationIconContainer}>
                     <Image source={require('../assets/bell.png')} style={styles.notificationIcon} />
                   </View>
@@ -245,11 +252,34 @@ const Notification = () => {
                   
                 </View> */}
 
-            </View>
+          </View>
 
-            
-          </ScrollView>
-        </View>
+
+        </ScrollView>
+
+        {/* Floating button */}
+        {socketOndata.filter(item => item.send_user_id === empCode).length > 0 && (
+          <TouchableOpacity style={styles.floatingButton} onPress={handleDltAll}>
+            <Image source={require('../assets/delete_white.png')} style={{ resizeMode: 'contain', height: 18, width: 18, }} />
+            <Text style={styles.buttonText}>Delete all</Text>
+          </TouchableOpacity>
+        )}
+
+{showBottomSheet && (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={showBottomSheet}
+          onRequestClose={() => setShowBottomSheet(false)}>
+          <View style={styles.bottomSheet}>
+            <TouchableOpacity onPress={() => handleDelete()} style={styles.deleteButton}>
+            <Image source={require('../assets/delete_white.png')} style={{ resizeMode: 'contain', height: 30, width: 30, }} />
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      )}
+      </View>
+
       {/* </ImageBackground> */}
     </View>
 
@@ -353,13 +383,13 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     height: 70,
     shadowColor: '#c5cbe9',
-  shadowOffset: {
-    width: 0,
-    height: 2,
-  },
-  shadowOpacity: 0.1,
-  shadowRadius: 3,
-  elevation: 3, // This is for Android
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3, // This is for Android
   },
   notificationIconContainer: {
     width: 40,
@@ -378,17 +408,17 @@ const styles = StyleSheet.create({
   notificationTextContainer: {
     // flex: 1,
     height: 40,
-    width: '75%',
+    width: '68%',
     marginLeft: 10,
     // backgroundColor:'black',
-    justifyContent:'center'
+    justifyContent: 'center'
   },
   notificationSeen: {
     height: 8,
     width: 8,
     // backgroundColor:'black',
-    alignItems:'center',
-    marginLeft:5
+    alignItems: 'center',
+    marginLeft: 5
     // flex:1,
 
   },
@@ -396,14 +426,58 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-ExtraBold',
     color: 'black',
     fontSize: 17,
-    fontWeight:'600'
+    fontWeight: '600'
   },
-  unseenNotificationText:{
+  unseenNotificationText: {
     fontFamily: 'OpenSans-ExtraBold',
     color: 'black',
     fontSize: 17,
-    fontWeight:'900'
-  }
+    fontWeight: '800'
+  },
+  floatingButton: {
+    flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    gap: 10,
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#3f50b5',
+    borderTopLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    width: 115,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600'
+  },
+  bottomSheet: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 50, 
+  },
+  deleteButton: {
+    // backgroundColor: 'rgb(63, 80, 181)',
+    backgroundColor:'#5262bc',
+    paddingVertical: 15,
+    width: '100%',
+    alignItems: 'center',
+    // borderColor:'#3f50b5',
+    borderWidth:1,
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+    borderBottomColor:'white'
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });
 
 
