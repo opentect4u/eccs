@@ -68,7 +68,7 @@ const Demand = () => {
 
 
     try {
-      const response = await axios.get(`${BASE_URL}/api/demand_report?tb_name=${"td_demand_rpf"}&member_id=${1517}&month=${valueMonth}&year=${valueYear}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/demand_report?tb_name=${"td_demand"}&member_id=${1517}&month=${valueMonth}&year=${valueYear}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }

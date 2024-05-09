@@ -17,7 +17,8 @@ import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 
 const Notification = (item ) => {
-  const { socketOndata } = useSocket();
+  const { socketOndata,handleEmit, countNoti  } = useSocket();
+  const [notifications, setNotifications] = useState(socketOndata);
   const [empCode, setEmpCode] = useState();
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -25,13 +26,20 @@ const Notification = (item ) => {
 
   useEffect(() => {
     GetStorage()
-    console.log(socketOndata, 'socketOndata in notification page')
+    console.log(socketOndata, 'socketOndata in notification page newwwww')
     const socket = io("http://202.21.38.178:3002");
 
     return () => {
       socket.off('send notification');
     };
   }, [])
+  useEffect(() => {
+    setNotifications(socketOndata);
+  }, [socketOndata]);
+
+  useEffect(() => {
+    console.log(notifications, "Updated notifications state");
+  }, [notifications]);
 
   const GetStorage = async () => {
     try {
@@ -118,14 +126,17 @@ const Notification = (item ) => {
 
       console.log(response.data, 'notify_delete')
       if (response.data.suc === 1) {
-        console.log('deleted one notification')
+        const updatedNotifications = socketOndata.filter(notification => notification.id !== selectedItem);
+      setNotifications(updatedNotifications);
+      setSelectedItem(null);
+        console.log(socketOndata, 'in delete API')
+        setShowBottomSheet(false)
         Toast.show({
           type: 'success',
           text1: 'Notification deleted',
           visibilityTime: 5000
         })
-        setShowBottomSheet(false)
-
+       
       }
       else {
         console.log('not deleted')
@@ -149,15 +160,18 @@ const Notification = (item ) => {
         }
       });
 
-      console.log(response.data, 'clear_all_notify')
-      if (response.data.suc === 1) {
+      console.log(response.data.suc, 'clear_all_notify')
+      if (response.data.suc == 1) {
+        // socketOndata.length = 0
+        console.log(socketOndata,'after delete all')
         console.log('deleted')
         Toast.show({
           type: 'success',
           text1: 'All notification removed',
           visibilityTime: 5000
         })
-
+        setNotifications([]);
+        console.log(notifications,"setNotifications")
       }
       else {
         console.log('not deleted')
@@ -184,8 +198,9 @@ const Notification = (item ) => {
         <ScrollView style={styles.scrollView}>
 
           <View style={styles.notificationContainer}>
-            {socketOndata.filter(item => item.send_user_id === empCode).length > 0 ? (
-              socketOndata.map(item => (
+            {/* {socketOndata.filter(item => item.send_user_id === empCode).length > 0 ? ( */}
+            {notifications.length > 0 ? (
+              notifications.map(item => (
                 empCode === item.send_user_id && (
                   <TouchableWithoutFeedback key={item.id}
                     onLongPress={() => handleLongPress(item)}
@@ -416,10 +431,8 @@ const styles = StyleSheet.create({
   notificationSeen: {
     height: 8,
     width: 8,
-    // backgroundColor:'black',
     alignItems: 'center',
     marginLeft: 5
-    // flex:1,
 
   },
   notificationText: {
