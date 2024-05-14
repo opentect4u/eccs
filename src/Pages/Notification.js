@@ -26,7 +26,7 @@ const Notification = (item ) => {
 
   useEffect(() => {
     GetStorage()
-    console.log(socketOndata, 'socketOndata in notification page newwwww')
+    // console.log(socketOndata, 'socketOndata in notification page newwwww')
     const socket = io("http://202.21.38.178:3002");
 
     return () => {
@@ -37,15 +37,18 @@ const Notification = (item ) => {
     setNotifications(socketOndata);
   }, [socketOndata]);
 
+  
+
   useEffect(() => {
-    console.log(notifications, "Updated notifications state");
+    // console.log(notifications, "Updated notifications state");
   }, [notifications]);
 
   const GetStorage = async () => {
     try {
       const asyncData = await AsyncStorage.getItem(`login_data`);
       setEmpCode(JSON.parse(asyncData)?.emp_code)
-      console.log(empCode, 'empCode')
+      // console.log(empCode, 'empCode notification123')
+      // console.log(JSON.parse(asyncData)?.emp_code,'empCode notification123456')
     }
     catch (err) {
       console.log(err);
@@ -70,7 +73,7 @@ const Notification = (item ) => {
               user: user_name,
               bank_id: bank_id
             };
-            console.log(apidata, 'apidata alert')
+            // console.log(apidata, 'apidata alert')
 
             try {
               const response = await axios.post(`${BASE_URL}/api/noti_view_flag`, apidata, {
@@ -78,7 +81,7 @@ const Notification = (item ) => {
                   'Content-Type': 'application/json'
                 }
               });
-              console.log(response.data, 'noti flag')
+              // console.log(response.data, 'noti flag')
               if (response.data.suc === 1) {
                 Toast.show({
                   type: 'success',
@@ -106,16 +109,16 @@ const Notification = (item ) => {
 
   };
   const handleLongPress = (item) => {
-    console.log('Handle long press, maybe show delete button')
-    console.log(item.id,'handleLongPress id') 
+    // console.log('Handle long press, maybe show delete button')
+    // console.log(item.id,'handleLongPress id') 
     setSelectedItem(item.id);
     setShowBottomSheet(true);
     // setShowDeleteButton(true);
   };
   const handleDelete = async () => {
-    console.log("Delete button pressed for item",item.id);
-    console.log(item.id,'handleDelete id')
-    console.log(selectedItem,'selectedItem')
+    // console.log("Delete button pressed for item",item.id);
+    // console.log(item.id,'handleDelete id')
+    // console.log(selectedItem,'selectedItem')
 
     try {
       const response = await axios.get(`${BASE_URL}/api/notify_delete?id=${selectedItem}`, {}, {
@@ -124,12 +127,14 @@ const Notification = (item ) => {
         }
       });
 
-      console.log(response.data, 'notify_delete')
+      // console.log(response.data, 'notify_delete')
       if (response.data.suc === 1) {
-        const updatedNotifications = socketOndata.filter(notification => notification.id !== selectedItem);
+        const updatedNotifications = notifications.filter(notification => notification.id !== selectedItem);
+        console.log(updatedNotifications,'updatedNotifications')
       setNotifications(updatedNotifications);
+      // setNotifications(socketOndata)
+
       setSelectedItem(null);
-        console.log(socketOndata, 'in delete API')
         setShowBottomSheet(false)
         Toast.show({
           type: 'success',
@@ -139,7 +144,6 @@ const Notification = (item ) => {
        
       }
       else {
-        console.log('not deleted')
         Toast.show({
           type: 'error',
           text1: 'API error',
@@ -154,27 +158,21 @@ const Notification = (item ) => {
 
   const handleDltAll = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/clear_all_notify?send_user_id=${147}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/clear_all_notify?send_user_id=${empCode}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-
-      console.log(response.data.suc, 'clear_all_notify')
       if (response.data.suc == 1) {
         // socketOndata.length = 0
-        console.log(socketOndata,'after delete all')
-        console.log('deleted')
         Toast.show({
           type: 'success',
           text1: 'All notification removed',
           visibilityTime: 5000
         })
         setNotifications([]);
-        console.log(notifications,"setNotifications")
       }
       else {
-        console.log('not deleted')
         Toast.show({
           type: 'error',
           text1: 'API error',
@@ -199,8 +197,8 @@ const Notification = (item ) => {
 
           <View style={styles.notificationContainer}>
             {/* {socketOndata.filter(item => item.send_user_id === empCode).length > 0 ? ( */}
-            {notifications.length > 0 ? (
-              notifications.map(item => (
+            {notifications?.length > 0 ? (
+              notifications?.map(item => (
                 empCode === item.send_user_id && (
                   <TouchableWithoutFeedback key={item.id}
                     onLongPress={() => handleLongPress(item)}

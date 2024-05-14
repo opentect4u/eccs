@@ -34,6 +34,8 @@ export const SocketProvider = ({ children }) => {
       }
     };
   }, []);
+
+  
   
   // useEffect(() => {
   //   if (bankid !== null) {
@@ -78,8 +80,8 @@ export const SocketProvider = ({ children }) => {
                 }
               })
           setSocketOnData(filteredObjects)
-          console.log(filteredObjects,'filteredObjects')
-          console.log(socketOndata,'socketOndata')
+          // console.log(filteredObjects,'filteredObjects')
+          console.log(socketOndata,'socketOndata in socket context')
 
           // data.msg.forEach(item => {
           //   if (item.send_user_id === 147) {

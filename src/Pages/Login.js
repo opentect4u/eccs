@@ -137,7 +137,6 @@ function Login({ navigation }) {
     return <View style={Styles.inputContainer}>
       <View style={Styles.introContainer}>
         <Text style={Styles.header}>Login</Text>
-    
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <TextInput          

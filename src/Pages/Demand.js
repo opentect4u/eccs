@@ -13,7 +13,6 @@ import { Button } from 'react-native-paper';
 import Searchicon from 'react-native-vector-icons/Ionicons'
 import axios from 'axios';
 import { color } from 'react-native-elements/dist/helpers';
-
 const pickerStyle = {
   inputIOS: {
     color: 'black',
@@ -384,7 +383,7 @@ const Demand = () => {
       console.log(file, 'file')
 
       console.log('PDF Generated:', uri);
-      const RNFetchBlob = require('rn-fetch-blob');
+      // const RNFetchBlob = require('rn-fetch-blob');
       const moment = require('moment'); 
       const timestamp = moment().format('YYYYMMDD_HHmmss');
 

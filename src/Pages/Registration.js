@@ -1,6 +1,6 @@
 import React, { Children, useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
-import { useColorScheme, View, Text, StyleSheet, TouchableOpacity, ImageBackground, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { useColorScheme, View, Text, StyleSheet, TouchableOpacity, ImageBackground, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MMKV } from 'react-native-mmkv';
 // import {AsyncStorage} from 'react-native';
@@ -156,7 +156,7 @@ function Registration({ navigation }) {
         if (response.data.suc === 1) {
           const bankData = response.data.msg[0];
           const bank_name = response.data.msg[0].bank_name;
-          console.log(bankData,'bankData')
+          console.log(bankData, 'bankData')
           setUserData(response.data.msg[0])
           // setBank_code(response.data.msg[0].bank_id)
           // setBankName(response.data.msg[0].bank_name);
@@ -176,7 +176,7 @@ function Registration({ navigation }) {
       catch (error) {
         console.log(error);
       }
-     
+
     }
     else if (step == 2) {
 
@@ -453,7 +453,7 @@ function Registration({ navigation }) {
         emp_code: userData.emp_code,
         user_name: userData.member_name,
         user_id: userData.phone_no,
-        password:password,
+        password: password,
         // tb_name: "td_user"
       };
       console.log(apiParams, 'dataset save_user')
@@ -515,21 +515,21 @@ function Registration({ navigation }) {
   };
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <View style={Styles.container}>
-        <ImageBackground
+      <KeyboardAvoidingView behavior='padding' style={Styles.container}>
+        {/* <ImageBackground
           source={require('../assets/bg4.jpg')} // Replace with the actual path to your image
           style={Styles.backgroundImage}
-        >
-          <Text style={{
-            // color:'#fdbd30'
-            color: '#3f50b5',
-            fontSize: 30, fontWeight: '500', marginVertical: 20, alignSelf: 'center',
-          }}>Register Here</Text>
-          {/* Your other components go here */}
-          <View style={Styles.loginContainer}>
-            {step == 1 &&
-              <>
-                <View style={Styles.inputContainer}>
+        > */}
+        <Image source={require('../assets/pnbco.png')} style={{ resizeMode: 'contain', alignSelf: 'center', justifyContent: 'center', marginTop: '30%' }} />
+        {/* Your other components go here */}
+        <View style={Styles.loginContainer}>
+          {step == 1 &&
+            <>
+              <View style={Styles.inputContainer}>
+                <View style={Styles.introContainer}>
+                  <Text style={Styles.header}>Register Here</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInput
                     backgroundColor='transparent'
                     //  outlineColor='#02a7bf'
@@ -557,8 +557,9 @@ function Registration({ navigation }) {
                     />}
                   />
                 </View>
-              </>}
-            {/* {step == 2 &&
+              </View>
+            </>}
+          {/* {step == 2 &&
               <>
                 <Text style={Styles.textStyle}>Welcome To {bankName}</Text>
                 <View style={Styles.inputContainer}>
@@ -590,8 +591,8 @@ function Registration({ navigation }) {
               </>
 
             } */}
-            
-            {/* {step == 3 &&
+
+          {/* {step == 3 &&
               <>
                 
                 <Text style={Styles.textStyle}>Welcome {custName}</Text>
@@ -618,12 +619,16 @@ function Registration({ navigation }) {
               </>
             } */}
 
-            {step == 2 &&
-              <>
-                {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text>
+          {step == 2 &&
+            <>
+              {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text>
           <Text style={Styles.textStyle}>Customer Name: {custName}</Text> */}
-                <Text style={{ fontSize: 17, color: '#ffffff', fontFamily: 'OpenSans-Bold', fontWeight: '900' }}>Create Your PIN</Text>
-                <View style={Styles.inputContainer}>
+              {/* <Text style={{ fontSize: 17, color: '#ffffff', fontFamily: 'OpenSans-Bold', fontWeight: '900' }}>Create Your PIN</Text> */}
+              <View style={Styles.inputContainer}>
+                {/* <View style={Styles.introContainer}>
+                  <Text style={Styles.header}>Create your PIN</Text>
+                </View> */}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInput
                     backgroundColor='transparent'
                     outlineColor='#ffffff'
@@ -641,10 +646,11 @@ function Registration({ navigation }) {
                     placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
                     color={isDarkMode ? '#3f50b5' : '#3f50b5'}
                   />
-
                 </View>
-                {/* <Text style={{color:'red',alignSelf:'flex-start',left:50}}>hhjjhhj</Text> */}
-                <View style={Styles.inputContainer}>
+              </View>
+              {/* <Text style={{color:'red',alignSelf:'flex-start',left:50}}>hhjjhhj</Text> */}
+              <View style={Styles.inputContainer}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInput
                     backgroundColor='transparent'
                     outlineColor='#ffffff'
@@ -663,15 +669,16 @@ function Registration({ navigation }) {
                     color={isDarkMode ? '#3f50b5' : '#3f50b5'}
                   />
                 </View>
-                <View style={{ top: 5 }}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
-              </>
-            }
-            {step == 1 && <><TouchableOpacity style={[Styles.nextBtn,
-            { backgroundColor: isNextDisabled() ? '#9298ed' : '#ffffff' }]} onPress={() => incrementStep()} disabled={isNextDisabled()}>
-              <Text style={Styles.nextBtnFont}>Next</Text>
-            </TouchableOpacity></>}
+              </View>
+              <View style={{ top: 5 }}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
+            </>
+          }
+          {step == 1 && <><TouchableOpacity style={[Styles.nextBtn,
+          { backgroundColor: isNextDisabled() ? '#9298ed' : '#ffffff' }]} onPress={() => incrementStep()} disabled={isNextDisabled()}>
+            <Text style={Styles.nextBtnFont}>Next</Text>
+          </TouchableOpacity></>}
 
-            {/* {step == 2 &&
+          {/* {step == 2 &&
               <>
                 <Text style={{ top: 7, fontWeight: '900', color: isDarkMode ? 'black' : 'black' }}>
                   Resend OTP in <Text style={{ color: 'green', fontWeight: '900', }}>00:{counter}</Text>
@@ -682,36 +689,49 @@ function Registration({ navigation }) {
                 </TouchableOpacity>
               </>} */}
 
-            {step == 2 &&
-              <TouchableOpacity style={[Styles.nextBtn, { backgroundColor: isSubmitDisabled ? '#9298ed' : '#ffffff' }]} onPress={handleSubmit}
-                disabled={isSubmitDisabled}>
-                <Text style={Styles.nextBtnFont}>Submit</Text>
-              </TouchableOpacity>}
-          </View>
-        </ImageBackground>
-      </View>
+          {step == 2 &&
+            <TouchableOpacity style={[Styles.submitBtn, { backgroundColor: isSubmitDisabled ? '#9298ed' : '#ffffff' }]} onPress={handleSubmit}
+              disabled={isSubmitDisabled}>
+              <Text style={Styles.nextBtnFont}>Submit</Text>
+            </TouchableOpacity>}
+        </View>
+        {/* </ImageBackground> */}
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   )
 }
 const Styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     height: SCREEN_HEIGHT,
-    // alignItems: 'center',
-    // justifyContent:'center'
+    // backgroundColor: 'rgba(32,159,178,255)',
+    // justifyContent: 'flex-end',
+    position: 'relatived',
+    // backgroundColor:'rgba(117, 124, 232,0.1)'
+    backgroundColor: '#ffffff'
 
   },
   loginContainer: {
-    width: '90%',
-    height: '50%',
-    // backgroundColor: 'white',
+    width: '100%',
+    height: '47%',
     // backgroundColor: '#fdbd30',
+    // backgroundColor:'rgba(23,6,245,0.3)',
     backgroundColor: '#3f50b5',
-    borderRadius: 50,
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // overflow: 'hidden',
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    padding: 10,
+    position: 'absolute',
+    bottom: 0
+  },
+  introContainer: {
+    paddingVertical: 10
+  },
+  header: {
+    fontSize: 22,
+    // color: '#02a7bf',
+    // color:'#a20a3a',
+    color: '#ffffff',
+    fontFamily: 'EBGaramond-Bold'
   },
   input: {
     width: '80%',
@@ -744,6 +764,16 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  submitBtn: {
+    width: '60%',
+    height: 40,
+    backgroundColor: '#ffffff',
+    alignSelf: 'center',
+    marginTop: 25,
+    borderRadius: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover',
@@ -751,7 +781,7 @@ const Styles = StyleSheet.create({
   },
   errorText: {
     // color: 'red',
-    color:'#ffffff',
+    color: '#ffffff',
     fontSize: 15,
     fontWeight: '600'
   },
