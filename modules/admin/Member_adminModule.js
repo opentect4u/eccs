@@ -3,7 +3,7 @@ const { db_Select } = require("../MasterModule");
 module.exports = {
     memData : (id) =>{
         return new Promise(async (resolve, reject) => {
-            var fields = "member_id,member_name,gurd_name,memb_addr,gender,dob,doa,designation,pf_no,branch_name",
+            var fields = "member_id,member_name,gurd_name,memb_addr,gender,dob,doa,designation,pf_no",
               table_name = "md_member",
               where = id > 0 ? `id = ${id}` : null,
               order = null;
