@@ -44,17 +44,22 @@ function Registration({ navigation }) {
   const [userData, setUserData] = useState(null);
   const [showPin, setShowPin] = useState(false);
   const [showConPin, setShowConPin] = useState(false);
+  const textInputRef = React.useRef(null);
 
+  // Focus the TextInput whenever the component mounts or when it loses focus
+  // React.useEffect(() => {
+  //   const focusInterval = setInterval(() => {
+  //     if (textInputRef.current && !textInputRef.current.isFocused()) {
+  //       textInputRef.current.focus();
+  //     }
+  //   }, 100);
 
-
-
-
-
+  //   return () => clearInterval(focusInterval);
+  // }, []);
+  
   useEffect(() => {
     // console.log(regStorage.getString(`bank_name`))
-
     SetStorage();
-
     setTimeout(() => {
       GetStorage();
     }, 500);
@@ -87,7 +92,6 @@ function Registration({ navigation }) {
 
   const incrementStep = async () => {
     // if (step == 1) {
-
     //   try {
     //     const response = await axios.get(`${BASE_URL}/api/bank_dt?bank_id=${bankCode}`, {
     //       headers: {
@@ -100,7 +104,6 @@ function Registration({ navigation }) {
     //       const bank_name = response.data.msg[0].bank_name;
     //       setBank_code(response.data.msg[0].bank_id)
     //       setBankName(response.data.msg[0].bank_name);
-
     //       setStep(stepCount => stepCount + 1)
     //     }
     //     else {
@@ -176,7 +179,6 @@ function Registration({ navigation }) {
       catch (error) {
         console.log(error);
       }
-
     }
     else if (step == 2) {
 
@@ -195,7 +197,6 @@ function Registration({ navigation }) {
           });
         console.log(response.data, 'after phone number')
         // setUserData(response.data.data[0]);
-
         if (response.data.suc === 1) {
           setCustName(response.data.data[0].member_name);
           console.log(custName, 'custname')
@@ -250,9 +251,6 @@ function Registration({ navigation }) {
           catch (error) {
             console.log(error);
           }
-
-
-
         }
         else {
 
@@ -342,9 +340,6 @@ function Registration({ navigation }) {
     else {
       console.log('stepppppp')
     }
-
-
-
   }
   const handleBankCodeChange = (value) => {
     setBankCode(value);
@@ -419,7 +414,6 @@ function Registration({ navigation }) {
     //   console.log("Password mismatch");
     // }
   };
-
   const updateSubmitButtonState = (password, confirmPassword) => {
     // setSubmitDisabled(password !== confirmPassword);
     if (password.length != 0 && confirmPassword.length != 0) {
@@ -468,7 +462,6 @@ function Registration({ navigation }) {
         });
         console.log(response.data, 'res-data')
         if (response.data.suc === 1) {
-
           console.log('suc - 1')
           Toast.show({
             type: 'success',
@@ -555,6 +548,8 @@ function Registration({ navigation }) {
                       // color={'#a20a3a'}
                       color={'#3f50b5'}
                     />}
+                    // ref={textInputRef}
+                    autoFocus
                   />
                 </View>
               </View>
@@ -621,18 +616,11 @@ function Registration({ navigation }) {
 
           {step == 2 &&
             <>
-              {/* <Text style={Styles.textStyle}>Bank Name: {bankName}</Text>
-          <Text style={Styles.textStyle}>Customer Name: {custName}</Text> */}
-              {/* <Text style={{ fontSize: 17, color: '#ffffff', fontFamily: 'OpenSans-Bold', fontWeight: '900' }}>Create Your PIN</Text> */}
               <View style={Styles.inputContainer}>
-                {/* <View style={Styles.introContainer}>
-                  <Text style={Styles.header}>Create your PIN</Text>
-                </View> */}
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInput
                     backgroundColor='transparent'
-                    outlineColor='#ffffff'
-                    activeOutlineColor='#ffffff'
+                    outlineColor='#000'
                     mode="outlined"
                     style={{
                       flex: 1,
@@ -644,7 +632,8 @@ function Registration({ navigation }) {
                     right={<TextInput.Icon icon={showPin ? 'eye' : 'eye-off'} color={'#3f50b5'} onPress={toggleShowPin} />}
                     placeholder="Enter PIN"
                     placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
-                    color={isDarkMode ? '#3f50b5' : '#3f50b5'}
+                    color={isDarkMode ? 'black' : 'black'}
+                    autoFocus
                   />
                 </View>
               </View>
@@ -653,8 +642,7 @@ function Registration({ navigation }) {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInput
                     backgroundColor='transparent'
-                    outlineColor='#ffffff'
-                    activeOutlineColor='#ffffff'
+                    outlineColor='#000'
                     mode="outlined"
                     style={{
                       flex: 1
@@ -667,6 +655,7 @@ function Registration({ navigation }) {
                     placeholder="Confirm PIN"
                     placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
                     color={isDarkMode ? '#3f50b5' : '#3f50b5'}
+                    
                   />
                 </View>
               </View>

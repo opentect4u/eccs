@@ -13,12 +13,12 @@ import Toast from 'react-native-toast-message';
 
 
 const Feedback = () => {
-    
+
     const [rating, setRating] = React.useState(0);
     const [remarks, setremarks] = useState('');
     const [charCount, setCharCount] = useState(0);
     const welcomContHeight = 0.25 * SCREEN_HEIGHT;
-    
+
     const handleRatingChange = (newRating) => {
         setRating(newRating);
         console.log(newRating, 'rating')
@@ -28,12 +28,12 @@ const Feedback = () => {
         // GetStorage()
         // notificationEmit()
     }, [])
-    
+
 
     const remarksSubmit = async () => {
         const asyncData = await AsyncStorage.getItem(`login_data`);
         const bank_id = JSON.parse(asyncData)?.bank_id
-        const emp_code = JSON.parse(asyncData)?.emp_code 
+        const emp_code = JSON.parse(asyncData)?.emp_code
         const user_name = JSON.parse(asyncData)?.user_name
         const date = new Date()
         const apidata = {
@@ -41,45 +41,45 @@ const Feedback = () => {
             emp_code: emp_code,
             user_name: user_name,
             rating: rating,
-            remarks:remarks,
-            date:date
+            remarks: remarks,
+            date: date
         };
-    
+
         try {
-          const response = await axios.post(`${BASE_URL}/api/save_feedback_dtls`, apidata, {
-            headers: {
-              'Content-Type': 'application/json'
+            const response = await axios.post(`${BASE_URL}/api/save_feedback_dtls`, apidata, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(response.data, 'feedback')
+            if (response.data.suc === 1) {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Thank you for your feedback',
+                    visibilityTime: 5000
+                })
             }
-          });
-          console.log(response.data, 'feedback')
-          if (response.data.suc === 1) {
-            Toast.show({
-              type: 'success',
-              text1: 'Thank you for your feedback',
-              visibilityTime: 5000
-            })
-          }
-          else if (response.data.suc === 0) {
-            
-            Toast.show({
-              type: 'error',
-              text1: 'API error',
-              visibilityTime: 5000
-            })
-          }
+            else if (response.data.suc === 0) {
+
+                Toast.show({
+                    type: 'error',
+                    text1: 'API error',
+                    visibilityTime: 5000
+                })
+            }
         }
         catch (error) {
-          console.log(error);
+            console.log(error);
         }
-    
-        console.log(apidata,'feedback data')
-      }
-      const getSelectedColor = (rating) => {
-        switch(rating) {
+
+        console.log(apidata, 'feedback data')
+    }
+    const getSelectedColor = (rating) => {
+        switch (rating) {
             case 1:
-                return '#FF0000'; 
+                return '#FF0000';
             case 2:
-                return '#ffb234'; 
+                return '#ffb234';
             case 3:
                 return '#ffd934'; // Orange for rating 3
             case 4:
@@ -94,20 +94,17 @@ const Feedback = () => {
     const handleTextChange = (text) => {
         if (text.length <= maxChars) {
             setremarks(text)
-          setCharCount(text.length);
+            setCharCount(text.length);
         }
-      };
-      const isDisabled =  charCount === 0 || charCount > maxChars;
-      console.log(charCount,'charCount')
-      console.log(isDisabled,'isDisabled')
+    };
+    const isDisabled = charCount === 0 || charCount > maxChars;
+    console.log(charCount, 'charCount')
+    console.log(isDisabled, 'isDisabled')
     return (
         <View>
             <HeaderComponent />
             <View>
-                <ImageBackground
-                    source={require('../assets/bg5.jpg')} // Replace with the actual path to your image
-                    style={{ resizeMode: 'cover' }}
-                >
+                <ImageBackground source={require('../assets/bg5.jpg')}style={{resizeMode: 'cover'}}>
                     <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
                         <Text style={Styles.containerText}>Feedback</Text>
                         <View style={Styles.mainContainer}>
@@ -131,7 +128,6 @@ const Feedback = () => {
                                         selectedColor={getSelectedColor(rating)}
                                         reviewColor={getSelectedColor(rating)}
                                     /> */}
-
                                     <TextInput
                                         mode="outlined"
                                         // label="Remarks"
@@ -145,110 +141,63 @@ const Feedback = () => {
                                         outlineColor='#3f50b5'
                                         activeOutlineColor='#3f50b5'
                                         placeholderTextColor={'#3f50b5'}
-                                        
                                     />
-                                    <Text style={Styles.charCountText}>(
-                                        {charCount}/{maxChars})</Text>
-                                    <TouchableOpacity style={[Styles.submitBtn,isDisabled && Styles.disabledBtn]} onPress={remarksSubmit} disabled={isDisabled}>
+                                    <Text style={Styles.charCountText}>({charCount}/{maxChars})</Text>
+                                    <TouchableOpacity style={[Styles.submitBtn, isDisabled && Styles.disabledBtn]} onPress={remarksSubmit} disabled={isDisabled}>
                                         <Text style={Styles.submitBtnTxt}>Submit</Text>
                                     </TouchableOpacity>
-
                                 </View>
                             </View>
                         </View>
-
-
                     </View>
                 </ImageBackground>
-
             </View>
         </View>
-
-
     );
 };
 const Styles = StyleSheet.create({
     mainContainer: {
-        height: 700,
-        borderTopLeftRadius: 40,
-        borderTopRightRadius: 40,
-        width: '100%',
-        backgroundColor: 'white',
-        // backgroundColor:'#fdbd30',
-        alignSelf: 'center',
-        position: 'absolute',
-        top: 120,
-        padding: 20,
+        height: 700,borderTopLeftRadius: 40,borderTopRightRadius: 40,backgroundColor: 'white',
+        width: '100%',alignSelf: 'center',position: 'absolute',top: 120,padding: 20,
+        // backgroundColor:'#fdbd30',  
     },
     profileContainer: {
         position: 'relative',
     },
     containerText: {
-        fontSize: 20,
-        fontWeight: '900',
-        color: 'white',
+        fontSize: 20,fontWeight: '900',color: 'white', top: 50,alignSelf: 'center'
         // color:'#fdbd30',
-        top: 50,
-        alignSelf: 'center'
     },
     mainContHeader: {
-        // color: '#209fb2',
-        // color:'#a20a3a',
-        color:'#3f50b5',
-        fontSize: 18,
-        fontWeight: '900',
-        padding: 15,
-        // borderBottomWidth: 0.5,
-        // borderBottomWidth: 1,
-
+        color: '#3f50b5',fontSize: 18,fontWeight: '900',padding: 15,borderBottomColor: '#a20a3a'
+        // color: '#209fb2',// color:'#a20a3a',// borderBottomWidth: 0.5,// borderBottomWidth: 1,
         // borderBottomColor: 'black',
-        borderBottomColor:'#a20a3a'
     },
     inputContainer: {
-        width: '80%',
-        height: 60,
-        alignSelf: 'center',
-        marginTop: 30
-
+        width: '80%',height: 60,alignSelf: 'center',marginTop: 30
     },
     textInputStyle: {
-        width: '80%',
-        height: 100,
-        alignSelf: 'center',
-        marginTop: 20,
+        width: '80%',height: 100,alignSelf: 'center',marginTop: 20,
     },
     submitBtn: {
         // backgroundColor: '#04bbd6',
         // backgroundColor:'#a20a3a',
-        backgroundColor:'#3f50b5',
-        width: 100,
-        padding: 10,
-        borderRadius: 10,
-        marginTop: 10,
-        alignSelf:'center',
-        marginTop:50
-      },
-      submitBtnTxt: {
-        color: 'white',
-        textAlign: 'center',
-        fontSize: 15,
-        fontWeight: '800'
-      },
-      disabledBtn: {
+        backgroundColor: '#3f50b5',width: 100,padding: 10,borderRadius: 10,marginTop: 10,
+        alignSelf: 'center',marginTop: 50
+    },
+    submitBtnTxt: {
+        color: 'white',textAlign: 'center',fontSize: 15,fontWeight: '800'
+    },
+    disabledBtn: {
         // backgroundColor: 'lightblue', 
         // backgroundColor:'#c28090'
-        backgroundColor:'#7985cb' 
-      },
-      charCountText: {
-        alignSelf: 'flex-end',
-        marginTop: 5,
+        backgroundColor: '#7985cb'
+    },
+    charCountText: {
+        alignSelf: 'flex-end',marginTop: 5, color: '#3f50b5',fontWeight: '900',
         // color: '#a20a3a',
-        color:'#3f50b5',
-        fontWeight:'900'
-      },
+    },
 
 });
-
 // const screenWidth = Dimensions.get('window').width;
-
 export default Feedback;

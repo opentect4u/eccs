@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, useColorScheme, StyleSheet, ScrollView, ActivityIndicator, Image, PermissionsAndroid, Platform } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { View, useColorScheme, StyleSheet, ScrollView, ActivityIndicator, Image, PermissionsAndroid, Platform, } from 'react-native';
 import { Text, Overlay, Input } from 'react-native-elements';
 import HeaderComponent from '../Components/HeaderComponent';
 import RNPickerSelect from 'react-native-picker-select';
@@ -46,28 +46,40 @@ const Demand = () => {
   const [valueMonth, setValueMonth] = useState(null);
   const [valueYear, setValueYear] = useState(null);
   const [responseData, setResponseData] = useState([]);
+  const [memberID,setMemberID] = useState('')
   const [total, settotal] = useState([0]);
   const [isLoading, setLoading] = useState(false)
   const [year, setYear] = useState('');
   const [noData, setNoData] = useState(false)
   const [filepath, setfilepath] = useState('')
+
+  useEffect(() => {
+    GetStorage();
+  }, [])
+
+  const GetStorage = async () => {
+    try {
+      const asyncData = await AsyncStorage.getItem(`login_data`);
+      setMemberID(JSON.parse(asyncData)?.member_id)  
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+  }
   const handleSearch = async () => {
     setLoading(true)
-    // Implement your search logic here
+    console.log(memberID, 'member_id in demand')
     // console.log('Selected Month:', valueMonth);
     // console.log('Selected Year:', valueYear);
-    const asyncData = await AsyncStorage.getItem('member_id');
-
-    const apiParams = {
-      tb_name: "td_demand_rpf",
-      member_id: 1517,
-      month: valueMonth,
-      year: valueYear
-    };
-
-
+    // const apiParams = {
+    //   tb_name: "td_demand_rpf",
+    //   member_id: 1517,
+    //   month: valueMonth,
+    //   year: valueYear
+    // };
     try {
-      const response = await axios.get(`${BASE_URL}/api/demand_report?tb_name=${"td_demand"}&member_id=${1517}&month=${valueMonth}&year=${valueYear}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/demand_report?tb_name=${"td_demand"}&member_id=${memberID}&month=${valueMonth}&year=${valueYear}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -89,7 +101,7 @@ const Demand = () => {
           parseFloat(responseData[0].cl_interest) +
           parseFloat(responseData[0].ltc_prn) +
           parseFloat(responseData[0].ltc_intt);
-        settotal(totalValue)
+          settotal(totalValue)
         //  console.log(total,'gl_principal')
       }
       else if (response.data.suc === 0) {
@@ -159,7 +171,6 @@ const Demand = () => {
             buttonPositive: 'OK',
           }
         );
-
         console.log('Permission result:', granted);
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
 
@@ -169,7 +180,6 @@ const Demand = () => {
           console.log('WRITE_EXTERNAL_STORAGE permission is not granted');
           // Permission is not granted, handle accordingly
         }
-
         // if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
         //   throw new Error('Storage permission not granted');
         // }
@@ -302,10 +312,7 @@ const Demand = () => {
         <div>Dharmatala Street</div>
         <div>120 LENIN SARANI</div>
         <div>KOLKATA, (Ground Floor 700013)</div>
-
-        </div>
-        
-        
+        </div> 
         <div class="tableDiv">
         <table>
             <tr>
@@ -326,7 +333,6 @@ const Demand = () => {
             </tr>
         </table>
     </div>
-
     <div class="aftertable">
     <div class="textstyle">
      Please deduct as per Demand list. Retain one copy and 
@@ -338,7 +344,6 @@ const Demand = () => {
     <span class="leftContent">Demand list no</span>
     <span class="middleContent"> &nbsp;&nbsp;&nbsp;180 dated 26/02/2024</span>
     </div>
-
     <div class="signatureBlock">
     <span class="rightContent">Thanking you,</span>
     <br>
@@ -349,16 +354,14 @@ const Demand = () => {
     <span class="bottomLine">Secretary</span>
     </div>
     <div class="aftersignatureBlock"> Remitted on &nbsp;&nbsp;/&nbsp;&nbsp;/&nbsp;&nbsp;  And Credited to A/C no 1964 0093 0007 7211 of  </div>
-
     <div class="aftersignaturetext">PNB EMPLOYEES CO OPERATIVE CREDIT SOCIETY LTD</div> 
     <div class="container">
-
     <p>
     BALANCE UPDATED UPTO 24/01/2024.Our email ID - (pnbcoopkol@gmail.com)
     </p>
     <p>Amendment: Mgr self service- Salary_Tds related-Amendment-Put emp.Id-search.
     Add new assignment-deduction-(element name)- PNB CO OPE S-O.K. </p>
-</div>
+    </div>
     </body>
     </html>
     `;
@@ -372,7 +375,6 @@ const Demand = () => {
       //     ${tableData.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
       //   </tbody>
       // </table>
-
       const uri = {
         html: htmlContent,
         fileName: 'Demand_Report',
@@ -381,12 +383,10 @@ const Demand = () => {
       }
       const file = await RNHTMLtoPDF.convert(uri);
       console.log(file, 'file')
-
       console.log('PDF Generated:', uri);
       // const RNFetchBlob = require('rn-fetch-blob');
       const moment = require('moment'); 
       const timestamp = moment().format('YYYYMMDD_HHmmss');
-
       const filepath = `${RNFetchBlob.fs.dirs.DownloadDir}/Demand_Report_${timestamp}.pdf`;
       RNFetchBlob.fs.writeFile(filepath, file.base64, 'base64')
         .then(() => {
@@ -408,7 +408,6 @@ const Demand = () => {
           });
         });
     } catch (error) {
-
       if (error.message === 'Storage permission not granted') {
         console.log('Storage permission not granted');
         Toast.show({
@@ -431,12 +430,7 @@ const Demand = () => {
   return (
     <>
       <HeaderComponent />
-      <View style={{
-        height: 40,
-        // backgroundColor: 'rgba(4,187,214,255)'
-        // backgroundColor: '#a20a3a'
-        backgroundColor: '#3f50b5'
-      }}>
+      <View style={styles.header}>
         <Text style={styles.textHeader}>
           Demand Report
         </Text>
@@ -477,8 +471,7 @@ const Demand = () => {
             { label: '2023', value: '2023' },
             { label: '2022', value: '2022' },
             { label: '2021', value: '2021' },
-          ]}
-        />
+          ]}/>
         <Button
           style={[{ borderRadius: 5, marginHorizontal: 10, backgroundColor: '#3f50b5', }, isdisabled && styles.disabledBtn]}
           textColor='white'
@@ -494,7 +487,6 @@ const Demand = () => {
 
           {/* {responseData && */}
           <View>
-
             {
               responseData.map((record, index) => (
                 <View key={index} style={{ marginBottom: 10, padding: 15 }}>
@@ -551,7 +543,7 @@ const Demand = () => {
                   <Button
                     mode="contained"
                     onPress={handleDownloadPDF}
-                    disabled={!responseData.length} // Disable button if no data
+                    disabled={!responseData.length}
                     style={{ backgroundColor: '#3f50b5', paddingHorizontal: 20,color:'#ffffff' }}>
                     Download PDF
                   </Button>
@@ -565,7 +557,6 @@ const Demand = () => {
       </ScrollView>
 
       {noData &&
-
         <View style={styles.containerRpt}>
           <View style={{ height: 500, width: '100%', alignItems: 'center', marginTop: 30 }}>
             <Image source={require('../assets/nodata4.png')} style={{ resizeMode: 'contain', height: 70, width: '100%', alignSelf: 'center' }} />
@@ -578,63 +569,42 @@ const Demand = () => {
   );
 };
 const styles = StyleSheet.create({
+  header:{
+    height: 40,backgroundColor: '#3f50b5'
+    // backgroundColor: 'rgba(4,187,214,255)'// backgroundColor: '#a20a3a'
+  },
   textHeader:{ alignSelf: 'center', fontSize: 20, color: '#ffffff', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' },
   disabledBtn: {
     // backgroundColor: 'lightblue',
-    backgroundColor:'#9298ed',
-    color: 'white'
+    backgroundColor:'#9298ed',color: 'white'
   },
   containerRpt: {
-    height: 'auto',
-    backgroundColor: 'white',
-    top: 10
+    height: 'auto',backgroundColor: 'white',top: 10
   },
   container: {
-    //   flex: 1,
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    // height: 100,
-    // backgroundColor: 'rgba(24,117,130,0.2)',
-    // backgroundColor: 'rgba(162, 10, 58, 0.1)',
-    backgroundColor:'#d2d4f9',
-    zIndex: 10,
-    fontFamily: 'Roboto',
-    padding: 15
+  //flex: 1,//justifyContent:'center',//alignItems:'center',// height:100,//backgroundColor: 'rgba(24,117,130,0.2)',// backgroundColor: 'rgba(162, 10, 58, 0.1)',
+    backgroundColor:'#d2d4f9',zIndex: 10,fontFamily: 'Roboto',padding: 15
   },
   overlayContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15
-
+  flexDirection: 'row',alignItems: 'center',padding: 15
   },
   dropdownContainer: {
-    flex: 1,
-    height: 40,
-    margin: 5,
+    flex: 1,height: 40,margin: 5,
   },
   dropdown: {
-    backgroundColor: 'white',
-    borderColor: 'rgba(24, 117, 130, 0.4)',
-    fontFamily: 'Roboto'
+    backgroundColor: 'white',borderColor: 'rgba(24, 117, 130, 0.4)',fontFamily: 'Roboto'
   },
   dropdownItem: {
-    justifyContent: 'flex-start',
-    fontFamily: 'Roboto'
+    justifyContent: 'flex-start',fontFamily: 'Roboto'
   },
   dropdownList: {
-    backgroundColor: 'rgba(24, 117, 130, 0.4)',
-    height: 100,
-    zIndex: 10,
-    fontFamily: 'Roboto'
+    backgroundColor: 'rgba(24, 117, 130, 0.4)',height: 100,zIndex: 10,fontFamily: 'Roboto'
   },
   searchButtonContainer: {
-    // marginLeft: 10,
-    backgroundColor: 'white'
+    // marginLeft: 10,backgroundColor: 'white'
   },
   searchButton: {
-    backgroundColor: 'sky',
-    height: 30,
-    width: 30,
+    backgroundColor: 'sky',height: 30,width: 30,
   },
 });
 export default Demand;

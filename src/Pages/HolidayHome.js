@@ -91,20 +91,20 @@ const HolidayHome = () => {
                     setValue={setvaluePlace}
                     value={valuePlace}
                     style={{
-                      borderWidth:2,
+                      borderWidth: 2,
                       borderColor: '#a20a3a', // Border color
                       backgroundColor: '#ffffff', // Background color
                       zIndex: 1000, // Adjust the z-index if needed
                     }}
                     textStyle={{
                       color: '#a20a3a', // Text color
-                      fontWeight:'600'
+                      fontWeight: '600'
                     }}
                     dropDownContainerStyle={{
                       backgroundColor: '#ffffff', // Dropdown container background 
                       borderColor: '#a20a3a', // Dropdown container border color
                     }}
-                    
+
                   />
                   <TouchableOpacity style={[Styles.submitBtn, isDisabled && Styles.disabledBtn]} onPress={valueSubmit} disabled={!valuePlace}>
                     <Text style={Styles.submitBtnTxt}>Submit</Text>
@@ -114,21 +114,21 @@ const HolidayHome = () => {
                   {selectedValuesData && (
                     <View>
                       <View style={Styles.container}>
-  <Text style={Styles.title}>Hotel Details</Text>
-  <View style={Styles.detailContainer}>
-    <Text style={Styles.detailText}>Address: {selectedValuesData.hh_address}</Text>
-    <Text style={Styles.detailText}>Hotel Charge: {selectedValuesData.hh_charge}</Text>
-    <Text style={Styles.detailText}>Email: {selectedValuesData.hh_email}</Text>
-  </View>
-</View>
+                        <Text style={Styles.title}>Hotel Details</Text>
+                        <View style={Styles.detailContainer}>
+                          <Text style={Styles.detailText}>Address: {selectedValuesData.hh_address}</Text>
+                          <Text style={Styles.detailText}>Hotel Charge: {selectedValuesData.hh_charge}</Text>
+                          <Text style={Styles.detailText}>Email: {selectedValuesData.hh_email}</Text>
+                        </View>
+                      </View>
 
                       <View style={Styles.container}>
-                      <Text style={Styles.title}>Contact Details</Text>
-                      <View style={Styles.detailContainer}>
-                      <Text style={Styles.detailText}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
-                      <Text style={Styles.detailText}>Phone: {selectedValuesData.hh_phone}</Text>
-                      <Text style={Styles.detailText}>Place: {selectedValuesData.hh_place}</Text>
-                      </View>
+                        <Text style={Styles.title}>Contact Details</Text>
+                        <View style={Styles.detailContainer}>
+                          <Text style={Styles.detailText}>Contact Person: {selectedValuesData.hh_contact_person}</Text>
+                          <Text style={Styles.detailText}>Phone: {selectedValuesData.hh_phone}</Text>
+                          <Text style={Styles.detailText}>Place: {selectedValuesData.hh_place}</Text>
+                        </View>
                       </View>
                     </View>
                   )}
@@ -158,18 +158,18 @@ const Styles = StyleSheet.create({
     position: 'relative',
   },
   containerText: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     fontSize: 20,
     fontWeight: '900',
     // color: 'white',
-    color:'#fdbd30',
+    color: '#fdbd30',
     top: 50,
     alignSelf: 'center'
   },
   mainContHeader: {
-    fontFamily:'OpenSans-ExtraBold',
+    fontFamily: 'OpenSans-ExtraBold',
     // color: '#209fb2',
-    color:'#a20a3a',
+    color: '#a20a3a',
     fontSize: 18,
     fontWeight: '900',
     padding: 15,
@@ -192,7 +192,7 @@ const Styles = StyleSheet.create({
   },
   submitBtn: {
     // backgroundColor: '#04bbd6',
-    backgroundColor:'#a20a3a',
+    backgroundColor: '#a20a3a',
     width: 100,
     padding: 10,
     borderRadius: 10,
@@ -208,7 +208,7 @@ const Styles = StyleSheet.create({
   },
   disabledBtn: {
     // backgroundColor: 'lightblue',
-    backgroundColor:'#c28090'
+    backgroundColor: '#c28090'
   },
   container: {
     height: 150,
@@ -224,7 +224,7 @@ const Styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-    alignSelf:'center'
+    alignSelf: 'center'
   },
   detailContainer: {
     justifyContent: 'center',

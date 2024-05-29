@@ -67,18 +67,14 @@ function Contacts() {
 
   return (
     <>
-      <HeaderComponent />
+      <HeaderComponent/>
       <View>
-
         <ImageBackground
           source={require('../assets/bg5.jpg')}
-          style={{ resizeMode: 'cover', height: welcomContHeight }}
-
-        >
-          <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
+          style={{ resizeMode: 'cover', height: welcomContHeight }}>
+          <View style={{ height: welcomContHeight,width:'screenWidth',position: 'relative'}}>
             {/* <Text style={styles.containerText}>{`Hello! ${userName}`}</Text> */}
             <Text style={styles.containerText}>Contact</Text>
-
             <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
                 {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
@@ -134,15 +130,15 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    justifyContent: 'flex-start', // Adjust justifyContent as needed
+    justifyContent: 'flex-start', 
     flexWrap: 'wrap',
-    width: '100%', // Adjust to fit your design
-    paddingHorizontal: 8, // Adjust as needed
+    width: '100%', 
+    paddingHorizontal: 8,
     gap: 15,
   },
   profileView: {
-    width: '45%', // Adjust the width to fit two items per row
-    paddingBottom: 10, // Adjust as needed
+    width: '45%',
+    paddingBottom: 10,
     
   },
   //   listView: {

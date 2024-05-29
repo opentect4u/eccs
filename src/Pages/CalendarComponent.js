@@ -68,11 +68,13 @@ function CalendarComponent() {
       console.log(response.data,'holiday API res')
       if (response.data.suc === 1) {
         const holidayDates = response.data.msg.reduce((acc, holiday) => {
-          acc[holiday.cal_dt.substr(0, 10)] = { marked: true, dotColor: '#a20a3a', cal_event: holiday.cal_event }; // Customize dotColor as needed
+          acc[holiday.cal_dt.substr(0, 10)] = { 
+          marked: true, 
+
+          cal_event: holiday.cal_event }; 
           return acc;
         }, {});
         setHolidays(holidayDates);
-
       }
       else {
         Toast.show({
@@ -90,29 +92,19 @@ function CalendarComponent() {
 
 
   return (
-
     <>
       <HeaderComponent />
-
-      <ImageBackground
-        source={require('../assets/bg5.jpg')}
-
-      >
+      <ImageBackground source={require('../assets/bg5.jpg')}>
         <View style={styles.container}>
           <View style={styles.dateDtls}>
             <View style={styles.dateDtlsCont}>
-              <Text style={styles.dateText}>{selectedDate ? `Selected Date: ${formatDate(selectedDate)}` : 'No date selected'}</Text>
+              <Text style={styles.dateText}>{selectedDate ? `${formatDate(selectedDate)}` : 'No date selected'}</Text>
               {selectedevent ? <Text style={styles.selectedHoliday}>{selectedevent}</Text> : <Text style={styles.nohoilday}>No holiday</Text>
               }
             </View>
           </View>
-
           <View style={styles.calendar}>
-            <Calendar style={{
-              height: 550,
-              borderTopLeftRadius: 50,
-              borderTopRightRadius: 50,
-            }}
+            <Calendar style={styles.calendarCont}
               theme={{
                 // textSectionTitleColor: '#209fb2',
                 textSectionTitleColor: '#3f50b5',
@@ -137,14 +129,17 @@ function CalendarComponent() {
                 textDayHeaderFontFamily: 'OpenSans-ExtraBold',
                 textDayFontSize: 16,
                 textDayFontWeight: '900',
-                textMonthFontSize: 20,
-                textMonthFontWeight: '900',
+                textMonthFontSize: 22,
+                textDayHeaderFontSize:15,
+                textMonthFontWeight: 'bold',
               }}
               markedDates={{
-                ...holidays,
+                ...holidays ,
                 [selectedDate]: { selected: true, selectedColor: '#3f50b5' },
 
               }}
+              
+
               onDayPress={handleDayPress}
               current={selectedDate}
             />
@@ -152,10 +147,8 @@ function CalendarComponent() {
         </View>
       </ImageBackground>
     </>
-
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     height: SCREEN_HEIGHT,
@@ -170,6 +163,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  calendarCont:{height: 550,borderTopLeftRadius: 50,borderTopRightRadius: 50},
   dateDtlsCont: { backgroundColor: 'rgba(211, 211, 211,0.1)', height: 200, width: '90%', top: 20, borderRadius: 50, alignSelf: 'center', padding: 20, justifyContent: 'center', alignItems: 'center' },
   dateText:{ color: '#ffffff', fontFamily: 'OpenSans-ExtraBold', fontSize: 18, fontWeight: '700' },
   selectedHoliday:{ color: '#ffffff', fontFamily: 'OpenSans-ExtraBold', fontSize: 20, fontWeight: '700' },

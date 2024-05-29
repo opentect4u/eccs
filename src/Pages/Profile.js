@@ -75,7 +75,6 @@ const Profile = ({ navigation }) => {
     }
 
   }
-
   const profileDtls = async () => {
     setLoading(true)
     const asyncData = await AsyncStorage.getItem(`login_data`);
@@ -85,13 +84,13 @@ const Profile = ({ navigation }) => {
     const member_id = JSON.parse(asyncData)?.member_id
     console.log(empCode, 'empcode')
     try {
-      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?member_id=${member_id}&emp_code=${empCode}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?member_id=${member_id}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
-      // console.log(response.data.msg, 'profileDtls')
+      console.log(response.data.msg, 'profileDtls')
       if (response.data.suc === 1) {
         setLoading(false)
         setResponseData(response.data.msg[0]);
@@ -215,7 +214,7 @@ const Profile = ({ navigation }) => {
             <View style={{ height: 70, width: 70, backgroundColor: '#ffffff', alignSelf: 'center', borderRadius: 35, top: 8, alignItems: 'center', justifyContent: 'center' }}>
             {selectedImageUri ? 
               <Image source={{ uri: selectedImageUri }} style={{ resizeMode: 'contain', height: 60, width: 60,borderRadius:30 }}/> :
-              (responseData.gender == 'M' ?
+              (responseData.gender == 'M'?
               <Image source={require('../assets/man.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} /> :
               <Image source={require('../assets/woman.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} />)
             }
@@ -235,7 +234,7 @@ const Profile = ({ navigation }) => {
               </TouchableOpacity>
 
             </View>
-            <Text style={styles.containerText}>{`Hello! ${responseData.user_name}`}</Text>
+            <Text style={styles.containerText}>{`Hello! ${responseData.member_name}`}</Text>
             <Text style={styles.containerText}>+91{responseData.user_id}</Text>
             <Text style={styles.containerText}>Email ID: {responseData.email_id}</Text>
             {/* <Text style={styles.containerText}>Designation: {responseData.designation}</Text> */}
@@ -287,7 +286,7 @@ const Profile = ({ navigation }) => {
                 <View style={styles.container}>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Father/Husband's Name </Text>
-                    <Text style={styles.content}>{responseData.gurdian_name}</Text>
+                    <Text style={styles.content}>{responseData.gurd_name}</Text>
                   </View>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>P.F No. </Text>
@@ -307,7 +306,7 @@ const Profile = ({ navigation }) => {
                 <View style={styles.container}>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Permanent Address </Text>
-                    <Text style={styles.content}>{responseData.permanent_add}</Text>
+                    <Text style={styles.content}>{responseData.memb_addr}</Text>
                   </View>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>P.O </Text>

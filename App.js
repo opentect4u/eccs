@@ -17,34 +17,6 @@ import { SocketProvider } from './src/Context/Socket';
 import SplashScreen from 'react-native-splash-screen';
 
 const toastConfig = {
-  /*
-    Overwrite 'success' type,
-    by modifying the existing `BaseToast` component
-  */
-  // success: (props) => (
-  //   <BaseToast
-  //     {...props}
-  //     style={{
-  //       borderLeftColor:'green',
-  //       borderLeftWidth: 7,
-  //       width:'90%',
-  //       height:70,
-  //       borderRightColor: 'green',
-  //       borderLeftWidth: 7
-  //     }}
-  //     contentContainerStyle={{
-  //       paddingHorizontal:15
-  //     }}
-  //     text1Style={{
-  //       fontSize:17,
-  //       fontWeight:'700',
-  //     }}
-  //     text2Style={{
-  //       fontSize:14
-  //     }}
-     
-  //   />
-  // ),
   success: (props) => (
     <ErrorToast
       {...props}

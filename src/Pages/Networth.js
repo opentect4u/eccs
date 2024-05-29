@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, useColorScheme, StyleSheet, Text, ScrollView, ActivityIndicator,Image } from 'react-native';
+import { View, useColorScheme, StyleSheet, Text, ScrollView, ActivityIndicator,Image,PermissionsAndroid } from 'react-native';
 import HeaderComponent from '../Components/HeaderComponent';
 import RNPickerSelect from 'react-native-picker-select';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Table, Row, Rows } from 'react-native-table-component';
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import RNFetchBlob from 'rn-fetch-blob';
 import Toast from 'react-native-toast-message';
 import { BASE_URL } from '../config/config';
 import { Button } from 'react-native-paper';
@@ -46,50 +48,50 @@ const Networth = () => {
   const [openyear, setOpenyear] = useState(false);
   const [valueMonth, setValueMonth] = useState(null);
   const [valueYear, setValueYear] = useState(null);
+  const [memberID,setMemberID] = useState('')
   const [responseData, setResponseData] = useState([]);
   const [depositData, setdepositData] = useState([]);
   const [loanData, setloanData] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [noData, setNoData] = useState(false)
-
-  // const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
+
+  useEffect(() => {
+    GetStorage();
+  }, [])
+
+  const GetStorage = async () => {
+    try {
+      const asyncData = await AsyncStorage.getItem(`login_data`);
+      setMemberID(JSON.parse(asyncData)?.member_id)  
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
   const handleSearch = async () => {
     setLoading(true)
-   
-    const asyncData = await AsyncStorage.getItem('member_id');
-
-    // const apiParams = {
-    //     tb_name:"td_demand_rpf",
-    //     member_id:asyncData,
-    //     month:valueMonth,
-    //     year:valueYear
-    //   };
-    // console.log(apiParams,'apiParams')
-
+    console.log(memberID, 'member_id in networth')
     try {
-      const response = await axios.get(`${BASE_URL}/api/networth_report?tb_name=${"td_networth_rpf"}&member_id=${1517}&month=${valueMonth}&year=${valueYear}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/networth_report?tb_name=${"td_networth_rpf"}&member_id=${memberID}&month=${valueMonth}&year=${valueYear}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      console.log(response.data.msg, 'networth-dataxxxxxxxxxx')
+      console.log(response.data.msg, 'networth-data')
       if (response.data.suc === 1) {
         // console.log(response.data.msg[0].ac_name, 'networth')
         setLoading(false)
         setNoData(false)
         setResponseData(response.data.msg);
         setdepositData(response.data.msg.filter(item => item.dep_loan_flag === 'D'))
-
-
         setloanData(response.data.msg.filter(item => item.dep_loan_flag === 'L'))
-        console.log(loanData, 'lo')
+        // console.log(loanData, 'loan')
 
       }
       else if(response.data.suc === 0) {
         setLoading(false)
         setNoData(true)
-
       }
     }
     catch (error) {
@@ -97,9 +99,7 @@ const Networth = () => {
       console.log(error);
     }
   };
-
   const isdisabled = !valueMonth || !valueYear
-
   let tableHead = ['A/C Type', 'Principal', 'Interest', 'ROI']
   let tableData = depositData.map(record => [
     record.ac_name.toString(),
@@ -124,20 +124,276 @@ const Networth = () => {
   console.log(totNetWorth, 'totNetWorth')
   let totNetWorthRow = ['Networth', totNetWorth.toString(), '', '']
 
+ //pdf download functionality
+ const handleDownloadPDF = async () => {
+  try {
+    // Check platform OS before requesting storage permission
+    if (Platform.OS === 'android') {
+      console.log('Requesting storage permission...');
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Storage Permission Required',
+          message: 'This app needs permission to save PDF files to your device.',
+          buttonPositive: 'OK',
+        }
+      );
+      console.log('Permission result:', granted);
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+
+        console.log('WRITE_EXTERNAL_STORAGE permission is granted');
+        // Permission is granted, proceed with file operations
+      } else {
+        console.log('WRITE_EXTERNAL_STORAGE permission is not granted');
+        // Permission is not granted, handle accordingly
+      }
+      // if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+      //   throw new Error('Storage permission not granted');
+      // }
+    }
+
+    // Prepare HTML content for the PDF
+    const htmlContent = `
+    <html>
+      <head>
+      <title>Cooperative Credit Society</title>
+      <style>
+      body {
+          font-family: Arial, sans-serif;
+          padding: 30px;
+      }
+      .headerDiv {
+          text-align: center;
+          margin-bottom: 10px;
+      }
+      .header {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+      .address {
+          font-size: 14px;
+          margin-bottom: 5px;
+      }
+      .contact {
+          font-size: 14px;
+          margin-bottom: 5px;
+      }
+      .left-align {
+          text-align: left;
+          margin-bottom: 10px;
+      }
+      .tableDiv {
+          max-width: 800px;
+          margin: 0 auto; /* Center align horizontally */
+          text-align: center;
+          margin-bottom: 10px;
+      }
+      table {
+          width: 100%; /* Take full width of parent container (.tableDiv) */
+          border-collapse: collapse;
+      }
+      th, td {
+          border: 1px solid gray;
+          padding: 8px;
+          text-align: center;
+          font-size: 12px;
+      }
+      th {
+          font-weight: bold;
+      }
+      .aftertable{
+        text-align: left;
+        margin-top: 10px;
+      }
+      .textstyle{
+        font-size: 12px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: left;
+      }
+      .signatureBlock {
+        text-align: right;
+    }
+    
+    .leftContent {
+        display: inline-block;
+        text-align: left;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .middleContent {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .rightContent, .nextLine, .bottomLine {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .rightContent {
+        text-align: right;
+    }
+    
+    .signatureSpace {
+        display: block;
+        height: 30px; /* Adjust as needed for signature space */
+    }
+    .aftersignatureBlock{
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .aftersignaturetext{
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .container {
+      width: 95%; 
+      margin: 20px auto; /* Center the div horizontally with top margin */
+      padding: 10px; /* Padding inside the div */
+      border: 1px solid #000; /* Black border with 2px width */
+      box-sizing: border-box; 
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+      </head>
+      <body>
+      <div class="headerDiv">
+      <div class="header">PNB EMPLOYEES CO OPERATIVE CREDIT SOCIETY LTD</div>
+      <div class="address">135 B.R.B.B ROAD - Calcutta 700001</div>
+      <div class="contact">PRESIDENT - 980023709 &nbsp;&nbsp;&nbsp; OFFICE - 033-48079373 &nbsp;&nbsp;&nbsp; SECRETARY - 9432470019</div>
+      <div class="address"> DEMAND LIST FOR THE MONTH : DEC 26</div>
+      <div class="address"> DIST NO: 528</div>
+      </div>
+      <div class="left-align">
+      <div>TO</div>
+      <div>The Manager</div>
+      <div>Punjab National Bank</div>
+      <div>Dharmatala Street</div>
+      <div>120 LENIN SARANI</div>
+      <div>KOLKATA, (Ground Floor 700013)</div>
+      </div> 
+      <div class="tableDiv">
+      <table>
+          <tr>
+              <th>Recov CLIntl No.</th>
+              <th>Total CLIntl No</th>
+              <th>Prinpl CL</th>
+              <th>Last CLLoan</th>
+              <th>O/S CLBal</th>
+              <th>CLInt. Claim</th>
+          </tr>
+          <tr>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
+          </tr>
+      </table>
+  </div>
+  <div class="aftertable">
+  <div class="textstyle">
+   Please deduct as per Demand list. Retain one copy and 
+  remit the proceed to our a/c no. 1964009300077211 one copy  of demand list to co-operative office as early as possible. Please ensure that amount of remittance
+  should tally with the total of Demand list updated upto 24.01.2024
+  </div>
+  </div>
+  <div>
+  <span class="leftContent">Demand list no</span>
+  <span class="middleContent"> &nbsp;&nbsp;&nbsp;180 dated 26/02/2024</span>
+  </div>
+  <div class="signatureBlock">
+  <span class="rightContent">Thanking you,</span>
+  <br>
+  <span class="nextLine">Yours faithfully,</span>
+  <br>
+  <span class="signatureSpace"></span> 
+  <br>
+  <span class="bottomLine">Secretary</span>
+  </div>
+  <div class="aftersignatureBlock"> Remitted on &nbsp;&nbsp;/&nbsp;&nbsp;/&nbsp;&nbsp;  And Credited to A/C no 1964 0093 0007 7211 of  </div>
+  <div class="aftersignaturetext">PNB EMPLOYEES CO OPERATIVE CREDIT SOCIETY LTD</div> 
+  <div class="container">
+  <p>
+  BALANCE UPDATED UPTO 24/01/2024.Our email ID - (pnbcoopkol@gmail.com)
+  </p>
+  <p>Amendment: Mgr self service- Salary_Tds related-Amendment-Put emp.Id-search.
+  Add new assignment-deduction-(element name)- PNB CO OPE S-O.K. </p>
+  </div>
+  </body>
+  </html>
+  `;
+    const uri = {
+      html: htmlContent,
+      fileName: 'user_statement',
+      directory: 'Documents',
+      base64: true
+    }
+    const file = await RNHTMLtoPDF.convert(uri);
+    console.log(file, 'file')
+    console.log('PDF Generated:', uri);
+    // const RNFetchBlob = require('rn-fetch-blob');
+    const moment = require('moment'); 
+    const timestamp = moment().format('YYYYMMDD_HHmmss');
+    const filepath = `${RNFetchBlob.fs.dirs.DownloadDir}/user_statement${timestamp}.pdf`;
+    RNFetchBlob.fs.writeFile(filepath, file.base64, 'base64')
+      .then(() => {
+        console.log('PDF file saved after RNFetchBlob :', filepath);
+        RNFetchBlob.android
+          .actionViewIntent(filepath, 'application/pdf');
+        Toast.show({
+          type: 'success',
+          text1: 'PDF downloaded successfully!',
+          visibilityTime: 2000,
+        });
+      })
+      .catch((error) => {
+        console.log('Error saving PDF:', error);
+        Toast.show({
+          type: 'error',
+          text1: 'Error saving PDF:',
+          visibilityTime: 2000,
+        });
+      });
+  } catch (error) {
+    if (error.message === 'Storage permission not granted') {
+      console.log('Storage permission not granted');
+      Toast.show({
+        type: 'error',
+        text1: 'Storage permission not granted!',
+        visibilityTime: 2000,
+      });
+    } else {
+      console.error('Error generating PDF:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error generating PDF!',
+        visibilityTime: 2000,
+      });
+    }
+  }
+};
+
+
+
+
 
   return (
     <><HeaderComponent />
-      <View style={{ height: 40, 
-        // backgroundColor: 'rgba(4,187,214,255)'
-        // backgroundColor:'#a20a3a'
-        backgroundColor:'#3f50b5'
-         }}>
+      <View style={styles.header}>
         <Text style={styles.textHeader}>
           Net-Worth Report
         </Text>
       </View>
-
-
       <View style={styles.container}>
         <RNPickerSelect
           style={pickerStyle}
@@ -183,19 +439,13 @@ const Networth = () => {
           mode="elevated" onPress={handleSearch} disabled={isdisabled}>
           Search
         </Button>
-
-
-
       </View>
       <ScrollView vertical>
       <View style={{ padding: 10 }}>
-        
         {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
         {responseData?.length > 0 &&
          
-
             <View style={styles.containerRpt}>
-
               {depositData?.length > 0 &&
                 <><View style={{ height: 40, 
                 // backgroundColor: '#f1f8ff'
@@ -220,7 +470,6 @@ const Networth = () => {
                       {/* {depositData.map((rowData, index) => (
       <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
     ))} */}
-
                       {/* Total Row */}
                       <Row data={totalRow} style={{ height: 40,
                         //  backgroundColor: '#f1f8ff'
@@ -229,7 +478,6 @@ const Networth = () => {
                          }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
                   </View></>}
-
               {loanData?.length > 0 &&
                 <><View style={{ height: 40, 
                 // backgroundColor: '#f1f8ff' 
@@ -251,7 +499,6 @@ const Networth = () => {
                       {/* {depositData.map((rowData, index) => (
       <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
     ))} */}
-
                       {/* Total Row */}
                       <Row data={totalRow_l} style={{ height: 40, 
                         // backgroundColor: '#f1f8ff'
@@ -264,15 +511,16 @@ const Networth = () => {
                         backgroundColor: '#e9eafc'
                         }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
-                  </View></>
-
+                  </View>
+                  <Button
+                    mode="contained"
+                    onPress={handleDownloadPDF}
+                    disabled={!responseData.length} 
+                    style={{ backgroundColor: '#3f50b5', paddingHorizontal: 20,color:'#ffffff' }}>
+                    Download PDF
+                  </Button>          
+                  </>
               }
-
-
-
-
-
-
               {/* <View style={{borderWidth:1,borderColor:'black' , height:'auto'}}>
         <Text style={{alignSelf:'center',fontSize:20,fontWeight:'900'}}>
           Asset
@@ -319,60 +567,43 @@ const Networth = () => {
     </>
   );
 };
-
 const styles = StyleSheet.create({
+  header:{ height: 40,  backgroundColor:'#3f50b5',
+    // backgroundColor: 'rgba(4,187,214,255)'// backgroundColor:'#a20a3a'
+  },
   textHeader:{ alignSelf: 'center', fontSize: 20, color: '#ffffff', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' },
   containerRpt: {
-    height: 'auto',
-    backgroundColor: 'white',
-    top: 10
+    height: 'auto',backgroundColor: 'white',top: 10
   },
   container: {
     // backgroundColor:'rgba(162, 10, 58, 0.1)',
-    backgroundColor:'#d2d4f9',
-    zIndex: 10,
-    fontFamily:'OpenSans-ExtraBold',
-    padding: 10
+    backgroundColor:'#d2d4f9',zIndex: 10,fontFamily:'OpenSans-ExtraBold',padding: 10
   },
   overlayContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15
-
+    flexDirection: 'row',alignItems: 'center',padding: 15
   },
   dropdownContainer: {
-    flex: 1,
-    height: 40,
-    margin: 5,
+    flex: 1,height: 40,margin: 5,
   },
   dropdown: {
-    backgroundColor: 'white',
-    borderColor: 'rgba(24, 117, 130, 0.4)',
-    fontFamily:'OpenSans-ExtraBold'
+    backgroundColor:'white',borderColor:'rgba(24, 117, 130, 0.4)',fontFamily:'OpenSans-ExtraBold'
   },
   dropdownItem: {
-    justifyContent: 'flex-start',
-    fontFamily:'OpenSans-ExtraBold'
+    justifyContent: 'flex-start',fontFamily:'OpenSans-ExtraBold'
   },
   dropdownList: {
-    backgroundColor: 'rgba(24, 117, 130, 0.4)',
-    height: 100,
-    zIndex: 10,
-    fontFamily:'OpenSans-ExtraBold'
+  backgroundColor:'rgba(24, 117, 130, 0.4)',height:100,zIndex:10,fontFamily:'OpenSans-ExtraBold'
   },
   searchButtonContainer: {
     backgroundColor: 'white'
   },
   searchButton: {
-    backgroundColor: 'sky',
-    height: 30,
-    width: 30,
+    backgroundColor: 'sky',height: 30,width: 30,
   },
   disabledBtn: {
     // backgroundColor: 'lightblue', 
     // backgroundColor:'#c28090',
-    backgroundColor:'#9298ed',
-    color:'white'
+    backgroundColor:'#9298ed',color:'white'
   },
 });
 

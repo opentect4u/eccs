@@ -75,7 +75,7 @@ export const SocketProvider = ({ children }) => {
             console.log('socket_data:' + JSON.stringify(data));
             const filteredObjects = []
           data.msg.forEach(item => {
-                if (item.send_user_id === 147) {
+                if (item.send_user_id === empCode) {
                   filteredObjects.push(item);
                 }
               })
