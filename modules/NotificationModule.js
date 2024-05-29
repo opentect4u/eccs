@@ -24,6 +24,7 @@ module.exports = {
             resolve(ic_dt);
         });
     },
+    
     noti_save: (data) => {
         return new Promise(async (resolve, reject) => {
             var datetime = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss')

@@ -44,8 +44,8 @@ app.use((req, res, next) => {
 
 
 const { apiRouter } = require("./routes/apiRouter");
-const { notification_dtls } = require("./modules/NotificationModule");
 const { adminRouter } = require("./routes/adminRouter");
+const { notification_dtls } = require("./modules/NotificationModule");
 app.use('/api', apiRouter)
 app.use('/admin', adminRouter)
 

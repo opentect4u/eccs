@@ -4,7 +4,7 @@ const feedbackRouter = require('express').Router();
 
 feedbackRouter.post("/save_feedback_dtls", async (req, res) =>{
     var data = req.body;
-    // console.log(data,'lalalalaal');
+    console.log(data,'lalalalaal');
     var feedback_dtls = await feedback_data(data);
     console.log(feedback_dtls);
     if(feedback_dtls.suc > 0){

@@ -15,9 +15,10 @@ const bank_details = (bank_id) => {
 
 const member_details = (member_id) => {
   return new Promise(async (resolve, reject) => {
-    var select = "emp_code,branch_code,member_id,member_name,phone_no",
-      table_name = `md_member_rpf`,
-      whr = `member_id = '${member_id}'`,
+    // var select = "emp_code,branch_code,member_id,member_name,phone_no",
+    var select = "a.member_id,a.member_name,a.gurd_name,a.memb_addr,a.gender,a.dob,a.doa,a.designation,a.pf_no,b.branch_name",
+      table_name = `md_member a, md_branch b`,
+      whr = `a.branch_code = b.sl_no AND a.member_id = '${member_id}'`,
       order = null;
     var member_dt = await db_Select(select, table_name, whr, order);
     resolve(member_dt);
@@ -52,7 +53,7 @@ const save_user_data = (data) => {
 // const login_data = (data) => {
 //   return new Promise(async (resolve, reject) => {
 //     var select = "a.*,b.*",
-//     table_name = "td_user a , md_member_rpf b",
+//     table_name = "td_user a , md_member b",
 //     whr = `a.bank_id = b.bank_id AND a.user_type = 'U' AND a.active_flag = 'Y' AND user_id = ${data.user_id}`,
 //     // whr = `bank_id = ${data.bank_id} AND user_id = ${data.user_id}`,
 //     order = null;
@@ -64,7 +65,7 @@ const save_user_data = (data) => {
 const login_data = (data) => {
   return new Promise(async (resolve, reject) => {
     var select = "a.*,b.*,c.bank_id,c.bank_name",
-    table_name = "td_user a , md_member_rpf b, md_bank c",
+    table_name = "td_user a , md_member b, md_bank c",
     whr = `a.member_id = b.member_id AND a.user_type = 'U' AND a.active_flag = 'Y' AND a.member_id = ${data.member_id}`,
     order = null;
   var login_dt = await db_Select(select, table_name, whr, order);
@@ -75,7 +76,7 @@ const login_data = (data) => {
 const profile_data = (member_id,emp_code) => {
   return new Promise(async (resolve, reject) => {
     var select = "a.member_id,a.emp_code,a.user_name,a.user_id,b.*,c.branch_name",
-    table_name = "td_user a, md_member_rpf b, md_branch c",
+    table_name = "td_user a, md_member b, md_branch c",
     whr = `a.member_id = b.member_id
     AND a.emp_code = b.emp_code
     AND a.user_id = b.phone_no
