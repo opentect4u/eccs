@@ -120,7 +120,7 @@ userRouter.post("/login", async (req, res) => {
 userRouter.get("/get_pofile_dtls", async (req, res) =>{
   var data = req.query;
   console.log(data,'123');
-  var profile_dtls = await profile_data(data.member_id,data.emp_code)
+  var profile_dtls = await profile_data(data.member_id)
   console.log(profile_dtls);
   if(profile_dtls.suc > 0){
     if(profile_dtls.msg.length > 0){

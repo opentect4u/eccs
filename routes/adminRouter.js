@@ -6,6 +6,7 @@ const { contactRouter } = require('./admin/contactRouter');
 const { dashboardRouter } = require('./admin/dashboardRouter');
 const { feedbackRouter } = require('./admin/feedbackRouter');
 const { holiday_homeRouter } = require('./admin/holiday_homeRouter');
+const { memberRouter } = require('./admin/memberRouter');
 const { notiRouter } = require('./admin/notificationRouter');
 const { upload_demandRouter } = require('./admin/upload_demandRouter');
 const { upload_formRouter } = require('./admin/upload_formRouter');
@@ -31,5 +32,6 @@ adminRouter.use(upload_formRouter);
 adminRouter.use(upload_demandRouter);
 adminRouter.use(upload_networthRouter);
 adminRouter.use(contactRouter);
+adminRouter.use(memberRouter);
 
 module.exports = {adminRouter}

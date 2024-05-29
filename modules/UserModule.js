@@ -15,10 +15,9 @@ const bank_details = (bank_id) => {
 
 const member_details = (member_id) => {
   return new Promise(async (resolve, reject) => {
-    // var select = "emp_code,branch_code,member_id,member_name,phone_no",
-    var select = "a.member_id,a.member_name,a.gurd_name,a.memb_addr,a.gender,a.dob,a.doa,a.designation,a.pf_no,b.branch_name",
-      table_name = `md_member a, md_branch b`,
-      whr = `a.branch_code = b.sl_no AND a.member_id = '${member_id}'`,
+    var select = "emp_code,branch_code,member_id,member_name,phone_no",
+      table_name = `md_member`,
+      whr = `member_id = '${member_id}'`,
       order = null;
     var member_dt = await db_Select(select, table_name, whr, order);
     resolve(member_dt);
@@ -73,16 +72,20 @@ const login_data = (data) => {
   });
 };
 
-const profile_data = (member_id,emp_code) => {
+const profile_data = (member_id) => {
   return new Promise(async (resolve, reject) => {
-    var select = "a.member_id,a.emp_code,a.user_name,a.user_id,b.*,c.branch_name",
-    table_name = "td_user a, md_member b, md_branch c",
-    whr = `a.member_id = b.member_id
-    AND a.emp_code = b.emp_code
-    AND a.user_id = b.phone_no
-    AND b.branch_code = c.sl_no
-    AND a.member_id = '${member_id}'
-    AND a.emp_code = '${emp_code}'`,
+    // var select = "a.member_id,a.emp_code,a.user_name,a.user_id,b.*,c.branch_name",
+    // table_name = "td_user a, md_member b, md_branch c",
+    // whr = `a.member_id = b.member_id
+    // AND a.emp_code = b.emp_code
+    // AND a.user_id = b.phone_no
+    // AND b.branch_code = c.sl_no
+    // AND a.member_id = '${member_id}'
+    // AND a.emp_code = '${emp_code}'`,
+    // order = null;
+    var select = "a.member_id,a.member_name,a.gurd_name,a.memb_addr,a.gender,a.dob,a.doa,a.designation,a.pf_no,b.branch_name",
+    table_name = `md_member a, md_branch b`,
+    whr = `a.branch_code = b.sl_no AND a.member_id = '${member_id}'`,
     order = null;
   var profile_dt = await db_Select(select, table_name, whr, order);
   resolve(profile_dt);

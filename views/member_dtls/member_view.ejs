@@ -1,0 +1,73 @@
+<%- include('../template/header'); %>
+
+<div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1><b><%= heading %></b></h1>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <% if(message){ %>
+        <div
+          class="alert alert-<%= message.type; %> alert-dismissible fade show"
+          role="alert"
+        >
+          <strong><%= message.message; %></strong>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% } %>
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title"><b><%= sub_heading %></b></h3>
+            <div class="card-tools">
+              <a href="/admin/contact_edit?id=0" class="btn btn-primary"
+                >Add New</a
+              >
+            </div>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <form action="/tnx_srch" method="post">
+              <div class="row" id="divToPrint">
+                <div class="col-md-12">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <!-- <th></th> -->
+                        <th class="text-center">#</th>
+                        <th class="text-center">Designation</th>
+                        <th class="text-center">Contact Person</th>
+                        <th class="text-center">Contact Phone</th>
+                        <th class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+<%- include('../template/footer'); %>
