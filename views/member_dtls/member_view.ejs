@@ -47,21 +47,39 @@
           <!-- /.card-header -->
           <div class="card-body">
             <form action="/tnx_srch" method="post">
-              <div class="row" id="divToPrint">
+              <div class="row">
+                <div class="col-md-4">
+                  <input
+                  type="text"
+                  name="pf_no"
+                  class="form-control"
+                  placeholder="Enter PF No. Here....."
+                  id="pf_no" value=""
+                />
+                </div>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary" id="submitBtn">Submit</button>
+                </div>
+              </div>
+
+              <div class="row mt-3" id="divToPrint">
                 <div class="col-md-12">
                   <table id="example2" class="table table-bordered table-hover">
                     <thead>
                       <tr>
                         <!-- <th></th> -->
                         <th class="text-center">#</th>
-                        <th class="text-center">Designation</th>
-                        <th class="text-center">Contact Person</th>
-                        <th class="text-center">Contact Phone</th>
+                        <th class="text-center">Member ID</th>
+                        <th class="text-center">Branch Name</th>
+                        <th class="text-center">Member Name</th>
+                        <th class="text-center">Joining Date </th>
                         <th class="text-center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                     
+                      <tr>
+                        <td colspan="6" class="text-danger text-center">No data found</td>
+                      </tr>
                       </tbody>
                   </table>
                 </div>
@@ -73,3 +91,70 @@
     </section>
   </div>
 <%- include('../template/footer'); %>
+
+<script>
+  $('#submitBtn').click(function () {
+    var pf_no = $('#pf_no').val(); // Corrected the selector
+    console.log({ pf_no });
+    generate_member_list(pf_no);
+  });
+
+  function generate_member_list(pf_no) {
+    $.ajax({
+      type: "POST",
+      url: "member_dtls",
+      data: { pf_no },
+      success: function(response) {
+        console.log(response);
+        $('#example2 tbody').empty();
+        let i = 1;
+        if(response.suc > 0 && response.msg.length > 0) {
+          response.msg.forEach(function(resDt) { // Corrected resData to resDt
+            console.log(resDt);
+            const formattedDate = formatDate(resDt.doa);
+            $('#example2 tbody').append(`
+              <tr>
+                <td class="text-center">${i}</td>
+                <td class="text-center">${resDt.member_id}</td> 
+                <td class="text-center">${resDt.branch_name}</td> 
+                <td class="text-center">${resDt.member_name}</td> 
+                <td class="text-center">${formattedDate}</td> 
+                <td class="text-center">
+                            <a class="side_color"
+                              href="contact_edit?id="
+                              title="Edit"
+                            >
+                            <i class='fas fa-edit'></i>/
+                            <a class="text-danger"
+                            href="con_data_delete?id="
+                            title="Delete"
+                          >
+                            <i class='fas fa-trash-alt'></i>
+                            </a>
+                          </td>
+              </tr>
+            `);
+            i++;
+          });
+        } else {
+          $('#example2 tbody').append(`
+            <tr>
+              <td colspan="6" class="text-danger text-center">No data found</td>
+            </tr>
+          `);
+        }
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+
+    function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+  }
+</script>

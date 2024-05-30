@@ -1,10 +1,10 @@
-const { memData } = require('../../modules/admin/Member_adminModule');
+const { memData, member_dt } = require('../../modules/admin/Member_adminModule');
 
 const memberRouter = require('express').Router();
 
 memberRouter.get("/member", async (req, res) => {
-    var id = req.query.id > 0 ? req.query.id : null;
-    var resDt = await memData(id);
+    var member_id = req.query.member_id > 0 ? req.query.member_id : null;
+    var resDt = await memData(member_id);
     console.log(resDt,'123');
     res.render("member_dtls/member_view", {
       mem_dt: resDt,
@@ -12,6 +12,14 @@ memberRouter.get("/member", async (req, res) => {
       sub_heading: "Member Details List",
       dateFormat,
     });
+  });
+
+  memberRouter.post("/member_dtls", async (req, res) => {
+    var data = req.body
+    console.log(data,'oooo');
+    var resDt = await member_dt(data);
+    console.log(resDt,'ps');
+    res.send(resDt);
   });
 
   memberRouter.get("/member_edit", async (req, res) => {
