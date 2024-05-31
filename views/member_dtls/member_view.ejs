@@ -1,118 +1,107 @@
 <%- include('../template/header'); %>
 
-<div class="content-wrapper">
+  <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1><b><%= heading %></b></h1>
+            <h1><b>
+                <%= heading %>
+              </b></h1>
           </div>
         </div>
       </div>
     </section>
-  
+
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
         <% if(message){ %>
-        <div
-          class="alert alert-<%= message.type; %> alert-dismissible fade show"
-          role="alert"
-        >
-          <strong><%= message.message; %></strong>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <% } %>
-        <!-- SELECT2 EXAMPLE -->
-        <div class="card card-default">
-          <div class="card card-primary card-outline">
-          <div class="card-header">
-            <h3 class="card-title"><b><%= sub_heading %></b></h3>
-            <div class="card-tools">
-              <a href="/admin/member_edit" class="btn btn-primary"
-                >Add New</a
-              >
-            </div>
-            </div>
+          <div class="alert alert-<%= message.type; %> alert-dismissible fade show" role="alert">
+            <strong>
+              <%= message.message; %>
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-         
-
-          <!-- /.card-header -->
-          <div class="card-body">
-            <form action="/tnx_srch" method="post">
-              <div class="row">
-                <div class="col-md-4">
-                  <input
-                  type="text"
-                  name="pf_no"
-                  class="form-control"
-                  placeholder="Enter PF No. Here....."
-                  id="pf_no" value=""
-                />
-                </div>
-                <div class="col-md-4">
-                  <button type="button" class="btn btn-primary" id="submitBtn">Submit</button>
+          <% } %>
+            <!-- SELECT2 EXAMPLE -->
+            <div class="card card-default">
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h3 class="card-title"><b>
+                      <%= sub_heading %>
+                    </b></h3>
+                  <div class="card-tools">
+                    <a href="/admin/member_edit" class="btn btn-primary">Add New</a>
+                  </div>
                 </div>
               </div>
 
-              <div class="row mt-3" id="divToPrint">
-                <div class="col-md-12">
-                  <table id="example2" class="table table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <!-- <th></th> -->
-                        <th class="text-center">#</th>
-                        <th class="text-center">Member ID</th>
-                        <th class="text-center">Branch Name</th>
-                        <th class="text-center">Member Name</th>
-                        <th class="text-center">Joining Date </th>
-                        <th class="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td colspan="6" class="text-danger text-center">No data found</td>
-                      </tr>
+
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <input type="text" name="pf_no" class="form-control" placeholder="Enter PF No. Here....." id="pf_no"
+                      value="" />
+                  </div>
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" id="submitBtn">Submit</button>
+                  </div>
+                </div>
+
+                <div class="row mt-3" id="divToPrint">
+                  <div class="col-md-12">
+                    <table id="example2" class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <!-- <th></th> -->
+                          <th class="text-center">#</th>
+                          <th class="text-center">Member ID</th>
+                          <th class="text-center">Branch Name</th>
+                          <th class="text-center">Member Name</th>
+                          <th class="text-center">Joining Date </th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td colspan="6" class="text-danger text-center">No data found</td>
+                        </tr>
                       </tbody>
-                  </table>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </form>
-          </div>
-        </div>
+            </div>
       </div>
     </section>
   </div>
-<%- include('../template/footer'); %>
+  <%- include('../template/footer'); %>
 
-<script>
-  $('#submitBtn').click(function () {
-    var pf_no = $('#pf_no').val(); // Corrected the selector
-    console.log({ pf_no });
-    generate_member_list(pf_no);
-  });
+    <script>
+      $('#submitBtn').click(function () {
+        var pf_no = $('#pf_no').val(); // Corrected the selector
+        console.log({ pf_no });
+        generate_member_list(pf_no);
+      });
 
-  function generate_member_list(pf_no) {
-    $.ajax({
-      type: "POST",
-      url: "member_dtls",
-      data: { pf_no },
-      success: function(response) {
-        console.log(response);
-        $('#example2 tbody').empty();
-        let i = 1;
-        if(response.suc > 0 && response.msg.length > 0) {
-          response.msg.forEach(function(resDt) { // Corrected resData to resDt
-            console.log(resDt);
-            const formattedDate = formatDate(resDt.doa);
-            $('#example2 tbody').append(`
+      function generate_member_list(pf_no) {
+        $.ajax({
+          type: "POST",
+          url: "member_dtls",
+          data: { pf_no },
+          success: function (response) {
+            console.log(response);
+            $('#example2 tbody').empty();
+            let i = 1;
+            if (response.suc > 0 && response.msg.length > 0) {
+              response.msg.forEach(function (resDt) { // Corrected resData to resDt
+                console.log(resDt);
+                const formattedDate = formatDate(resDt.doa);
+                $('#example2 tbody').append(`
               <tr>
                 <td class="text-center">${i}</td>
                 <td class="text-center">${resDt.member_id}</td> 
@@ -121,12 +110,12 @@
                 <td class="text-center">${formattedDate}</td> 
                 <td class="text-center">
                             <a class="side_color"
-                              href="contact_edit?id="
+                              href="member_edit?id=""
                               title="Edit"
                             >
                             <i class='fas fa-edit'></i>/
                             <a class="text-danger"
-                            href="con_data_delete?id="
+                            href="mem_data_delete?id=""
                             title="Delete"
                           >
                             <i class='fas fa-trash-alt'></i>
@@ -134,27 +123,27 @@
                           </td>
               </tr>
             `);
-            i++;
-          });
-        } else {
-          $('#example2 tbody').append(`
+                i++;
+              });
+            } else {
+              $('#example2 tbody').append(`
             <tr>
               <td colspan="6" class="text-danger text-center">No data found</td>
             </tr>
           `);
-        }
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
+            }
+          },
+          error: function (error) {
+            console.log(error);
+          },
+        });
 
-    function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-  }
-</script>
+        function formatDate(dateString) {
+          const date = new Date(dateString);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+          const year = date.getFullYear();
+          return `${day}/${month}/${year}`;
+        }
+      }
+    </script>

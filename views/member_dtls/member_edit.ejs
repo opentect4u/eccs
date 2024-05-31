@@ -1,0 +1,213 @@
+<%- include('../template/header'); %>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>
+                            <%= heading %>
+                        </h1>
+                        <h6><%- breadcrumb %></h6>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <% if(message){ %>
+                    <div class="alert alert-<%= message.type; %> alert-dismissible fade show" role="alert">
+                        <strong>
+                            <%= message.message; %>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <% } %>
+                        <!-- SELECT2 EXAMPLE -->
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <%= sub_heading %>
+                                </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <form action="/admin/member_dtls_save" method="post">
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="mem_id" class="col-sm-4 col-form-label">Member ID</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="mem_id" name="mem_id"
+                                                        value="" placeholder="Enter Member ID" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="brn_name" class="col-sm-4 col-form-label">Branch
+                                                    Name</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control mr-sm-" placeholder="Search"
+                                                        id="brn_name" name="brn_name" aria-label="Search">
+                                                        <option value="">Select Branch</option>
+                                                        <% mem_dt.forEach(dt=> { %>
+                                                            <option value="<%= dt.sl_no %>">
+                                                                <%= dt.branch_name %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="mem_nm" class="col-sm-4 col-form-label">Member Name</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="mem_nm" name="mem_nm"
+                                                        value="" placeholder="Enter Member Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="gurd_nm" class="col-sm-4 col-form-label">Gurdian
+                                                    Name</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="gurd_nm" name="gurd_nm"
+                                                        value="" placeholder="Enter Gurdian Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="gen" class="col-sm-4 col-form-label">Gender</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control mr-sm-" placeholder="Search" id="gen"
+                                                        name="gen">
+                                                        <option value="">Select Gender</option>
+                                                        <option value="M">Male</option>
+                                                        <option value="F">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="emp_code" class="col-sm-4 col-form-label">Employee
+                                                    Code</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="emp_code"
+                                                        name="emp_code" value="" placeholder="Enter Employee Code" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="dob" class="col-sm-4 col-form-label">DOB</label>
+                                                <div class="col-sm-8">
+                                                    <input type="date" class="form-control" id="dob" name="dob" value=""
+                                                        placeholder="dd/MM/yyyy" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="doa" class="col-sm-4 col-form-label">DOA</label>
+                                                <div class="col-sm-8">
+                                                    <input type="date" class="form-control" id="doa" name="doa" value=""
+                                                        placeholder="dd/MM/yyyy" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="email_id" class="col-sm-4 col-form-label">Email ID</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="email_id"
+                                                        name="email_id" value="" placeholder="Enter Email ID" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="phone" class="col-sm-4 col-form-label">Phone No</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="phone" name="phone"
+                                                        value="" placeholder="Enter Phone No" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="desg" class="col-sm-4 col-form-label">Designation</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="desg" name="desg"
+                                                        value="" placeholder="Enter Designation" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="pf_no" class="col-sm-4 col-form-label">PF No</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="pf_no" name="pf_no"
+                                                        value="" placeholder="Enter PF No" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <label for="mem_addr" class="col-sm-2 col-form-label">Member
+                                                    Address</label>
+                                                <div class="col-sm-10">
+                                                    <textarea name="mem_addr" id="mem_addr" class="form-control"
+                                                        aria-label="With textarea"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="member_id" value="" />
+                                    <center>
+                                        <button type="submit" class="btn btn-outline-success mt-4" id="submit">
+                                            Save
+                                        </button>
+                                    </center>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <%- include('../template/footer'); %>

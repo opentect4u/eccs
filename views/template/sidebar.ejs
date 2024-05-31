@@ -2,45 +2,29 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4 main_sidebarCustom">
   <!-- Brand Logo -->
   <a href="" class="brand-link navbar-danger navbarDangerCustom">
-    <img
-      src="/dist/img/blue logo.jpg"
-      alt="AdminLTE Logo"
-      class="brand-image brandimageCustom"
-    />
+    <img src="/dist/img/blue logo.jpg" alt="AdminLTE Logo" class="brand-image brandimageCustom" />
     <span class="brand-text font-weight-dark des"><b>PNB ECCS</b></span>
   </a>
   <div class="sidebar sidebarCustom">
     <nav class="mt-2">
-      <ul
-        class="nav nav-pills nav-sidebar flex-column nav-compact nav-child-indent navCustomLeft"
-        data-widget="treeview"
-        role="menu"
-        data-accordion="false"
-      >
+      <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-child-indent navCustomLeft"
+        data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
-          <a
-            href="/admin/dashboard"
-            class="nav-link <%= (active=='dashboard') ? 'active' : ''; %>"
-          >
+          <a href="/admin/dashboard" class="nav-link <%= (active=='dashboard') ? 'active' : ''; %>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>Dashboard</p>
           </a>
         </li>
 
         <li class="nav-item">
-          <a
-            href="/admin/calendar"
-            class="nav-link <%= (active=='calendar' || active=='calendar_edit') ? 'active' : ''; %>"
-          >
+          <a href="/admin/calendar"
+            class="nav-link <%= (active=='calendar' || active=='calendar_edit') ? 'active' : ''; %>">
             <i class="nav-icon fas fa-calendar"></i>
             <p>Calendar</p>
           </a>
         </li>
         <li class="nav-item">
-          <a
-            href="/admin/notification"
-            class="nav-link <%= (active=='notification') ? 'active' : ''; %>"
-          >
+          <a href="/admin/notification" class="nav-link <%= (active=='notification') ? 'active' : ''; %>">
             <i class="nav-icon fas fa-bell"></i>
             <p>Send Notification</p>
           </a>
@@ -54,7 +38,7 @@
             <p>Reset mPIN</p>
           </a>
         </li> -->
-        
+
         <!-- <li class="nav-item">
           <a href="/admin/request" class="nav-link <%= (active=='request' || active=='request_edit') ? 'active' : ''; %>">
             <i class="nav-icon fas fa-paper-plane"></i>
@@ -78,7 +62,7 @@
 
         <li class="nav-item">
           <a href="/admin/member" class="nav-link <%= (active=='member') ? 'active' : ''; %>">
-            <i class="nav-icon fas fa-users"></i>
+            <i class="nav-icon fas fa-address-card"></i>
             <p>Member List</p>
           </a>
         </li>
@@ -96,7 +80,7 @@
             <p>Contact Details</p>
           </a>
         </li>
-        
+
         <li class="nav-item">
           <a href="/admin/demand" class="nav-link <%= (active=='demand') ? 'active' : ''; %>">
             <i class="nav-icon fas fa-cloud-upload-alt"></i>
