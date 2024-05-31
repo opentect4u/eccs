@@ -46,7 +46,7 @@
                                                 <label for="mem_id" class="col-sm-4 col-form-label">Member ID</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="mem_id" name="mem_id"
-                                                        value="" placeholder="Enter Member ID" />
+                                                        value="<%= mem_data ? mem_data[0].member_id : '' %>" placeholder="Enter Member ID" readonly/>
                                                 </div>
                                             </div>
                                         </div>
@@ -58,11 +58,12 @@
                                                     <select class="form-control mr-sm-" placeholder="Search"
                                                         id="brn_name" name="brn_name" aria-label="Search">
                                                         <option value="">Select Branch</option>
-                                                        <% mem_dt.forEach(dt=> { %>
-                                                            <option value="<%= dt.sl_no %>">
+                                                        <% mem_dt.forEach(dt => { %>
+                                                            <option value="<%= dt.sl_no %>" 
+                                                                <% if (mem_data && mem_data[0].branch_code == dt.sl_no) { %> selected <% } %>>
                                                                 <%= dt.branch_name %>
                                                             </option>
-                                                            <% }) %>
+                                                        <% }) %>
                                                     </select>
                                                 </div>
                                             </div>
@@ -76,7 +77,7 @@
                                                 <label for="mem_nm" class="col-sm-4 col-form-label">Member Name</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="mem_nm" name="mem_nm"
-                                                        value="" placeholder="Enter Member Name" />
+                                                        value="<%= mem_data ? mem_data[0].member_name : '' %>" placeholder="Enter Member Name" />
                                                 </div>
                                             </div>
                                         </div>
@@ -86,7 +87,7 @@
                                                     Name</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="gurd_nm" name="gurd_nm"
-                                                        value="" placeholder="Enter Gurdian Name" />
+                                                        value="<%= mem_data ? mem_data[0].gurd_name : '' %>" placeholder="Enter Gurdian Name" />
                                                 </div>
                                             </div>
                                         </div>
@@ -100,8 +101,8 @@
                                                     <select class="form-control mr-sm-" placeholder="Search" id="gen"
                                                         name="gen">
                                                         <option value="">Select Gender</option>
-                                                        <option value="M">Male</option>
-                                                        <option value="F">Female</option>
+                                                        <option value="Male" <%= mem_data && mem_data[0].gender == 'M' ? 'selected' : '' %>>Male</option>
+                                                        <option value="Female" <%= mem_data && mem_data[0].gender == 'F' ? 'selected' : '' %>>Female</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -112,7 +113,7 @@
                                                     Code</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="emp_code"
-                                                        name="emp_code" value="" placeholder="Enter Employee Code" />
+                                                        name="emp_code" value="<%= mem_data ? mem_data[0].emp_code : '' %>" placeholder="Enter Employee Code" />
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +124,7 @@
                                             <div class="form-group row">
                                                 <label for="dob" class="col-sm-4 col-form-label">DOB</label>
                                                 <div class="col-sm-8">
-                                                    <input type="date" class="form-control" id="dob" name="dob" value=""
+                                                    <input type="date" class="form-control" id="dob" name="dob" value="<%= mem_data && mem_data.length > 0 ? mem_data[0].dob.toISOString().split('T')[0] : '' %>" 
                                                         placeholder="dd/MM/yyyy" />
                                                 </div>
                                             </div>
@@ -132,7 +133,7 @@
                                             <div class="form-group row">
                                                 <label for="doa" class="col-sm-4 col-form-label">DOA</label>
                                                 <div class="col-sm-8">
-                                                    <input type="date" class="form-control" id="doa" name="doa" value=""
+                                                    <input type="date" class="form-control" id="doa" name="doa" value="<%= mem_data && mem_data.length > 0 ? mem_data[0].doa.toISOString().split('T')[0] : '' %>" 
                                                         placeholder="dd/MM/yyyy" />
                                                 </div>
                                             </div>
@@ -145,7 +146,7 @@
                                                 <label for="email_id" class="col-sm-4 col-form-label">Email ID</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="email_id"
-                                                        name="email_id" value="" placeholder="Enter Email ID" />
+                                                        name="email_id" value="<%= mem_data ? mem_data[0].email_id : '' %>" placeholder="Enter Email ID" />
                                                 </div>
                                             </div>
                                         </div>
@@ -154,7 +155,7 @@
                                                 <label for="phone" class="col-sm-4 col-form-label">Phone No</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="phone" name="phone"
-                                                        value="" placeholder="Enter Phone No" />
+                                                        value="<%= mem_data ? mem_data[0].phone_no : '' %>" placeholder="Enter Phone No" />
                                                 </div>
                                             </div>
                                         </div>
@@ -166,7 +167,7 @@
                                                 <label for="desg" class="col-sm-4 col-form-label">Designation</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="desg" name="desg"
-                                                        value="" placeholder="Enter Designation" />
+                                                        value="<%= mem_data ? mem_data[0].designation : '' %>" placeholder="Enter Designation" />
                                                 </div>
                                             </div>
                                         </div>
@@ -175,7 +176,7 @@
                                                 <label for="pf_no" class="col-sm-4 col-form-label">PF No</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" id="pf_no" name="pf_no"
-                                                        value="" placeholder="Enter PF No" />
+                                                        value="<%= mem_data ? mem_data[0].pf_no : '' %>" placeholder="Enter PF No" />
                                                 </div>
                                             </div>
                                         </div>
@@ -188,13 +189,13 @@
                                                     Address</label>
                                                 <div class="col-sm-10">
                                                     <textarea name="mem_addr" id="mem_addr" class="form-control"
-                                                        aria-label="With textarea"></textarea>
+                                                        aria-label="With textarea"><%= mem_data ? mem_data[0].memb_addr : '' %></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <input type="hidden" name="member_id" value="" />
+                                    <input type="hidden" name="member_id" value="<%= mem_data ? mem_data[0].member_id : '' %>" />
                                     <center>
                                         <button type="submit" class="btn btn-outline-success mt-4" id="submit">
                                             Save

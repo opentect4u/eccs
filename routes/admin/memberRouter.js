@@ -13,11 +13,12 @@ const {
 const memberRouter = require("express").Router();
 
 memberRouter.get("/member", async (req, res) => {
-  var id = req.query.member_id > 0 ? req.query.member_id : null;
-  var resDt = await memData(id);
-  console.log(resDt, "123");
+//  var member_id = req.query.member_id > 0 ? req.query.member_id : [];
+  // console.log(member_id,'kkkk');
+  // var resDt = await memData(member_id);
+  // console.log(resDt, "123");
   res.render("member_dtls/member_view", {
-    mem_dt: resDt,
+    // mem_dt: resDt,
     heading: "Member Details",
     sub_heading: "Member Details List",
     dateFormat,
@@ -28,28 +29,30 @@ memberRouter.post("/member_dtls", async (req, res) => {
   var data = req.body;
   // console.log(data, "oooo");
   var resDt = await member_dt(data);
-  console.log(resDt);
+  // console.log(resDt);
   res.send(resDt);
 });
 
 memberRouter.get("/member_edit", async (req, res) => {
-  var id = req.query.member_id > 0 ? req.query.member_id : null;
+  var member_id = req.query.member_id > 0 ? req.query.member_id : [];
+  // console.log(member_id,'jjj');
   var memDt = null;
   var branch_lt = await branch_list();
-  if (id > 0) {
-    var res_dt = await memberData(id);
+  if (member_id > 0) {
+    var res_dt = await memberData(member_id);
     memDt = res_dt.suc > 0 ? res_dt.msg : null;
-    console.log(memDt, "123");
+    // console.log(memDt, "123");
   }
   res.render("member_dtls/member_edit", {
     mem_dt: branch_lt.suc > 0 ? branch_lt.msg : [],
-    mem_data: memDt.suc > 0 ? memDt.msg : [],
+    // mem_data: memDt.suc > 0 ? memDt.msg : [],
+    mem_data: memDt,
     heading: "Member Details",
-    sub_heading: `Member Details List ${id > 0 ? "Edit" : "Add"}`,
+    sub_heading: `Member Details List ${member_id > 0 ? "Edit" : "Add"}`,
     breadcrumb: `<ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/admin/member">Member Details list</a></li> 
         <li class="breadcrumb-item active">Member Details List ${
-          id > 0 ? "Edit" : "Add"
+          member_id > 0 ? "Edit" : "Add"
         } </li>
         </ol>`,
     dateFormat,
@@ -58,14 +61,14 @@ memberRouter.get("/member_edit", async (req, res) => {
 
 memberRouter.post("/member_dtls_save", async (req, res) => {
   var data = req.body;
-  console.log(data, "iiii");
+  // console.log(data, "iiii");
   var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss"),
     user = req.session.user.user_name,
-    id = data.member_id;
+    member_id = data.member_id;
 
   var table_name = "md_member",
     fields =
-      id > 0
+    member_id > 0
         ? `branch_code = '${data.brn_name}', member_name = '${data.mem_nm}',
       gurd_name= '${data.gurd_nm}', memb_addr= '${data.mem_addr}', gender = '${data.gen}', dob = '${data.dob}', 
       doa = '${data.doa}', emp_code = '${data.emp_code}', designation = '${data.desg}', pf_no = '${data.pf_no}', 
@@ -74,8 +77,8 @@ memberRouter.post("/member_dtls_save", async (req, res) => {
     values = `('${data.mem_id}', '${data.brn_name}', '${data.mem_nm}', '${data.gurd_nm}', '${data.mem_addr}',
       '${data.gen}', '${data.dob}', '${data.doa}', '${data.emp_code}', '${data.desg}', '${data.pf_no}', '${data.email_id}',
       '${data.phone}', '${user}', '${datetime}')`,
-    whr = id > 0 ? `member_id = ${id}` : null,
-    flag = id > 0 ? 1 : 0;
+    whr = member_id > 0 ? `member_id = ${member_id}` : null,
+    flag = member_id > 0 ? 1 : 0;
 
   var resDt = await db_Insert(table_name, fields, values, whr, flag);
   if (resDt.suc > 0) {
@@ -91,13 +94,13 @@ memberRouter.post("/member_dtls_save", async (req, res) => {
       type: "danger",
       message: "Data Not Inserted!!",
     };
-    res.redirect("/admin/member_edit?id=" + id);
+    res.redirect("/admin/member_edit?member_id=" + member_id);
   }
 });
 
 memberRouter.get("/mem_data_delete", async (req, res) => {
   var data = req.query;
-  console.log(data, "po");
+  // console.log(data, "po");
   var table_name = "md_member",
     whr = `member_id=${data.member_id}`;
   var res_dt = await db_Delete(table_name, whr);

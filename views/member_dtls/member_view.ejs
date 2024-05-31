@@ -75,6 +75,7 @@
                   </div>
                 </div>
               </div>
+             
             </div>
       </div>
     </section>
@@ -110,12 +111,12 @@
                 <td class="text-center">${formattedDate}</td> 
                 <td class="text-center">
                             <a class="side_color"
-                              href="member_edit?id=""
+                              href="member_edit?member_id=${resDt.member_id}"
                               title="Edit"
                             >
                             <i class='fas fa-edit'></i>/
                             <a class="text-danger"
-                            href="mem_data_delete?id=""
+                            href="mem_data_delete?member_id=${resDt.member_id}"
                             title="Delete"
                           >
                             <i class='fas fa-trash-alt'></i>
