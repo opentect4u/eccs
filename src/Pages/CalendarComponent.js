@@ -39,7 +39,7 @@ function CalendarComponent() {
   const formatDate = (dateString) => {
     const dateObj = new Date(dateString);
     const day = dateObj.getDate();
-    const month = dateObj.getMonth() + 1; // Month indexes are zero-based
+    const month = dateObj.getMonth() + 1; 
     const year = dateObj.getFullYear();
     return `${day}/${month}/${year}`;
   };
@@ -98,7 +98,7 @@ function CalendarComponent() {
         <View style={styles.container}>
           <View style={styles.dateDtls}>
             <View style={styles.dateDtlsCont}>
-              <Text style={styles.dateText}>{selectedDate ? `${formatDate(selectedDate)}` : 'No date selected'}</Text>
+              {/* <Text style={styles.dateText}>{selectedDate ? `${formatDate(selectedDate)}` : 'No date selected'}</Text> */}
               {selectedevent ? <Text style={styles.selectedHoliday}>{selectedevent}</Text> : <Text style={styles.nohoilday}>No holiday</Text>
               }
             </View>

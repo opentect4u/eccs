@@ -35,7 +35,7 @@ const MainRoute = () => {
             <Stack.Screen name="Reg" component={Registration}
             options={({ navigation }) => ({
               title: '',
-              headerShown: true,
+              // headerShown: true,
               headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                   <Icon name="arrow-back" size={24} color="#000" />

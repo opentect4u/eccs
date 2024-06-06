@@ -12,7 +12,6 @@ import { BASE_URL } from '../config/config';
 import { Button } from 'react-native-paper';
 import Searchicon from 'react-native-vector-icons/Ionicons'
 import axios from 'axios';
-import { color } from 'react-native-elements/dist/helpers';
 const pickerStyle = {
   inputIOS: {
     color: 'black',
@@ -24,7 +23,6 @@ const pickerStyle = {
     fontWeight: '600'
   },
   placeholder: {
-    // color: '#a20a3a',
     color:'#3f50b5',
     fontSize: 20
   },
@@ -89,10 +87,8 @@ const Demand = () => {
       if (response.data.suc === 1) {
         setLoading(false)
         setNoData(false)
-        // console.log(response.data.msg[0].cl_interest, '-data')
         setResponseData(response.data.msg);
         console.log(responseData, 'response.data.msg')
-        // console.log(responseData[0].gl_principal,'responseData')
         const totalValue =
           parseFloat(responseData[0].gl_principal) +
           parseFloat(responseData[0].gl_interest) +
@@ -365,16 +361,6 @@ const Demand = () => {
     </body>
     </html>
     `;
-      //   <table>
-      //   <thead>
-      //     <tr>
-      //       ${tableHead.map(head => `<th>${head}</th>`).join('')}
-      //     </tr>
-      //   </thead>
-      //   <tbody>
-      //     ${tableData.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
-      //   </tbody>
-      // </table>
       const uri = {
         html: htmlContent,
         fileName: 'Demand_Report',

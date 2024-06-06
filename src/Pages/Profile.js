@@ -94,7 +94,7 @@ const Profile = ({ navigation }) => {
       if (response.data.suc === 1) {
         setLoading(false)
         setResponseData(response.data.msg[0]);
-      // console.log(response.data.msg[0].doa, 'doa')
+        // console.log(response.data.msg[0].doa, 'doa')
 
         setformattedDoa(moment(responseData.doa).format('DD MMMM YYYY'));
         setformattedDob(moment(responseData.dob).format('DD MMMM YYYY'));
@@ -116,12 +116,12 @@ const Profile = ({ navigation }) => {
   };
   const handleImagePicker = async () => {
     try {
-      const options = {}; 
-      const result = await launchImageLibrary(options, );
+      const options = {};
+      const result = await launchImageLibrary(options,);
       if (!result.didCancel) {
         setImageUri(result?.assets[0]?.uri);
         setImgModalVisible(true);
-          console.log('Image picked:', result);
+        console.log('Image picked:', result);
       } else {
         console.log('Image selection cancelled.');
       }
@@ -188,7 +188,7 @@ const Profile = ({ navigation }) => {
     closeModal();
   }
 
-  const imgUpload =  (uri) => {
+  const imgUpload = (uri) => {
     setSelectedImageUri(uri);
     setImgModalVisible(false)
     console.log('Profile picture Uploaded....')
@@ -212,12 +212,12 @@ const Profile = ({ navigation }) => {
         >
           <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
             <View style={{ height: 70, width: 70, backgroundColor: '#ffffff', alignSelf: 'center', borderRadius: 35, top: 8, alignItems: 'center', justifyContent: 'center' }}>
-            {selectedImageUri ? 
-              <Image source={{ uri: selectedImageUri }} style={{ resizeMode: 'contain', height: 60, width: 60,borderRadius:30 }}/> :
-              (responseData.gender == 'M'?
-              <Image source={require('../assets/man.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} /> :
-              <Image source={require('../assets/woman.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} />)
-            }
+              {selectedImageUri ?
+                <Image source={{ uri: selectedImageUri }} style={{ resizeMode: 'contain', height: 60, width: 60, borderRadius: 30 }} /> :
+                (responseData.gender == 'M' ?
+                  <Image source={require('../assets/man.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} /> :
+                  <Image source={require('../assets/woman.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} />)
+              }
 
               <TouchableOpacity
                 style={{
@@ -241,8 +241,6 @@ const Profile = ({ navigation }) => {
             <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
                 {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
-
-
                 {/* <View style={styles.profileView}>
                   <Text style={styles.title}> User name</Text>
                   <Text style={styles.content}> {responseData.user_name}</Text>
@@ -254,9 +252,23 @@ const Profile = ({ navigation }) => {
                 {/* <View style={{alignSelf:'center'}}> */}
                 <View style={styles.container}>
                   <View style={styles.profileView}>
-                    <Text style={styles.title}>Gender </Text>
-                    {responseData.gender == 'M' ?
-                      <Text style={styles.content}>Male</Text> : <Text style={styles.content}>Female</Text>}
+                    <Text style={styles.title}>Member ID </Text>
+                    <Text style={styles.content}>{responseData.member_id}</Text>
+                  </View>
+                  <View style={styles.profileView}>
+                    <Text style={styles.title}>P.F No. </Text>
+                    <Text style={styles.content}>{responseData.pf_no}</Text>
+                  </View>
+                  {/* <View style={styles.profileView}>
+                    <Text style={styles.title}>Designation </Text>
+                    <Text style={styles.content}>{responseData.designation}</Text>
+                  </View> */}
+                </View>
+                <View style={styles.container}>
+                  
+                  <View style={styles.profileView}>
+                    <Text style={styles.title}>Date of Appointment </Text>
+                    <Text style={styles.content}>{formattedDoa}</Text>
                   </View>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Designation </Text>
@@ -265,15 +277,16 @@ const Profile = ({ navigation }) => {
                 </View>
                 <View style={styles.container}>
                   <View style={styles.profileView}>
-                    <Text style={styles.title}>Date of Appointment </Text>
-                    <Text style={styles.content}>{formattedDoa}</Text>
+                    <Text style={styles.title}>Father/Husband's Name </Text>
+                    <Text style={styles.content}>{responseData.gurd_name}</Text>
                   </View>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Date of Birth </Text>
                     <Text style={styles.content}>{formattedDob}</Text>
                   </View>
+
                 </View>
-                <View style={styles.container}>
+                {/* <View style={styles.container}>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Account No. </Text>
                     <Text style={styles.content}>{responseData.account_no}</Text>
@@ -282,16 +295,8 @@ const Profile = ({ navigation }) => {
                     <Text style={styles.title}>SOL ID. </Text>
                     <Text style={styles.content}>{responseData.sol_id}</Text>
                   </View>
-                </View>
+                </View> */}
                 <View style={styles.container}>
-                  <View style={styles.profileView}>
-                    <Text style={styles.title}>Father/Husband's Name </Text>
-                    <Text style={styles.content}>{responseData.gurd_name}</Text>
-                  </View>
-                  <View style={styles.profileView}>
-                    <Text style={styles.title}>P.F No. </Text>
-                    <Text style={styles.content}>{responseData.pf_no}</Text>
-                  </View>
                 </View>
                 <View style={styles.container}>
                   <View style={styles.profileView}>
@@ -299,21 +304,26 @@ const Profile = ({ navigation }) => {
                     <Text style={styles.content}>{responseData.branch_name}</Text>
                   </View>
                   <View style={styles.profileView}>
+                    <Text style={styles.title}>Gender </Text>
+                    {responseData.gender == 'M' ?
+                      <Text style={styles.content}>Male</Text> : <Text style={styles.content}>Female</Text>}
+                  </View>
+                  {/* <View style={styles.profileView}>
                     <Text style={styles.title}>Nominee Name </Text>
                     <Text style={styles.content}>{responseData.nominee_name}</Text>
-                  </View>
+                  </View> */}
                 </View>
                 <View style={styles.container}>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Permanent Address </Text>
                     <Text style={styles.content}>{responseData.memb_addr}</Text>
                   </View>
-                  <View style={styles.profileView}>
+                  {/* <View style={styles.profileView}>
                     <Text style={styles.title}>P.O </Text>
                     <Text style={styles.content}>{responseData.po}</Text>
-                  </View>
+                  </View> */}
                 </View>
-                <View style={styles.container}>
+                {/* <View style={styles.container}>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Dist. </Text>
                     <Text style={styles.content}>{responseData.dist}</Text>
@@ -322,7 +332,7 @@ const Profile = ({ navigation }) => {
                     <Text style={styles.title}>Pin </Text>
                     <Text style={styles.content}>{responseData.pin}</Text>
                   </View>
-                </View>
+                </View> */}
 
                 <View style={styles.profileViewPass}>
                   <Text style={styles.titleReset}>Need to Reset Your PIN? <TouchableOpacity>
@@ -350,16 +360,16 @@ const Profile = ({ navigation }) => {
               <TouchableOpacity style={styles.closeButton} onPress={closeImgModal}>
                 <Image source={require('../assets/close.png')} style={{ width: 25, height: 25 }} />
               </TouchableOpacity>
-                {imageUri ? (
-                  <><Image source={{ uri: imageUri }} style={styles.image}/>
-                  <TouchableOpacity style={styles.submitBtn}  onPress={() => imgUpload(imageUri)}>
-                <Text style={styles.submitBtnTxt}>Submit</Text>
-                </TouchableOpacity>        
-                  </>
-                ) : (
-                  <Text>No image selected</Text>
-                )}
-             
+              {imageUri ? (
+                <><Image source={{ uri: imageUri }} style={styles.image} />
+                  <TouchableOpacity style={styles.submitBtn} onPress={() => imgUpload(imageUri)}>
+                    <Text style={styles.submitBtnTxt}>Submit</Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <Text>No image selected</Text>
+              )}
+
 
             </View>
           </View>
@@ -487,8 +497,9 @@ const styles = StyleSheet.create({
     width: '100%',
     // borderBottomColor: 'gray',
     // borderBottomWidth: 0.5,
+
     paddingBottom: 5,
-    paddingTop: 10,
+    paddingTop: 20,
     marginLeft: 5
     // alignItems:'center'
   },

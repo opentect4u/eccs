@@ -1,21 +1,13 @@
 import React, { Children, useEffect, useState } from 'react';
 import { TextInput } from 'react-native-paper';
-import { useColorScheme, View, Text, StyleSheet, TouchableOpacity, ImageBackground, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Image } from 'react-native';
+import { useColorScheme, View, Text, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MMKV } from 'react-native-mmkv';
-// import {AsyncStorage} from 'react-native';
 import { SCREEN_HEIGHT } from 'react-native-normalize';
 import BankData from '../data/bank_dummy_data.json';
-import CustomerData from '../data/customer_dummy_data';
-import OtpData from '../data/otp_dummy_data.json';
-import PinData from '../data/pin_dummy_data.json';
 import Toast from 'react-native-toast-message';
-import CountDown from 'react-native-countdown-component';
 import { BASE_URL } from '../config/config';
 import axios from 'axios';
-import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-
-// const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
 const regStorage = new MMKV({
   id: 'reg-store'
@@ -45,20 +37,8 @@ function Registration({ navigation }) {
   const [showPin, setShowPin] = useState(false);
   const [showConPin, setShowConPin] = useState(false);
   const textInputRef = React.useRef(null);
-
-  // Focus the TextInput whenever the component mounts or when it loses focus
-  // React.useEffect(() => {
-  //   const focusInterval = setInterval(() => {
-  //     if (textInputRef.current && !textInputRef.current.isFocused()) {
-  //       textInputRef.current.focus();
-  //     }
-  //   }, 100);
-
-  //   return () => clearInterval(focusInterval);
-  // }, []);
   
   useEffect(() => {
-    // console.log(regStorage.getString(`bank_name`))
     SetStorage();
     setTimeout(() => {
       GetStorage();
@@ -71,7 +51,7 @@ function Registration({ navigation }) {
         'abcd'
       );
     } catch (error) {
-      // Error saving data
+     console.log(error)
     }
   }
 
@@ -81,12 +61,10 @@ function Registration({ navigation }) {
       const value = await AsyncStorage.getItem('abcd');
       console.log('asdasd')
       if (value !== null) {
-        // We have data!!
         console.log(value);
       }
     } catch (error) {
       console.log(error)
-      // Error retrieving data
     }
   }
 
@@ -150,7 +128,7 @@ function Registration({ navigation }) {
     if (step == 1) {
 
       try {
-        const response = await axios.get(`${BASE_URL}/api/member_dt?member_id=${bankCode}`, {
+        const response = await axios.get(`${BASE_URL}/api/member_dt?pf_no=${bankCode}`, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -161,14 +139,9 @@ function Registration({ navigation }) {
           const bank_name = response.data.msg[0].bank_name;
           console.log(bankData, 'bankData')
           setUserData(response.data.msg[0])
-          // setBank_code(response.data.msg[0].bank_id)
-          // setBankName(response.data.msg[0].bank_name);
-          // setUserData(response.data.msg[0].phone_no);
-
           setStep(stepCount => stepCount + 1)
         }
         else {
-          // console.log('error')
           Toast.show({
             type: 'error',
             text1: 'Member ID mismatched..!',
@@ -195,8 +168,6 @@ function Registration({ navigation }) {
               'Content-Type': 'application/json'
             }
           });
-        console.log(response.data, 'after phone number')
-        // setUserData(response.data.data[0]);
         if (response.data.suc === 1) {
           setCustName(response.data.data[0].member_name);
           console.log(custName, 'custname')
@@ -206,10 +177,7 @@ function Registration({ navigation }) {
                 'Content-Type': 'application/json'
               }
             });
-            console.log(response.data, 'check_mobile_no')
             if (response.data.suc === 1) {
-              // setStep(stepCount => stepCount + 1)
-              //Start for OTP
               try {
                 const response = await axios.get(`${BASE_URL}/api/login_otp?phone=${phnNo}`, {
                   headers: {
@@ -236,9 +204,6 @@ function Registration({ navigation }) {
               catch (error) {
                 console.log(error);
               }
-              //end for otp
-
-              // mobile number not registered
             }
             else {
               Toast.show({
@@ -391,7 +356,6 @@ function Registration({ navigation }) {
     }, 1000);
   };
   const handleResendPress = () => {
-    // Reset the counter, disable resend, and start the timer again
     Toast.show({
       type: 'success',
       text1: 'OTP sent successfully..!',
@@ -418,7 +382,7 @@ function Registration({ navigation }) {
     // setSubmitDisabled(password !== confirmPassword);
     if (password.length != 0 && confirmPassword.length != 0) {
       if (password.length !== 4 || confirmPassword.length !== 4) {
-        setError("*Pin no. length should be 4");
+        setError("*Pin no. length should be minimum 4");
         setSubmitDisabled(true);
       }
       else if (password !== confirmPassword) {
@@ -443,7 +407,8 @@ function Registration({ navigation }) {
     console.log('handleSubmit clicked')
     if (!isSubmitDisabled) {
       const apiParams = {
-        member_id: userData.member_id,
+        // member_id: userData.member_id,
+        pf_no:bankCode,
         emp_code: userData.emp_code,
         user_name: userData.member_name,
         user_id: userData.phone_no,
@@ -455,7 +420,6 @@ function Registration({ navigation }) {
         const dt = { ...apiParams, password: password };
         console.log(dt);
         const response = await axios.post(`${BASE_URL}/api/save_user`, { ...apiParams, password: password }, {
-          // params: apiParams,
           headers: {
             'Content-Type': 'application/json'
           }
@@ -468,16 +432,17 @@ function Registration({ navigation }) {
             text1: 'Registered successfully..!',
             visibilityTime: 5000
           })
-          navigation.navigate('Login');
           await AsyncStorage.setItem('user_data', JSON.stringify(apiParams));
           await AsyncStorage.setItem('member_id', JSON.stringify(response.data.data[0].member_id))
         }
         else {
+          
           Toast.show({
             type: 'error',
             text1: 'Your id is already registered with us!',
             visibilityTime: 5000
           })
+          navigation.navigate('Login');
         }
       }
       catch (error) {
@@ -486,7 +451,7 @@ function Registration({ navigation }) {
 
     }
     else {
-      // console.log('error')
+      console.log('error')
     }
   };
   const toggleShowPin = () => {
@@ -504,17 +469,13 @@ function Registration({ navigation }) {
     else if (step === 3) {
       return varOtp.length < 4;
     }
-    return false; // Enable for other steps
+    return false; 
   };
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <KeyboardAvoidingView behavior='padding' style={Styles.container}>
-        {/* <ImageBackground
-          source={require('../assets/bg4.jpg')} // Replace with the actual path to your image
-          style={Styles.backgroundImage}
-        > */}
+      {/* <ImageBackground source={require('../assets/bg4.jpg')}style={Styles.backgroundImage>*/}
         <Image source={require('../assets/pnbco.png')} style={{ resizeMode: 'contain', alignSelf: 'center', justifyContent: 'center', marginTop: '30%' }} />
-        {/* Your other components go here */}
         <View style={Styles.loginContainer}>
           {step == 1 &&
             <>
@@ -525,30 +486,21 @@ function Registration({ navigation }) {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInput
                     backgroundColor='transparent'
-                    //  outlineColor='#02a7bf'
-                    // outlineColor='#a20a3a'
                     outlineColor='#000'
-                    //  activeOutlineColor='#a20a3a'
                     mode="outlined"
                     style={{
                       flex: 1, marginTop: 5,
                     }}
-                    // textColor='#a20a3a'
                     textColor='#3f50b5'
                     value={bankCode}
                     onChangeText={handleBankCodeChange}
                     keyboardType="numeric"
-                    placeholder="Enter the member ID here"
-                    // placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
-                    // color={isDarkMode ? '#a20a3a' : '#a20a3a'}
+                    placeholder="Enter your P.F. no."
                     placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
                     color={isDarkMode ? 'black' : 'black'}
                     left={<TextInput.Icon icon="account"
-                      // color={'#02a7bf'}
-                      // color={'#a20a3a'}
                       color={'#3f50b5'}
                     />}
-                    // ref={textInputRef}
                     autoFocus
                   />
                 </View>
@@ -637,7 +589,6 @@ function Registration({ navigation }) {
                   />
                 </View>
               </View>
-              {/* <Text style={{color:'red',alignSelf:'flex-start',left:50}}>hhjjhhj</Text> */}
               <View style={Styles.inputContainer}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInput
@@ -658,8 +609,9 @@ function Registration({ navigation }) {
                     
                   />
                 </View>
+                <View style={{ top: 3 }}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
               </View>
-              <View style={{ top: 5 }}>{error ? <Text style={Styles.errorText} >{error}</Text> : null}</View>
+             
             </>
           }
           {step == 1 && <><TouchableOpacity style={[Styles.nextBtn,
@@ -693,18 +645,13 @@ const Styles = StyleSheet.create({
   container: {
     flex: 1,
     height: SCREEN_HEIGHT,
-    // backgroundColor: 'rgba(32,159,178,255)',
-    // justifyContent: 'flex-end',
     position: 'relatived',
-    // backgroundColor:'rgba(117, 124, 232,0.1)'
     backgroundColor: '#ffffff'
 
   },
   loginContainer: {
     width: '100%',
     height: '47%',
-    // backgroundColor: '#fdbd30',
-    // backgroundColor:'rgba(23,6,245,0.3)',
     backgroundColor: '#3f50b5',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
@@ -717,8 +664,6 @@ const Styles = StyleSheet.create({
   },
   header: {
     fontSize: 22,
-    // color: '#02a7bf',
-    // color:'#a20a3a',
     color: '#ffffff',
     fontFamily: 'EBGaramond-Bold'
   },
@@ -735,7 +680,6 @@ const Styles = StyleSheet.create({
     borderColor: '#02a7bf',
   },
   textStyle: {
-    //  color:'#02a7bf',
     color: '#a20a3a',
     fontSize: 15,
     fontFamily: 'Montserrat-Bold'
@@ -743,9 +687,6 @@ const Styles = StyleSheet.create({
   nextBtn: {
     width: '60%',
     height: 40,
-    // backgroundColor: '#04bbd6',
-    // backgroundColor:'#a20a3a',
-    // backgroundColor:'#757ce8',
     backgroundColor: '#ffffff',
     alignSelf: 'center',
     marginTop: 75,
@@ -769,9 +710,8 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
   },
   errorText: {
-    // color: 'red',
     color: '#ffffff',
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '600'
   },
   inputContainer: {

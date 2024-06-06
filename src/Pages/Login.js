@@ -57,6 +57,7 @@ function Login({ navigation }) {
   }
   const decrementStep = () => {
     setStep(stepCount => stepCount - 1)
+    setPhnNo('')
   }
   const submitNext = async () => {
 
@@ -64,10 +65,10 @@ function Login({ navigation }) {
       // const asyncData = await AsyncStorage.getItem(`user_data`);
       // console.log(JSON.parse(asyncData)?.bank_id)
       const apiParams = {
-        member_id: phnNo,
+        pf_no: phnNo,
         password: varOtp
       };
-      console.log(apiParams, 'login')
+      console.log(apiParams, 'login data set')
       // setStep(stepCount => stepCount + 1)
       // navigation.navigate('Home');
       try {
@@ -84,6 +85,8 @@ function Login({ navigation }) {
           setAuthDT(await AsyncStorage.getItem(`login_data`));
           socket.connect();
           navigation.navigate('BottomNav');
+          setPhnNo('')
+          setOtp('')    
         }
         else if (response.data.suc === 0) {
           Toast.show({
@@ -96,7 +99,6 @@ function Login({ navigation }) {
       catch (error) {
         console.log(error);
       }
-
       // OtpData.forEach((item) => {
       //   if (item.otp == varOtp) {
       //     console.log('Otp - matched..!')
@@ -116,13 +118,11 @@ function Login({ navigation }) {
     else {
       console.log('first')
     }
-
   }
   const handleLogin = async () => {
     submitNext().then(async () => {
       await AsyncStorage.setItem(`login_data`);
     }).catch(() => console.log('error'))
-
   }
   const handlePhnNoChange = (value) => {
     setPhnNo(value);
@@ -149,7 +149,7 @@ function Login({ navigation }) {
           }}
           // textColor='#a20a3a'
           textColor='#3f50b5'
-          placeholder={"Enter your member Id"}
+          placeholder={"Enter your P.F. no."}
           // placeholderTextColor={isDarkMode ? '#a20a3a' : '#a20a3a'}
           placeholderTextColor={isDarkMode ? '#3f50b5' : '#3f50b5'}
           color={isDarkMode ? 'black' : 'black'}
@@ -172,7 +172,7 @@ function Login({ navigation }) {
   };
 
   const nextButton = () => {
-    const isDisabled = step === 1 && phnNo.length != 4;
+    const isDisabled = step === 1 && phnNo.length != 5;
     return (
 
       <TouchableOpacity style={[Styles.nextBtn, isDisabled && Styles.disabledBtn]} onPress={() => incrementStep().then} disabled={isDisabled}>
@@ -222,6 +222,7 @@ function Login({ navigation }) {
                     codeLength={4}
                     value={varOtp}
                     onTextChange={handleOtpChange}
+                    autoFocus={true}
                   />
                 </View>
                 {/* <TextInput
@@ -289,8 +290,6 @@ const Styles = StyleSheet.create({
   },
   logo: { resizeMode: 'contain', alignSelf: 'center', justifyContent: 'center', marginTop: '30%' },
   disabledBtn: {
-    // backgroundColor: 'lightblue', 
-    // backgroundColor:'#c28090'
     backgroundColor: '#9298ed'
   },
   underlineStyleBase: {
@@ -305,8 +304,7 @@ const Styles = StyleSheet.create({
   container: {
     flex: 1,
     height: SCREEN_HEIGHT,
-    // backgroundColor: 'rgba(32,159,178,255)',
-    // justifyContent: 'flex-end',
+
     position: 'relatived',
     // backgroundColor:'rgba(117, 124, 232,0.1)'
     backgroundColor: '#ffffff'

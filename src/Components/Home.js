@@ -130,7 +130,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'
     },
     rptCard: {
-        backgroundColor:'#e9eafc',width:95,height:105,justifyContent:'center',borderRadius:20, alignItems:'center',color:'black',shadowColor:'#000',shadowOffset:{width:0,height:2}, shadowOpacity:0.25,shadowRadius:3.84,elevation:5,
+        backgroundColor:'#e9eafc',
+        backgroundColor: '#d9dcf0',width:95,height:105,justifyContent:'center',borderRadius:20, alignItems:'center',color:'black',shadowColor:'#000',shadowOffset:{width:0,height:2}, shadowOpacity:0.25,shadowRadius:3.84,elevation:5,
     },
     rptCardTxt: {
         top: 4,color:'#3f50b5',fontFamily:'OpenSans-ExtraBold',fontSize: 15,fontWeight: '900'

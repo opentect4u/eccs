@@ -50,12 +50,11 @@ const toastConfig = {
         backgroundColor:'white',
         borderleftWidth:5,
         borderLeftColor:'red',
-        // borderRadius:50,
         alignItems:'center',
         
       }}
       contentContainerStyle={{
-        paddingHorizontal:20,
+        paddingHorizontal:10,
         alignItems:'center'
       }}
       text1Style={{
