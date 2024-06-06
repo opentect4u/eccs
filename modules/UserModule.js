@@ -13,11 +13,11 @@ const bank_details = (bank_id) => {
   });
 };
 
-const member_details = (member_id) => {
+const member_details = (pf_no) => {
   return new Promise(async (resolve, reject) => {
     var select = "emp_code,branch_code,member_id,member_name,phone_no",
       table_name = `md_member`,
-      whr = `member_id = '${member_id}'`,
+      whr = `pf_no = '${pf_no}'`,
       order = null;
     var member_dt = await db_Select(select, table_name, whr, order);
     resolve(member_dt);
@@ -40,8 +40,8 @@ const save_user_data = (data) => {
     var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
     var password = bcrypt.hashSync(data.password, 10);
     var table_name = 'td_user',
-    fields = `(member_id, emp_code, user_name, user_id, password, created_by, created_dt)`,
-    values = `('${data.member_id}', '${data.emp_code}', '${data.user_name}', '${data.user_id}', '${password}', '${data.user_name}', '${datetime}')`,
+    fields = `(pf_no, emp_code, user_name, user_id, password, created_by, created_dt)`,
+    values = `('${data.pf_no}', '${data.emp_code}', '${data.user_name}', '${data.user_id}', '${password}', '${data.user_name}', '${datetime}')`,
     whr = null,
     flag = 0;
     user_data = await db_Insert(table_name, fields, values, whr, flag);
@@ -65,7 +65,7 @@ const login_data = (data) => {
   return new Promise(async (resolve, reject) => {
     var select = "a.*,b.*,c.bank_id,c.bank_name",
     table_name = "td_user a , md_member b, md_bank c",
-    whr = `a.member_id = b.member_id AND a.user_type = 'U' AND a.active_flag = 'Y' AND a.member_id = ${data.member_id}`,
+    whr = `a.pf_no = b.pf_no AND a.user_type = 'U' AND a.active_flag = 'Y' AND a.pf_no = ${data.pf_no}`,
     order = null;
   var login_dt = await db_Select(select, table_name, whr, order);
   resolve(login_dt);

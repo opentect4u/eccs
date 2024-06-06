@@ -68,7 +68,7 @@ userRouter.post('/save_user', async (req, res) =>{
 userRouter.get("/member_dt", async (req, res) => {
   var data = req.query;
   console.log(data);
-  var member_dtls = await member_details(data.member_id);
+  var member_dtls = await member_details(data.pf_no);
   console.log(member_dtls);
   if(member_dtls.suc > 0){
     if(member_dtls.msg.length > 0){
