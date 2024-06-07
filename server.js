@@ -46,8 +46,10 @@ app.use((req, res, next) => {
 const { apiRouter } = require("./routes/apiRouter");
 const { adminRouter } = require("./routes/adminRouter");
 const { notification_dtls } = require("./modules/NotificationModule");
+const { formRouter } = require("./routes/api/formRouter");
 app.use('/api', apiRouter)
 app.use('/admin', adminRouter)
+app.use(formRouter)
 
 app.get('/test', (req, res) => {
   const {join} = require('path')

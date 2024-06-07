@@ -5,6 +5,7 @@ const { calendarRouter } = require("./api/calendarRouter");
 const { contactRouter } = require("./api/contactRouter");
 const { downloadFormRouter } = require("./api/downloadFormRouter");
 const { feedbackRouter } = require("./api/feedbackRouter");
+const { formRouter } = require("./api/formRouter");
 const { holidayhomeRouter } = require("./api/holidayhomeRouter");
 const { notificationRouter } = require("./api/notificationRouter");
 const { reportRouter } = require("./api/reportRouter");
@@ -18,5 +19,6 @@ apiRouter.use(downloadFormRouter);
 apiRouter.use(feedbackRouter);
 apiRouter.use(holidayhomeRouter);
 apiRouter.use(notificationRouter);
+apiRouter.use(formRouter);
 
 module.exports = { apiRouter };

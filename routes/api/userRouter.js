@@ -92,7 +92,7 @@ userRouter.post("/login", async (req, res) => {
     if (log_dt.msg.length > 0) {
         if (await bcrypt.compare(data.password, log_dt.msg[0].password)) {
           try{
-            await db_Insert('td_user', `last_login="${datetime}"`, null, `member_id=${log_dt.msg[0].member_id}`, 1)
+            await db_Insert('td_user', `last_login="${datetime}"`, null, `pf_no=${log_dt.msg[0].pf_no}`, 1)
           }catch(err){
             // console.log(err);
           }
