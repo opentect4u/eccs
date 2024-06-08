@@ -87,12 +87,12 @@ userRouter.post("/login", async (req, res) => {
   const datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
   console.log(data);
   var log_dt = await login_data(data);
-  // console.log(log_dt);
+  console.log(log_dt);
   if (log_dt.suc > 0) {
     if (log_dt.msg.length > 0) {
         if (await bcrypt.compare(data.password, log_dt.msg[0].password)) {
           try{
-            await db_Insert('td_user', `last_login="${datetime}"`, null, `pf_no=${log_dt.msg[0].pf_no}`, 1)
+            await db_Insert('td_user', `last_login="${datetime}"`, null, `user_id=${log_dt.msg[0].user_id}`, 1)
           }catch(err){
             // console.log(err);
           }

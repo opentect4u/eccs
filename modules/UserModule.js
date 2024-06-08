@@ -40,8 +40,8 @@ const save_user_data = (data) => {
     var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
     var password = bcrypt.hashSync(data.password, 10);
     var table_name = 'td_user',
-    fields = `(pf_no, emp_code, user_name, user_id, password, created_by, created_dt)`,
-    values = `('${data.pf_no}', '${data.emp_code}', '${data.user_name}', '${data.user_id}', '${password}', '${data.user_name}', '${datetime}')`,
+    fields = `(emp_code, user_name, user_id, password, created_by, created_dt)`,
+    values = `('${data.emp_code}', '${data.user_name}', '${data.user_id}', '${password}', '${data.user_name}', '${datetime}')`,
     whr = null,
     flag = 0;
     user_data = await db_Insert(table_name, fields, values, whr, flag);
@@ -63,9 +63,11 @@ const save_user_data = (data) => {
 
 const login_data = (data) => {
   return new Promise(async (resolve, reject) => {
-    var select = "a.*,b.*,c.bank_id,c.bank_name",
-    table_name = "td_user a , md_member b, md_bank c",
-    whr = `a.pf_no = b.pf_no AND a.user_type = 'U' AND a.active_flag = 'Y' AND a.pf_no = ${data.pf_no}`,
+    // var select = "DISTINCT a.*,b.*,c.bank_id,c.bank_name",
+    var select = "a.*,b.*",
+    // table_name = "td_user a , md_member b, md_bank c",
+    table_name = "td_user a , md_member b",
+    whr = `a.user_id = b.pf_no AND a.user_type = 'U' AND a.active_flag = 'Y' AND a.user_id = ${data.user_id}`,
     order = null;
   var login_dt = await db_Select(select, table_name, whr, order);
   resolve(login_dt);
