@@ -6,7 +6,7 @@ const contactRouter = require('express').Router();
 contactRouter.get("/contact", async (req, res) => {
     var id = req.query.id > 0 ? req.query.id : null;
     var resDt = await conData(id);
-    console.log(resDt,'123');
+    // console.log(resDt,'123');
     res.render("contact_dtls/contact_view", {
       con_dt: resDt,
       heading: "Contact Details",
@@ -21,7 +21,7 @@ contactRouter.get("/contact", async (req, res) => {
     if (id > 0) {
         var res_dt = await conData(id);
         conDt = res_dt.suc > 0 ? res_dt.msg : null;
-        console.log(conDt,'123');
+        // console.log(conDt,'123');
     }
     res.render("contact_dtls/contact_edit", {
         con_data: conDt,
@@ -68,7 +68,7 @@ contactRouter.post("/contact_edit", async (req, res) => {
 
 contactRouter.get("/con_data_delete", async (req, res) => {
     var data = req.query
-    console.log(data);
+    // console.log(data);
     var table_name = 'md_contact_info',
     whr = `id=${data.id}`
     var res_dt = await db_Delete(table_name,whr)

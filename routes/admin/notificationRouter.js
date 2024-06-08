@@ -100,7 +100,7 @@ notiRouter.post("/notification", async (req, res) => {
             resDt = {suc: 0, msg: 'No data found'}
         }
     // }
-    console.log(resDt.suc);
+    // console.log(resDt.suc);
     if (resDt.suc > 0) {
         var ioDt = await notification_dtls();
         req.io.emit('send notification', ioDt);

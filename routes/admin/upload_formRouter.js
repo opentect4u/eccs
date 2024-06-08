@@ -40,7 +40,7 @@ upload_formRouter.post('/upload_form', async(req, res) => {
     if(Array.isArray(photo)){
       let i = 0
       for(let dt of photo){
-        console.log(dt,'frm_data');
+        // console.log(dt,'frm_data');
         try{
           if(dt.size <= 1 * 1024 * 1024){
             let fileName = Date.now() + "_" + dt.name;
@@ -88,7 +88,7 @@ upload_formRouter.post('/upload_form', async(req, res) => {
               err.push(err);
             } else {
               let title = data.title;
-              console.log(title,'tot');
+              // console.log(title,'tot');
               // if (frm_up) {
               //   var table_name = "td_forms",
               //     fields = `file_path = '${fileName}', modified_by = '${user_data.user}', modified_dt = '${datetime}'`,

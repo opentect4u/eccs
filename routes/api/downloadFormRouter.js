@@ -4,9 +4,9 @@ const downloadFormRouter = require('express').Router();
 
 downloadFormRouter.get("/get_download_form_dtls", async (req, res) =>{
     var data = req.query;
-    console.log(data);
+   //  console.log(data);
     var frm_dtls = await download_form_data(data.bank_id);
-    console.log(frm_dtls);
+   //  console.log(frm_dtls);
     if(frm_dtls.suc > 0){
         if(frm_dtls.msg.length > 0){
            res.send(frm_dtls)

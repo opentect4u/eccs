@@ -63,7 +63,7 @@ adminUserRouter.get('/logout', async (req, res) => {
   adminUserRouter.get('/user_list', async (req, res) => {
     var bank_id = req.session.user.bank_id;
     var resDt = await AllUserList();
-    console.log(resDt);
+    // console.log(resDt);
     res.render("user/user_list", {
         req_dt: resDt,
         heading: "Registered User List",
@@ -143,17 +143,17 @@ adminUserRouter.post('/password', async (req, res) =>{
 adminUserRouter.post('/save_flag', async (req, res) =>{
     user = req.session.user
     user_name = req.session.user.user_name
-    console.log(user,"123456");
+    // console.log(user,"123456");
     const datetime = dateFormat(new Date(), "yyyy-mm-dd");
     
     var data = req.body;
-    console.log(data);
+    // console.log(data);
     var table_name = "td_user",
           fields = `active_flag = '${data.isChecked}', modified_by='${user_name}', modified_dt='${datetime}'`,
           where2 = `emp_code = '${data.emp_code}'`,
           flag = 1;
           var active_dt = await db_Insert(table_name,fields,null,where2,flag)
-          console.log(active_dt,'pp');
+        //   console.log(active_dt,'pp');
     res.send(active_dt)    
 })
 

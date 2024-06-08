@@ -5,9 +5,9 @@ const notificationRouter = require('express').Router();
 
 notificationRouter.post('/noti_view_flag', async (req, res) =>{
     var data = req.body;
-    console.log(data);
+   //  console.log(data);
     var noti_save_dt = await notify_flag_save(data, req.io)
-    console.log(noti_save_dt);
+   //  console.log(noti_save_dt);
     res.send({noti_save_dt})
   });
 
@@ -30,7 +30,7 @@ notificationRouter.post('/noti_view_flag', async (req, res) =>{
 
   notificationRouter.get("/clear_all_notify", async (req, res) => {
       var data = req.query
-      console.log(data,'888');
+      // console.log(data,'888');
       var table_name = 'td_notification'
       whr = `send_user_id = ${data.send_user_id}`
       var res_dt = await db_Delete(table_name,whr)

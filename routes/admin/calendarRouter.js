@@ -27,7 +27,7 @@ calendarRouter.get("/calendar_edit", async (req, res) => {
     if (id > 0) {
         var res_dt = await calData(id);
         calDt = res_dt.suc > 0 ? res_dt.msg : null;
-        console.log(calDt,'123');
+        // console.log(calDt,'123');
     }
     res.render("admin/calendar_edit", {
         cal_data: calDt,
@@ -75,7 +75,7 @@ calendarRouter.post("/calendar_edit", async (req, res) => {
 
 calendarRouter.get("/cal_data_delete", async (req, res) => {
     var data = req.query
-    console.log(data);
+    // console.log(data);
     var table_name = 'td_calendar',
     whr = `sl_no=${data.id}`
     var res_dt = await db_Delete(table_name,whr)
