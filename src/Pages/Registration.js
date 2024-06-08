@@ -408,10 +408,11 @@ function Registration({ navigation }) {
     if (!isSubmitDisabled) {
       const apiParams = {
         // member_id: userData.member_id,
-        pf_no:bankCode,
+        // pf_no:bankCode,
         emp_code: userData.emp_code,
         user_name: userData.member_name,
-        user_id: userData.phone_no,
+        // user_id: userData.phone_no,
+        user_id: bankCode,
         password: password,
         // tb_name: "td_user"
       };
@@ -432,8 +433,11 @@ function Registration({ navigation }) {
             text1: 'Registered successfully..!',
             visibilityTime: 5000
           })
+          navigation.navigate('Login');
           await AsyncStorage.setItem('user_data', JSON.stringify(apiParams));
           await AsyncStorage.setItem('member_id', JSON.stringify(response.data.data[0].member_id))
+          
+
         }
         else {
           

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, useColorScheme, StyleSheet, Text, ScrollView, ActivityIndicator,Image,PermissionsAndroid } from 'react-native';
+import { View, useColorScheme, StyleSheet, Text, ScrollView, ActivityIndicator,Image,PermissionsAndroid,ImageBackground,Linking } from 'react-native';
+import { SCREEN_HEIGHT } from 'react-native-normalize';
 import HeaderComponent from '../Components/HeaderComponent';
 import RNPickerSelect from 'react-native-picker-select';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,7 +43,7 @@ const pickerStyle = {
 };
 
 const Networth = () => {
-
+  const welcomContHeight = 0.25 * SCREEN_HEIGHT;
   const isDarkMode = useColorScheme() === 'dark'
   const [open, setOpen] = useState(false);
   const [openyear, setOpenyear] = useState(false);
@@ -58,6 +59,7 @@ const Networth = () => {
 
   useEffect(() => {
     GetStorage();
+    downloadRes();
   }, [])
 
   const GetStorage = async () => {
@@ -69,6 +71,52 @@ const Networth = () => {
       console.log(err);
     }
   }
+
+  //change
+  const downloadRes = async () => {
+    setLoading(true)
+    const asyncData = await AsyncStorage.getItem(`login_data`);
+    const bankId = JSON.parse(asyncData)?.bank_id
+
+    try {
+        const response = await axios.get(`${BASE_URL}/api/get_loan_form`, {}, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+      console.log(response.data, 'get_loan_form demand')
+        
+        if (response.data.suc === 1) {
+            setLoading(false)
+            // setResponseData(response.data.msg);
+            const data = response.data.msg;
+            const filtered = data.filter(item => ['U'].includes(item.flag));
+            setResponseData(filtered);
+        }
+        else {
+            setLoading(false)
+            Toast.show({
+                type: 'error',
+                text1: 'error!',
+                visibilityTime: 5000
+            })
+        }
+    }
+    catch (error) {
+        // setLoading(false)
+        console.log(error);
+    }
+};
+const handleDownload = (fileUrl) => {
+  Linking.openURL(`${BASE_URL}/${fileUrl}`)
+      .then(() => {
+          // console.log('URL opened successfully');
+      })
+      .catch((err) => {
+          console.error('An error occurred while opening the URL:', err);
+      });
+};
+  // change
   const handleSearch = async () => {
     setLoading(true)
     console.log(memberID, 'member_id in networth')
@@ -341,7 +389,6 @@ const Networth = () => {
     const file = await RNHTMLtoPDF.convert(uri);
     console.log(file, 'file')
     console.log('PDF Generated:', uri);
-    // const RNFetchBlob = require('rn-fetch-blob');
     const moment = require('moment'); 
     const timestamp = moment().format('YYYYMMDD_HHmmss');
     const filepath = `${RNFetchBlob.fs.dirs.DownloadDir}/user_statement${timestamp}.pdf`;
@@ -389,7 +436,41 @@ const Networth = () => {
 
   return (
     <><HeaderComponent />
-      <View style={styles.header}>
+
+<View>
+        <ImageBackground
+          source={require('../assets/bg5.jpg')}
+          style={{ resizeMode: 'cover', height: welcomContHeight }}>
+          <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
+            <Text style={styles.containerText}>Statement</Text>
+            <View style={styles.mainContainer}>
+              <View style={styles.profileContainer}>
+                <View style={{ alignItems: 'center' }}>
+                  <Text style={styles.mainContHeader}>
+                    Get The Statement Here
+                  </Text>
+                </View>
+                {isLoading && <ActivityIndicator color={"teal"} size={"large"} />}
+                {responseData.map((document, index) => (
+                  <View style={styles.profileView} key={index}>
+                  <View style={styles.row}>
+                      <Text style={styles.doctitle}>{document.title}</Text>
+                      <Text style={styles.content} onPress={() => handleDownload(document.file_path)}> Download PDF</Text>
+                  </View>
+              </View>
+                ))}
+              </View>
+              {/* </View> */}
+
+            </View>
+          </View>
+        </ImageBackground>
+
+
+      </View>
+
+   {/*old */}
+      {/* <View style={styles.header}>
         <Text style={styles.textHeader}>
           Net-Worth Report
         </Text>
@@ -448,8 +529,6 @@ const Networth = () => {
             <View style={styles.containerRpt}>
               {depositData?.length > 0 &&
                 <><View style={{ height: 40, 
-                // backgroundColor: '#f1f8ff'
-                // backgroundColor:'rgba(253, 189, 48, 0.1)'
                 backgroundColor: '#e9eafc'
                  }}>
                   <Text style={{ alignSelf: 'center', fontSize: 18, color: 'black', top: 5, fontWeight: '700', fontFamily:'OpenSans-ExtraBold' }}>
@@ -458,30 +537,19 @@ const Networth = () => {
                 </View>
                   <View style={{ marginBottom: 16 }}>
                     <Table borderStyle={{ borderWidth: 1,
-                      //  borderColor: '#fdbd30'
                       borderColor: '#3f50b5' 
                         }}>
                       <Row data={tableHead} style={{ height: 40, 
-                        // backgroundColor: '#f1f8ff'
-                        // backgroundColor:'rgba(253, 189, 48, 0.1)',
                         backgroundColor: '#e9eafc'
                          }} textStyle={{ margin: 6, fontWeight: '700', fontFamily:'OpenSans-ExtraBold',color:isDarkMode? 'black':'black' }} />
                       <Rows data={tableData} textStyle={{ margin: 6,color:isDarkMode? 'black':'black' }} />
-                      {/* {depositData.map((rowData, index) => (
-      <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
-    ))} */}
-                      {/* Total Row */}
                       <Row data={totalRow} style={{ height: 40,
-                        //  backgroundColor: '#f1f8ff'
-                        // backgroundColor:'rgba(253, 189, 48, 0.1)'
                         backgroundColor: '#e9eafc' 
                          }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
                   </View></>}
               {loanData?.length > 0 &&
                 <><View style={{ height: 40, 
-                // backgroundColor: '#f1f8ff' 
-                // backgroundColor:'rgba(253, 189, 48, 0.1)'
                 backgroundColor: '#e9eafc'
                 }}>
                   <Text style={{ alignSelf: 'center', fontSize: 18, color: 'black', top: 5, fontWeight: '700', fontFamily:'OpenSans-ExtraBold' }}>
@@ -491,23 +559,13 @@ const Networth = () => {
                   <View style={{ marginBottom: 16 }}>
                     <Table borderStyle={{ borderWidth: 1,  borderColor: '#3f50b5' }}>
                       <Row data={tableHead_l} style={{ height: 40, 
-                        // backgroundColor: '#f1f8ff'
-                        // backgroundColor:'rgba(253, 189, 48, 0.1)'
                         backgroundColor: '#e9eafc'
                         }} textStyle={{ margin: 6, fontWeight: '700',color:isDarkMode? 'black':'black' }} />
                       <Rows data={tableData_l} textStyle={{ margin: 6,color:isDarkMode? 'black':'black' }} />
-                      {/* {depositData.map((rowData, index) => (
-      <Row key={index} data={rowData} textStyle={{ margin: 6 }} />
-    ))} */}
-                      {/* Total Row */}
                       <Row data={totalRow_l} style={{ height: 40, 
-                        // backgroundColor: '#f1f8ff'
-                        // backgroundColor:'rgba(253, 189, 48, 0.1)'
                         backgroundColor: '#e9eafc'
                          }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                       <Row data={totNetWorthRow} style={{ height: 40, 
-                        // backgroundColor: '#f1f8ff' 
-                        // backgroundColor:'rgba(253, 189, 48, 0.1)'
                         backgroundColor: '#e9eafc'
                         }} textStyle={{ margin: 6, fontWeight: 'bold',color:isDarkMode? 'black':'black' }} />
                     </Table>
@@ -521,36 +579,6 @@ const Networth = () => {
                   </Button>          
                   </>
               }
-              {/* <View style={{borderWidth:1,borderColor:'black' , height:'auto'}}>
-        <Text style={{alignSelf:'center',fontSize:20,fontWeight:'900'}}>
-          Asset
-        </Text>
-        {depositData.map((record, index) => (
-        <View key={index} style={{ marginBottom: 10, borderWidth: 1, borderColor: '#ccc', padding: 10, backgroundColor: 'rgba(24,117,130,0.1)', borderRadius:10,borderEndWidth:1,borderColor:'black' }}>
-          
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}}> A/C Type :{record.ac_name}</Text>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}}> Principal :{record.prn_amt}</Text>  
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}}> Interest :{record.intt_amt}</Text> 
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}}> ROI :{record.intt_rt}</Text> 
-          </View>
-          
-          ))}
-          
-       </View> */}
-              {/* <View style={{borderWidth:1,borderColor:'black' , height:'auto'}}>
-        <Text style={{alignSelf:'center',fontSize:20,fontWeight:'900'}}>
-          Liability
-        </Text>
-        {loanData.map((record, index) => (
-        <View key={index} style={{ marginBottom: 10 }}>
-
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}}> A/C Type :{record.ac_name}</Text>
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}}> Principal :{record.prn_amt}</Text>  
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}}> Interest :{record.intt_amt}</Text> 
-          <Text style={{padding:2,fontWeight:'600',fontSize:18}}> ROI :{record.intt_rt}</Text>    
-          </View>
-          ))}
-          </View> */}
 
             </View>
           
@@ -563,13 +591,67 @@ const Networth = () => {
 
         <Text style={{ color: '#3f50b5', fontSize: 17, alignSelf: 'center', fontFamily:'OpenSans-ExtraBold', marginTop: 10 }}>No data Found..</Text>
       </View>
-    </View>}
+    </View>} */}
     </>
   );
 };
 const styles = StyleSheet.create({
+  content:{
+    // color: 'blue',
+    color:'orange',
+    textDecorationLine: 'underline',
+  },
+  doctitle:{
+    color:'#3f50b5',
+    fontSize: 16,
+    fontWeight: '900',
+  },
+  profileView: {
+    margin: 10,
+    padding: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+},
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent:'space-around'
+},
+  mainContainer: {
+    height: 700,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    width: '100%',
+    backgroundColor: 'white',
+    // backgroundColor:'#fdbd30',
+    alignSelf: 'center',
+    position: 'absolute',
+    top: 120,
+    padding: 25,
+  },
+  containerText: {
+    fontSize: 20,
+    fontWeight: '900',
+    // color: '#fdbd30',
+    color: '#ffffff',
+    top: 50,
+    alignSelf: 'center'
+  },
+  profileContainer: {
+    position: 'relative',
+    // top:-80
+
+  },
+  mainContHeader: {
+    // color: '#209fb2',
+    color:'#3f50b5',
+    fontSize: 18,
+    fontWeight: '900',
+    padding: 15,
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'black',
+  },
   header:{ height: 40,  backgroundColor:'#3f50b5',
-    // backgroundColor: 'rgba(4,187,214,255)'// backgroundColor:'#a20a3a'
   },
   textHeader:{ alignSelf: 'center', fontSize: 20, color: '#ffffff', fontWeight: '800', top: 5, fontFamily: 'OpenSans-ExtraBold' },
   containerRpt: {

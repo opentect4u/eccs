@@ -24,7 +24,34 @@ function Download() {
     const loadPDF = async () => {
         setLoading(true)
         try {
-            const pdfUrl = 'http://202.21.38.178:3002/forms/10001/loan_form.pdf';
+            const asyncData = await AsyncStorage.getItem(`login_data`);
+        const bankId = JSON.parse(asyncData)?.bank_id
+
+        try {
+            const response = await axios.get(`${BASE_URL}/api/get_loan_form`, {}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+              console.log(response.data,'get_loan_form ')
+            
+            // if (response.data.suc === 1) {
+             
+            // }
+            // else {
+            //     Toast.show({
+            //         type: 'error',
+            //         text1: 'error!',
+            //         visibilityTime: 5000
+            //     })
+            // }
+        }
+        catch (error) {
+            console.log(error);
+        }
+            // const pdfUrl = 'http://202.21.38.178:3002/forms/10001/loan_form.pdf';
+            const pdfUrl = 'https://pnbeccs.synergicbanking.in/forms/10001/loan_form.pdf';
+
 
             const response = await RNFetchBlob.config({
                 fileCache: true,

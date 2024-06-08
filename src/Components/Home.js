@@ -38,9 +38,11 @@ function Home({ navigation }) {
             <View>
                 <ImageBackground
                     // source={require('../assets/bg3.jpg')}
-                    source={require('../assets/bg5.jpg')} style={{ resizeMode: 'cover' }}>
+                    source={require('../assets/bg5.jpg')} style={{                         
+                    }}>
                     <View style={{ height: welcomContHeight, width: 'screenWidth' }}>
-                        <Text style={styles.bankDtlsTxt}>{bankName}</Text>
+                        {/* <Text style={styles.bankDtlsTxt}>{bankName}</Text> */}
+                        <Text style={styles.bankDtlsTxt}>PNB EMPLOYEES CREDIT COOPERATIVE SOCIETY LTD</Text>
                         <Text style={styles.userDtlsTxt}>Hello {userName}</Text>
                         <View>
                             <View style={[styles.rptcontainer, { height: rptBodyHeight }]}>
@@ -52,7 +54,9 @@ function Home({ navigation }) {
                                     </TouchableOpacity>
                                     <TouchableOpacity style={styles.rptCard} onPress={() => navigation.navigate('Networth')}>
                                         <Image source={require('../assets/networth3.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
-                                        <Text style={styles.rptCardTxt}>Networth</Text>
+                                        {/* <Text style={styles.rptCardTxt}>Networth</Text> */}
+                                        <Text style={styles.rptCardTxt}>Statement</Text>
+
                                     </TouchableOpacity>
                                 </View>
                                 <View style={[styles.rptBgContainer, { height: rptBgCont }]}>

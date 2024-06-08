@@ -32,7 +32,7 @@ const MainRoute = () => {
         !authDT ?
           <>
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name="Reg" component={Registration}
+            <Stack.Screen name='Registration' component={Registration}
             options={({ navigation }) => ({
               title: '',
               // headerShown: true,

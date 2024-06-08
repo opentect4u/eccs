@@ -65,7 +65,7 @@ function Login({ navigation }) {
       // const asyncData = await AsyncStorage.getItem(`user_data`);
       // console.log(JSON.parse(asyncData)?.bank_id)
       const apiParams = {
-        pf_no: phnNo,
+        user_id: phnNo,
         password: varOtp
       };
       console.log(apiParams, 'login data set')
@@ -129,7 +129,7 @@ function Login({ navigation }) {
     console.log(phnNo)
   };
   const handleRegister = () => {
-    navigation.navigate('Reg');
+    navigation.navigate('Registration');
   }
   const inputFunction = () => {
     return <View style={Styles.inputContainer}>
