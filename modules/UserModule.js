@@ -15,7 +15,7 @@ const bank_details = (bank_id) => {
 
 const member_details = (pf_no) => {
   return new Promise(async (resolve, reject) => {
-    var select = "emp_code,branch_code,member_id,member_name,phone_no",
+    var select = "emp_code,branch_code,member_id,member_name",
       table_name = `md_member`,
       whr = `pf_no = '${pf_no}'`,
       order = null;
