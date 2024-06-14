@@ -74,7 +74,7 @@ const login_data = (data) => {
   });
 };
 
-const profile_data = (member_id) => {
+const profile_data = (pf_no) => {
   return new Promise(async (resolve, reject) => {
     // var select = "a.member_id,a.emp_code,a.user_name,a.user_id,b.*,c.branch_name",
     // table_name = "td_user a, md_member b, md_branch c",
@@ -85,11 +85,16 @@ const profile_data = (member_id) => {
     // AND a.member_id = '${member_id}'
     // AND a.emp_code = '${emp_code}'`,
     // order = null;
-    var select = "a.member_id,a.member_name,a.gurd_name,a.memb_addr,a.gender,a.dob,a.doa,a.designation,a.pf_no,b.branch_name",
-    table_name = `md_member a, md_branch b`,
-    whr = `a.branch_code = b.sl_no AND a.member_id = '${member_id}'`,
+    // var select = "a.member_id,a.member_name,a.gurd_name,a.memb_addr,a.gender,a.dob,a.doa,a.designation,a.pf_no,b.branch_name",
+    // table_name = `md_member a, md_branch b`,
+    // whr = `a.branch_code = b.sl_no AND a.member_id = '${member_id}'`,
+    // order = null;
+    var select = "member_id,member_name,gurd_name,memb_addr,gender,dob,doa,designation,pf_no",
+    table_name = `md_member`,
+    whr = `pf_no = '${pf_no}'`,
     order = null;
   var profile_dt = await db_Select(select, table_name, whr, order);
+  // console.log(profile_dt,'lll');
   resolve(profile_dt);
   });
 };
