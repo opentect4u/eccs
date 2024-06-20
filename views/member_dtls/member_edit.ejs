@@ -55,17 +55,21 @@
                                                 <label for="brn_name" class="col-sm-4 col-form-label">Branch
                                                     Name</label>
                                                 <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="brn_name" name="brn_name"
+                                                        value="<%= mem_data ? mem_data[0].branch_code : '' %>" placeholder="Enter Branch Name" />
+                                                </div>
+                                                <!-- <div class="col-sm-8">
                                                     <select class="form-control mr-sm-" placeholder="Search"
                                                         id="brn_name" name="brn_name" aria-label="Search">
                                                         <option value="">Select Branch</option>
-                                                        <% mem_dt.forEach(dt => { %>
-                                                            <option value="<%= dt.sl_no %>" 
-                                                                <% if (mem_data && mem_data[0].branch_code == dt.sl_no) { %> selected <% } %>>
-                                                                <%= dt.branch_name %>
+                                                        <%# mem_dt.forEach(dt => { %>
+                                                            <option value="<%# dt.sl_no %>" 
+                                                                <%# if (mem_data && mem_data[0].branch_code == dt.sl_no) { %> selected <%# } %>>
+                                                                <%# dt.branch_name %>
                                                             </option>
-                                                        <% }) %>
+                                                        <%# }) %>
                                                     </select>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
 
@@ -124,7 +128,7 @@
                                             <div class="form-group row">
                                                 <label for="dob" class="col-sm-4 col-form-label">DOB</label>
                                                 <div class="col-sm-8">
-                                                    <input type="date" class="form-control" id="dob" name="dob" value="<%= mem_data && mem_data.length > 0 ? mem_data[0].dob.toISOString().split('T')[0] : '' %>" 
+                                                    <input type="date" class="form-control" id="dob" name="dob" value="<%= mem_data && mem_data.length > 0 ? (mem_data[0].dob > 0 ? mem_data[0].dob.toISOString().split('T')[0] : '') : '' %>" 
                                                         placeholder="dd/MM/yyyy" />
                                                 </div>
                                             </div>
@@ -133,7 +137,7 @@
                                             <div class="form-group row">
                                                 <label for="doa" class="col-sm-4 col-form-label">DOA</label>
                                                 <div class="col-sm-8">
-                                                    <input type="date" class="form-control" id="doa" name="doa" value="<%= mem_data && mem_data.length > 0 ? mem_data[0].doa.toISOString().split('T')[0] : '' %>" 
+                                                    <input type="date" class="form-control" id="doa" name="doa" value="<%= mem_data && mem_data.length > 0 ? (mem_data[0].doa > 0 ? mem_data[0].doa.toISOString().split('T')[0] : '') : '' %>" 
                                                         placeholder="dd/MM/yyyy" />
                                                 </div>
                                             </div>
