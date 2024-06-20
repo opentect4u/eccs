@@ -75,7 +75,7 @@
                             <td class="text-center"><%= resDt.member_id %></td> 
                             <td class="text-center"><%= resDt.branch_name %></td> 
                             <td class="text-center"><%= resDt.member_name %></td> 
-                            <td class="text-center"><%= dateFormat(new Date(resDt.doa), 'dd/mm/yyyy') %></td> 
+                            <td class="text-center"><%= resDt.doa > 0 ? dateFormat(new Date(resDt.doa), 'dd/mm/yyyy') : '' %></td> 
                             <td class="text-center">
                               <a class="side_color" href="member_edit?member_id=<%= resDt.member_id %>" title="Edit">
                                 <i class='fas fa-edit'></i>

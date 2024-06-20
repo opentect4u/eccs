@@ -4,7 +4,7 @@ module.exports = {
   memData: (member_id = 0) => {
     return new Promise(async (resolve, reject) => {
       var fields =
-          "a.member_id,a.member_name,a.gurd_name,a.memb_addr,a.gender,a.dob,a.doa,a.designation,a.pf_no",
+          "a.member_id,a.member_name, a.branch_code branch_name,a.gurd_name,a.memb_addr,a.gender,a.dob,a.doa,a.designation,a.pf_no",
         table_name = "md_member a",
         where = member_id > 0 ? `a.member_id = '${member_id}'` : null,
         order = null;
