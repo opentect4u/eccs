@@ -51,6 +51,10 @@ app.use('/api', apiRouter)
 app.use('/admin', adminRouter)
 app.use(formRouter)
 
+app.get('/', (req, res) => {
+  res.redirect('/admin/login');
+})
+
 app.get('/test', (req, res) => {
   const {join} = require('path')
   res.sendFile(join(__dirname, 'test.html'))

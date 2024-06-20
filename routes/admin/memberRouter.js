@@ -15,10 +15,10 @@ const memberRouter = require("express").Router();
 memberRouter.get("/member", async (req, res) => {
 //  var member_id = req.query.member_id > 0 ? req.query.member_id : [];
   // console.log(member_id,'kkkk');
-  // var resDt = await memData(member_id);
+  var resDt = await memData();
   // console.log(resDt, "123");
   res.render("member_dtls/member_view", {
-    // mem_dt: resDt,
+    mem_dt: resDt.suc > 0 ? resDt.msg : [],
     heading: "Member Details",
     sub_heading: "Member Details List",
     dateFormat,

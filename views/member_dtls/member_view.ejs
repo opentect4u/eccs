@@ -67,9 +67,29 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td colspan="6" class="text-danger text-center">No data found</td>
-                        </tr>
+                        <% if(mem_dt.length > 0){
+                          var i = 1;
+                          mem_dt.forEach(resDt => { %>
+                          <tr>
+                            <td class="text-center"><%= i %></td>
+                            <td class="text-center"><%= resDt.member_id %></td> 
+                            <td class="text-center"><%= resDt.branch_name %></td> 
+                            <td class="text-center"><%= resDt.member_name %></td> 
+                            <td class="text-center"><%= dateFormat(new Date(resDt.doa), 'dd/mm/yyyy') %></td> 
+                            <td class="text-center">
+                              <a class="side_color" href="member_edit?member_id=<%= resDt.member_id %>" title="Edit">
+                                <i class='fas fa-edit'></i>
+                              <a class="text-danger" href="mem_data_delete?member_id=<%= resDt.member_id %>" title="Delete">
+                                <i class='fas fa-trash-alt'></i>
+                              </a>
+                            </td>
+                          </tr>
+                        <% i++; })
+                          }else{ %>
+                          <tr>
+                            <td colspan="6" class="text-danger text-center">No data found</td>
+                          </tr>
+                        <% } %>
                       </tbody>
                     </table>
                   </div>
@@ -81,6 +101,24 @@
     </section>
   </div>
   <%- include('../template/footer'); %>
+
+  <script>
+    $(function () {
+      // $("#example1").DataTable({
+      // "responsive": true, "lengthChange": false, "autoWidth": false,
+      // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $("#example2").DataTable({
+        paging: true,
+        lengthChange: false,
+        searching: false,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: true,
+      });
+    });
+  </script>
 
     <script>
       $('#submitBtn').click(function () {

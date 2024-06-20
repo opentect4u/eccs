@@ -29,7 +29,7 @@ adminUserRouter.post('/login', async (req, res) => {
                     message: "Successfully loggedin",
                 };
                 req.session.user = log_dt.msg[0];
-                res.redirect("/admin/dashboard");
+                res.redirect("/admin/calendar");
             } else {
                 req.session.message = {
                     type: "warning",
@@ -94,7 +94,7 @@ adminUserRouter.get('/user_delete', async (req, res) => {
 
 const AllUserList = () => {
     return new Promise(async (resolve, reject) => {
-        var fields = "id, member_id, emp_code, user_name, user_id, active_flag, last_login",
+        var fields = "id, emp_code, user_name, user_id, active_flag, last_login",
             table_name = "td_user",
             where = `user_type != 'A' AND active_flag = 'Y'`,
             order = null;
@@ -130,13 +130,13 @@ adminUserRouter.post('/password', async (req, res) =>{
           result = forget_pass
           res.redirect("/admin/logout");
         }else {
-          res.redirect("/admin/dashboard");
+          res.redirect("/admin/calendar");
         }
       }else {
-          res.redirect("/admin/dashboard");
+          res.redirect("/admin/calendar");
         }
     }else {
-      res.redirect("/admin/dashboard");
+      res.redirect("/admin/calendar");
     }
 });
 
