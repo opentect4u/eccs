@@ -65,7 +65,7 @@
                     { %>
                     <tr>
                       <td class="text-center"><%= i %></td>
-                      <td class="text-center"><%= dateFormat(dt.cal_dt, "dd/mm/yyyy") %></td>
+                      <td class="text-center"><%= dt.cal_dt > 0 ? dateFormat(dt.cal_dt, "dd/mm/yyyy") : '' %></td>
                       <td class="text-center"><%= dt.cal_event %></td>
                       <td class="text-center">
                         <a class="side_color"

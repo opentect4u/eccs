@@ -1,8 +1,13 @@
 const notiRouter = require('express').Router(),
-dateFormat = require('dateformat');
+dateFormat = require('dateformat'),
+fileUpload = require('express-fileupload'),
+fs = require('fs'),
+axios = require('axios');
 
 const { db_Select, db_Insert } = require('../../modules/MasterModule');
 const { notification_dtls } = require('../../modules/NotificationModule');
+
+notiRouter.use(fileUpload())
 
 notiRouter.get("/notification", async (req, res) => {
     var bank_id = req.session.user.bank_id
@@ -17,6 +22,57 @@ notiRouter.get("/notification", async (req, res) => {
         emp_list: resDt.suc > 0 ? resDt.msg : null,
     });
 });
+
+notiRouter.post("/noti_file_upload", async (req, res) => {
+    var photo = req.files.file,
+      res_dt;
+
+    var dir = "assets/notification";
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+
+    try {
+      if (photo.size <= 1 * 1024 * 1024) {
+        let fileName = Date.now() + "_" + photo.name;
+        photo.mv(dir + "/" + fileName, async (err) => {
+          if (err) {
+            res_dt = {suc: 0, msg: 'File not saved'}
+            res.send(res_dt);
+          } else {
+            var fileUrl = `https://pnbeccs.synergicbanking.in/notification/${fileName}`
+            var url = new URL(`https://is.gd/create.php?format=json&url=${encodeURIComponent(fileUrl)}`);
+            let config = {
+              method: "get",
+              maxBodyLength: Infinity,
+              url: url,
+              headers: {},
+            };
+            axios
+              .request(config)
+              .then((response) => {
+                res_dt = { suc: 1, msg: response.data.shorturl };
+                res.send(res_dt);
+                // console.log(JSON.stringify(response.data));
+              })
+              .catch((error) => {
+                res_dt = { suc: 1, msg: error };
+                res.send(res_dt);
+                // console.log(error);
+              });
+          }
+        });
+      }else{
+        res_dt = {suc: 0, msg: "File size excided"}
+        res.send(res_dt);
+      }
+    } catch {
+      console.log(err);
+      res_dt = {suc: 0, msg: err}
+
+        res.send(res_dt);
+    }
+})
 
 // notiRouter.post("/notification", async (req, res) => {
 //     var data = req.body;

@@ -59,6 +59,31 @@
                       </select>
                     </div>
                   </div>
+                  <div class="col-md-4">
+                    <div class="form-group mt-4">              
+                      <button type="button" id="upFileBtn" class="btn btn-success float-right">Upload a file</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" id="uploadSection" style="display: none;">
+                  <div class="col-md-12">
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="customFile">
+                          <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <button type="button" id="uploadFile" class="btn btn-success"><i class="fa fa-upload"></i> <span class="ml-2">Upload</span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 my-4 px-5" id="progDiv" style="display: none;">
+                    <div class="progress">
+                      <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
@@ -100,4 +125,50 @@
     var emp_name = $("#emp_id :selected").text();
     $("#emp_name").val(emp_name);
   });
+</script>
+
+<script>
+  $('#upFileBtn').on('click', function(){
+    $('#uploadSection').show()
+    $('#upFileBtn').hide()
+  })
+
+  $('#uploadFile').on('click', function(){
+    var fileInput = document.getElementById('customFile');
+    var file = fileInput.files[0];
+    if (file) {
+        var formData = new FormData();
+        formData.append('file', file);
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.upload.addEventListener('progress', function (event) {
+            if (event.lengthComputable) {
+                var percent = Math.round((event.loaded / event.total) * 100);
+                $('#progDiv').show()
+                var progressBar = document.getElementById('progressBar');
+                progressBar.style.width = percent + '%';
+                progressBar.innerHTML = percent + '%';
+            }
+        });
+
+        xhr.addEventListener('load', function (event) {
+            var uploadStatus = document.getElementById('uploadStatus');
+            // uploadStatus.innerHTML = event.target.responseText;
+            // console.log(typeof(event.target.responseText))
+            var response = JSON.parse(event.target.responseText)
+            $('#progDiv').hide()
+            if(response.suc > 0){
+              $('#narration').val(response.msg)
+              $('#uploadSection').hide()
+              $('#upFileBtn').show()
+            }else{
+              alert(response.msg)
+            }
+        });
+
+        xhr.open('POST', '/admin/noti_file_upload', true);
+        xhr.send(formData);
+    }
+  })
 </script>
