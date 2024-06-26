@@ -81,10 +81,10 @@ const Profile = ({ navigation }) => {
     console.log(asyncData, 'asyncData')
     const bankId = JSON.parse(asyncData)?.bank_id
     const empCode = JSON.parse(asyncData)?.emp_code
-    const member_id = JSON.parse(asyncData)?.member_id
-    console.log(empCode, 'empcode')
+    const pf_no = JSON.parse(asyncData)?.pf_no
+    console.log(pf_no, 'pf_no')
     try {
-      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?member_id=${member_id}`, {}, {
+      const response = await axios.get(`${BASE_URL}/api/get_pofile_dtls?pf_no=${pf_no}`, {}, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -214,9 +214,10 @@ const Profile = ({ navigation }) => {
             <View style={{ height: 70, width: 70, backgroundColor: '#ffffff', alignSelf: 'center', borderRadius: 35, top: 8, alignItems: 'center', justifyContent: 'center' }}>
               {selectedImageUri ?
                 <Image source={{ uri: selectedImageUri }} style={{ resizeMode: 'contain', height: 60, width: 60, borderRadius: 30 }} /> :
-                (responseData.gender == 'M' ?
-                  <Image source={require('../assets/man.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} /> :
-                  <Image source={require('../assets/woman.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} />)
+                // (responseData.gender == 'M' ?
+                  <Image source={require('../assets/man.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} /> 
+                  // :
+                  // <Image source={require('../assets/woman.png')} style={{ resizeMode: 'contain', alignSelf: 'center', height: 40, width: 40 }} />)
               }
 
               <TouchableOpacity
@@ -230,13 +231,13 @@ const Profile = ({ navigation }) => {
                 }}
                 onPress={handleImagePicker}
               >
-                <Image source={require('../assets/edit.png')} style={{ height: 22, width: 22, tintColor: '#ffffff' }} />
+                {/* <Image source={require('../assets/edit.png')} style={{ height: 22, width: 22, tintColor: '#ffffff' }} /> */} 
               </TouchableOpacity>
 
             </View>
             <Text style={styles.containerText}>{`Hello! ${responseData.member_name}`}</Text>
-            <Text style={styles.containerText}>+91{responseData.user_id}</Text>
-            <Text style={styles.containerText}>Email ID: {responseData.email_id}</Text>
+            <Text style={styles.containerText}>Phone no. {responseData.user_id?responseData.user_id : 'NA'}</Text>
+            <Text style={styles.containerText}>Email ID: {responseData.email_id? responseData.email_id :'NA'}</Text>
             {/* <Text style={styles.containerText}>Designation: {responseData.designation}</Text> */}
             <View style={styles.mainContainer}>
               <View style={styles.profileContainer}>
@@ -268,17 +269,17 @@ const Profile = ({ navigation }) => {
                   
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Date of Appointment </Text>
-                    <Text style={styles.content}>{formattedDoa}</Text>
+                    <Text style={styles.content}>{formattedDoa?formattedDoa : 'NA'}</Text>
                   </View>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Designation </Text>
-                    <Text style={styles.content}>{responseData.designation}</Text>
+                    <Text style={styles.content}>{responseData.designation?responseData.designation : 'NA' }</Text>
                   </View>
                 </View>
                 <View style={styles.container}>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Father/Husband's Name </Text>
-                    <Text style={styles.content}>{responseData.gurd_name}</Text>
+                    <Text style={styles.content}>{responseData.gurd_name?responseData.gurd_name:'NA'}</Text>
                   </View>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Date of Birth </Text>
@@ -301,12 +302,13 @@ const Profile = ({ navigation }) => {
                 <View style={styles.container}>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Branch </Text>
-                    <Text style={styles.content}>{responseData.branch_name}</Text>
+                    <Text style={styles.content}>{responseData.branch_name?responseData.branch_name : 'NA'}</Text>
                   </View>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Gender </Text>
-                    {responseData.gender == 'M' ?
-                      <Text style={styles.content}>Male</Text> : <Text style={styles.content}>Female</Text>}
+                    <Text style={styles.content}>{responseData.gender?responseData.gender: 'NA'}</Text>
+                    {/* {responseData.gender == 'M' ?
+                      <Text style={styles.content}>Male</Text> : <Text style={styles.content}>Female</Text>} */}
                   </View>
                   {/* <View style={styles.profileView}>
                     <Text style={styles.title}>Nominee Name </Text>
@@ -316,7 +318,7 @@ const Profile = ({ navigation }) => {
                 <View style={styles.container}>
                   <View style={styles.profileView}>
                     <Text style={styles.title}>Permanent Address </Text>
-                    <Text style={styles.content}>{responseData.memb_addr}</Text>
+                    <Text style={styles.content}>{responseData.memb_addr? responseData.memb_addr : 'NA'}</Text>
                   </View>
                   {/* <View style={styles.profileView}>
                     <Text style={styles.title}>P.O </Text>

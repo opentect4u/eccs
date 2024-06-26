@@ -20,37 +20,30 @@ function Download() {
     const [responseData, setResponseData] = useState([]);
 
     const [pdfUri, setPdfUri] = useState(null);
+    const [mempdfUri, setmemPdfUri] = useState(null);
+    const [cespdfUri, setcesPdfUri] = useState(null);
 
     const loadPDF = async () => {
         setLoading(true)
         try {
             const asyncData = await AsyncStorage.getItem(`login_data`);
-        const bankId = JSON.parse(asyncData)?.bank_id
+            const bankId = JSON.parse(asyncData)?.bank_id
 
-        try {
-            const response = await axios.get(`${BASE_URL}/api/get_loan_form`, {}, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-              console.log(response.data,'get_loan_form ')
-            
-            // if (response.data.suc === 1) {
-             
-            // }
-            // else {
-            //     Toast.show({
-            //         type: 'error',
-            //         text1: 'error!',
-            //         visibilityTime: 5000
-            //     })
-            // }
-        }
-        catch (error) {
-            console.log(error);
-        }
+            try {
+                const response = await axios.get(`${BASE_URL}/api/get_loan_form`, {}, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log(response.data, 'get_loan_form ')
+            }
+            catch (error) {
+                console.log(error);
+            }
             // const pdfUrl = 'http://202.21.38.178:3002/forms/10001/loan_form.pdf';
             const pdfUrl = 'https://pnbeccs.synergicbanking.in/forms/10001/loan_form.pdf';
+            const memberPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/member/membership.pdf';
+            const cessationPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/cessation/cessation.pdf';
 
 
             const response = await RNFetchBlob.config({
@@ -66,12 +59,78 @@ function Download() {
             setLoading(false);
         }
     };
-    useEffect(() => {
-        loadPDF();
-    }, []);
-    useEffect(() => {
-        loadPDF();
-    }, []);
+
+
+      const loadMemPDF = async () => {
+        setLoading(true)
+        try {
+            const asyncData = await AsyncStorage.getItem(`login_data`);
+            const bankId = JSON.parse(asyncData)?.bank_id
+
+            try {
+                const response = await axios.get(`${BASE_URL}/api/get_loan_form`, {}, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log(response.data, 'get_loan_form ')
+            }
+            catch (error) {
+                console.log(error);
+            }
+            const memberPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/member/membership.pdf';
+            const cessationPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/cessation/cessation.pdf';
+
+
+            const response = await RNFetchBlob.config({
+                fileCache: true,
+                appendExt: 'pdf',
+            }).fetch('GET', memberPdfUrl);
+
+            const pdfmemPath = `file://${response.path()}`;
+            setmemPdfUri(pdfmemPath);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error loading PDF:', error);
+            setLoading(false);
+        }
+    };
+    const loadCesPDF = async () => {
+        setLoading(true)
+        try {
+            const asyncData = await AsyncStorage.getItem(`login_data`);
+            const bankId = JSON.parse(asyncData)?.bank_id
+
+            try {
+                const response = await axios.get(`${BASE_URL}/api/get_loan_form`, {}, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log(response.data, 'get_loan_form ')
+            }
+            catch (error) {
+                console.log(error);
+            }
+            const cessationPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/cessation/cessation.pdf';
+
+
+            const response = await RNFetchBlob.config({
+                fileCache: true,
+                appendExt: 'pdf',
+            }).fetch('GET', cessationPdfUrl);
+
+            const pdfcesPath = `file://${response.path()}`;
+            setcesPdfUri(pdfcesPath);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error loading PDF:', error);
+            setLoading(false);
+        }
+    };
+    // useEffect(() => {
+    //     loadPDF();
+    // }, []);
 
     // useEffect(() => {
     //     GetStorage()
@@ -100,6 +159,7 @@ function Download() {
             });
 
             if (response.data.suc === 1) {
+                console.log(response.data, 'View forms')
                 setLoading(false)
                 setResponseData(response.data.msg);
 
@@ -118,39 +178,118 @@ function Download() {
             console.log(error);
         }
     };
-    const handleDownload = (fileUrl) => {
-        Linking.openURL(`${BASE_URL}/${fileUrl}`)
-            .then(() => {
-                // console.log('URL opened successfully');
-            })
-            .catch((err) => {
-                console.error('An error occurred while opening the URL:', err);
-            });
+    const handleDownload = () => {
+        loadPDF()
+        // Linking.openURL(`${BASE_URL}/${fileUrl}`)
+        //     .then(() => {
+        //         console.log('URL opened successfully');
+        //     })
+        //     .catch((err) => {
+        //         console.error('An error occurred while opening the URL:', err);
+        //     });
+    };
+    const handleMemDownload = () => {
+        loadMemPDF()
+    };
+    const handleCesDownload = () => {
+        loadCesPDF()
     };
 
     return (
         <>
             <HeaderComponent />
-            <View style={styles.bgContainer}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
-                {pdfUri && (
-                    <PDFView
-                        fadeInDuration={250.0}
-                        style={{ flex: 1, width: '100%', height: 500 }}
-                        source={{ uri: pdfUri }} // Provide the source prop correctly
-                    />
-                )}
-                
-            </ScrollView>
-            </View>
+
+            {!pdfUri && !mempdfUri && !cespdfUri && <View>
+                <ImageBackground
+                    source={require('../assets/bg5.jpg')}
+                    style={{ resizeMode: 'cover', height: welcomContHeight }}>
+                    <View style={{ height: welcomContHeight, width: 'screenWidth', position: 'relative' }}>
+                        <Text style={styles.containerText}>Forms</Text>
+                        <View style={styles.mainContainer}>
+                            <View style={styles.profileContainer}>
+                                <View style={{ alignItems: 'center' }}>
+                                    <Text style={styles.mainContHeader}>
+                                        Get Forms Here
+                                    </Text>
+                                </View>
+                                {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
+                                <View style={styles.profileView}>
+                                    <View style={styles.row}>
+                                        <Text style={styles.doctitle}> Loan Form </Text>
+                                        <Text style={styles.content} onPress={() => handleDownload()}> Click Here</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.profileView}>
+                                    <View style={styles.row}>
+                                        <Text style={styles.doctitle}> Membership Form </Text>
+                                        <Text style={styles.content} onPress={() => handleMemDownload()}> Click Here</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.profileView}>
+                                    <View style={styles.row}>
+                                        <Text style={styles.doctitle}> Cessation Form </Text>
+                                        <Text style={styles.content} onPress={() => handleCesDownload()}> Click Here</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            {/* </View> */}
+
+                        </View>
+                    </View>
+                </ImageBackground>
+
+
+            </View>}
+
+            {pdfUri && 
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
+                    {pdfUri && (
+                        <PDFView
+                            fadeInDuration={250.0}
+                            style={{ flex: 1, width: '100%', height: 500 }}
+                            source={{ uri: pdfUri }} // Provide the source prop correctly
+                        />
+                    )}
+
+                </ScrollView>
+            }
+            {mempdfUri && 
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
+                    {mempdfUri && (
+                        <PDFView
+                            fadeInDuration={250.0}
+                            style={{ flex: 1, width: '100%', height: 500 }}
+                            source={{ uri: mempdfUri }} // Provide the source prop correctly
+                        />
+                    )}
+
+                </ScrollView>
+            }
+            {cespdfUri && 
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    {isLoading && <ActivityIndicator color={'#3f50b5'} size={"large"} />}
+                    {cespdfUri && (
+                        <PDFView
+                            fadeInDuration={250.0}
+                            style={{ flex: 1, width: '100%', height: 500 }}
+                            source={{ uri: cespdfUri }} // Provide the source prop correctly
+                        />
+                    )}
+
+                </ScrollView>
+           }
+
+            
+           
         </>
 
     )
 }
 
 const styles = StyleSheet.create({
-    bgContainer:{ height: ScreenHeight, width: '100%', backgroundColor: '#ffffff', borderTopLeftRadius: 50,borderTopRightRadius: 50, },
+    bgContainer: { height: ScreenHeight, width: '100%', backgroundColor: '#ffffff', borderTopLeftRadius: 50, borderTopRightRadius: 50, },
     mainContainer: {
         height: 700,
         borderTopLeftRadius: 40,
@@ -171,7 +310,7 @@ const styles = StyleSheet.create({
         padding: 15,
         borderBottomWidth: 1,
         // borderBottomColor: 'black',
-        borderBottomColor: '#a20a3a',
+        borderBottomColor: '#3f50b5',
     },
     profileContainer: {
         position: 'relative',
@@ -204,6 +343,16 @@ const styles = StyleSheet.create({
         textDecorationStyle: 'solid',
         fontSize: 14
     },
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    doctitle:{
+        color:'#3f50b5',
+        fontSize: 16,
+        fontWeight: '900',
+      },
 });
 
 const screenWidth = Dimensions.get('window').width;

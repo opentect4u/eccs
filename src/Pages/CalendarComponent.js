@@ -67,11 +67,23 @@ function CalendarComponent() {
       });
       console.log(response.data,'holiday API res')
       if (response.data.suc === 1) {
-        const holidayDates = response.data.msg.reduce((acc, holiday) => {
-          acc[holiday.cal_dt.substr(0, 10)] = { 
-          marked: true, 
+        // const holidayDates = response.data.msg.reduce((acc, holiday) => {
+        //   acc[holiday.cal_dt.substr(0, 10)] = { 
+        //   marked: true, 
 
-          cal_event: holiday.cal_event }; 
+        //   cal_event: holiday.cal_event }; 
+        const holidayDates = response.data.msg.reduce((acc, holiday) => {
+          // Parse cal_dt to Date object
+          let holidayDate = new Date(holiday.cal_dt.substr(0, 10));
+          // Add one day
+          holidayDate.setDate(holidayDate.getDate() + 1);
+          // Format the date back to YYYY-MM-DD
+          let formattedDate = holidayDate.toISOString().substr(0, 10);
+
+          acc[formattedDate] = {
+              marked: true,
+              cal_event: holiday.cal_event
+          };
           return acc;
         }, {});
         setHolidays(holidayDates);

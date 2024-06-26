@@ -42,7 +42,7 @@ function Home({ navigation }) {
                     }}>
                     <View style={{ height: welcomContHeight, width: 'screenWidth' }}>
                         {/* <Text style={styles.bankDtlsTxt}>{bankName}</Text> */}
-                        <Text style={styles.bankDtlsTxt}>PNB EMPLOYEES CREDIT COOPERATIVE SOCIETY LTD</Text>
+                        <Text style={styles.bankDtlsTxt}>PNB EMPLOYEES COOPERATIVE CREDIT SOCIETY LTD</Text>
                         <Text style={styles.userDtlsTxt}>Hello {userName}</Text>
                         <View>
                             <View style={[styles.rptcontainer, { height: rptBodyHeight }]}>
@@ -123,9 +123,9 @@ function Home({ navigation }) {
 const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
     bankDtlsTxt: {
-        fontSize: 20, color: '#ffffff', alignSelf: 'center', marginTop: 30, fontFamily: 'OpenSans-ExtraBold', fontWeight: '900',
+        fontSize: 15, color: '#ffffff', alignSelf: 'center', marginTop: 30, fontFamily: 'OpenSans-ExtraBold', fontWeight: '900',
     },
-    userDtlsTxt: {fontSize:17,color:'#ffffff',paddingLeft:24,fontFamily:'OpenSans-ExtraBold', fontWeight: '900' },
+    userDtlsTxt: {fontSize:17,color:'#ffffff',paddingLeft:24,fontFamily:'OpenSans-ExtraBold', fontWeight: '900', alignSelf:'center',paddingTop:10 }, 
     rptcontainer: {
         borderTopLeftRadius: 40, width: '100%', borderTopRightRadius: 40, backgroundColor: 'white',alignSelf: 'center', marginTop: 25, padding: 20
         // backgroundColor: '#fdbd30',// backgroundColor:'#757ce8',// light: '#757ce8',// main: '#3f50b5',// dark: '#002884',// contrastText: '#fff',
