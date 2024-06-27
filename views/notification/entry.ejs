@@ -100,6 +100,16 @@
                       ></textarea>
                     </div>
                   </div>
+				  <div class="col-12">
+                    <div class="form-group">
+                      <label for="url">URL</label>
+                      <input type="text"
+                        class="form-control"
+                        id="url"
+                        name="url" readonly
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div class="row text-center">
                   <div class="col-12">
@@ -179,9 +189,11 @@
             $('#progDiv').hide()
             if(response.suc > 0){
               $('#narration').val(response.msg)
+			  $('#url').val(response.msg)
               $('#uploadSection').hide()
               $('#upFileBtn').show()
             }else{
+			$('#url').val('')
               alert(response.msg)
             }
         });

@@ -146,8 +146,8 @@ notiRouter.post("/notification", async (req, res) => {
         if(user_list.suc > 0){
             for(let dt of user_list.msg){
                 var table_name = "td_notification",
-                    fields = "(bank_id, narration, send_user_id, created_by, created_dt)",
-                    values = `('0', '${data.narration}', '${dt.emp_code}', '${user}', '${datetime}')`,
+                    fields = "(bank_id, narration, url, send_user_id, created_by, created_dt)",
+                    values = `('0', '${data.narration}', '${data.url}', '${dt.emp_code}', '${user}', '${datetime}')`,
                     whr = null,
                     flag = 0;
                 resDt = await db_Insert(table_name, fields, values, whr, flag);
