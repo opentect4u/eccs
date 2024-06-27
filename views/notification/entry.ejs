@@ -100,7 +100,7 @@
                       ></textarea>
                     </div>
                   </div>
-				  <div class="col-12">
+				  <div class="col-12" id="urlContent" style="display:none;">
                     <div class="form-group">
                       <label for="url">URL</label>
                       <input type="text"
@@ -189,6 +189,7 @@
             $('#progDiv').hide()
             if(response.suc > 0){
               $('#narration').val(response.msg)
+			  $('#urlContent').show()
 			  $('#url').val(response.msg)
               $('#uploadSection').hide()
               $('#upFileBtn').show()
