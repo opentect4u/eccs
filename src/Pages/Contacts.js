@@ -43,11 +43,11 @@ function Contacts() {
         }
       });
 
-      // console.log(response.data.msg, 'get_contact_dtls')
+      console.log(response.data.msg, 'get_contact_dtls')
       if (response.data.suc === 1) {
         setLoading(false)
 
-        setResponseData(response.data.msg);
+        setResponseData(response.data.msg,);
       }
       else {
         setLoading(false)

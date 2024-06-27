@@ -41,7 +41,7 @@ function Download() {
                 console.log(error);
             }
             // const pdfUrl = 'http://202.21.38.178:3002/forms/10001/loan_form.pdf';
-            const pdfUrl = 'https://pnbeccs.synergicbanking.in/forms/10001/loan_form.pdf';
+            const pdfUrl = 'https://pnbeccs.synergicbanking.in/forms/loan/loan form.pdf';
             const memberPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/member/membership.pdf';
             const cessationPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/cessation/cessation.pdf';
 
@@ -79,7 +79,7 @@ function Download() {
                 console.log(error);
             }
             const memberPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/member/membership.pdf';
-            const cessationPdfUrl = 'https://pnbeccs.synergicbanking.in/forms/cessation/cessation.pdf';
+           
 
 
             const response = await RNFetchBlob.config({

@@ -5,9 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export const SocketContext = createContext();
-
 export const useSocket = () => useContext(SocketContext);
-
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false); 
@@ -19,8 +17,8 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     GetStorage();
-    
-    const newSocket = io("http://202.21.38.178:3002");
+    // const newSocket = io("http://202.21.38.178:3002");
+    const newSocket = io ("https://pnbeccs.synergicbanking.in")
     setSocket(newSocket);
     newSocket.on('connect', () => {
       setIsConnected(true);
@@ -33,15 +31,8 @@ export const SocketProvider = ({ children }) => {
         socket.disconnect();
       }
     };
+    
   }, []);
-
-  
-  
-  // useEffect(() => {
-  //   if (bankid !== null) {
-  //     handleEmit(); // Call handleEmit only when bankid and empCode are available
-  //   }
-  // }, [bankid, empCode]);
   const GetStorage = async () => {
     try {
         const asyncData = await AsyncStorage.getItem(`login_data`);
@@ -49,60 +40,34 @@ export const SocketProvider = ({ children }) => {
         setEmpCode(JSON.parse(asyncData).emp_code)
     }
     catch (err) {
-        // console.log(err);
     }
 
 }
-  // const emitEvent = (eventName, bankId, data) => {
-  //   if (socket) {
-  //     const eventData = { bank_id: bankId, ...data };
-  //     socket.emit(eventName, eventData);
-  //   } else {
-  //     console.error("Socket is not connected!");
-  //   }
-  // };
   
   const handleEmit = async () => {
-    console.log('handleEmit callinggggggggg')
     try {
-      var socket = io("http://202.21.38.178:3002")
-      // emitEvent('notification', bankid, { message: 'Update bank data!' })
-      // console.log('bankid in socket',bankid)
-      // socket.emit('notification',{bank_id:bankid, message: 'Update bank data!' })
-      socket.emit('notification',{bank_id:0, message: 'Update bank data!' }) //bank_id = 0
+      // var socket = io("http://202.21.38.178:3002")
+      var socket = io ("https://pnbeccs.synergicbanking.in")
+      socket.emit('notification',{bank_id:0, message: 'Update bank data!' })
 
       socket.on('send notification', data => {
             console.log('socket_data:' + JSON.stringify(data));
-            const filteredObjects = []
-          data.msg.forEach(item => {
-                if (item.send_user_id === empCode) {
-                  filteredObjects.push(item);
-                }
-              })
-          setSocketOnData(filteredObjects)
-          // console.log(filteredObjects,'filteredObjects')
-          console.log(socketOndata,'socketOndata in socket context')
-
+            console.log(empCode,'empCode')
+            // const filteredObjects = []
+            const filteredObjects = data.msg.filter(dt => dt.send_user_id == empCode)
+            console.log(filteredObjects,'next')
           // data.msg.forEach(item => {
-          //   if (item.send_user_id === 147) {
-          //     filteredObjects.push(item);
-          //   }
-          // });
-
-          // console.log('ON')
-          // console.log(bankid,'bankid emitttttt')
+          //   console.log(item.send_user_id,'item.send_user_id')
+          //       if (item.send_user_id === empCode) {
+          //         filteredObjects.push(item);
+          //       }
+          //     })
+          setSocketOnData(filteredObjects)
+          
           const v = socketOndata.filter(dt=>(dt.send_user_id==empCode || dt.send_user_id==0) && dt.view_flag != "Y").length
           setCountNoti(v)
-          // console.log(countNoti,'length countNoti')
-          // console.log('handleEmit calling.....')
         })
      
-      // console.log('dt ',dt.result)
-        // console.log('emit')
-        
-       
-     
-      // console.log(bankid,'bankid emit')
       
     } catch (error) {
       console.error('Error retrieving bank_id from AsyncStorage:', error);

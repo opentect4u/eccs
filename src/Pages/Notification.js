@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HeaderComponent from '../Components/HeaderComponent';
-import { View, StyleSheet, Image, Alert, Text, TouchableOpacity, TouchableWithoutFeedback,Modal,ImageBackground, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
+import { View, StyleSheet, Image, Alert, Text, TouchableOpacity, TouchableWithoutFeedback,Modal,ImageBackground, Dimensions, Linking, ScrollView,useColorScheme} from 'react-native';
 import { Button } from 'react-native-paper';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,17 +17,70 @@ import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 
 
 const Notification = (item ) => {
+   const isDarkMode = useColorScheme() === 'dark'
   const { socketOndata,handleEmit, countNoti  } = useSocket();
   const [notifications, setNotifications] = useState(socketOndata);
   const [empCode, setEmpCode] = useState();
+  const [noti, setNoti] = useState();
+  const [link, setLink] = useState();
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const welcomContHeight = 0.5 * SCREEN_HEIGHT;
+  const [isVisible, setModalVisible] = useState(false);
+  const [selectedItemn, setSelectedItemn] = useState(null);
+
+  const handlePressn = async (item) => {
+    
+    setModalVisible(true)
+    setNoti(item.narration)
+    setLink(item.url)
+    console.log(noti,'setlink')
+    console.log(link,'setlink')
+      const asyncDatalg = await AsyncStorage.getItem(`login_data`);
+      const user_name = JSON.parse(asyncDatalg)?.user_name;
+      const bank_id = JSON.parse(asyncDatalg)?.bank_id
+
+      const apidata = {
+        id: item.id,
+        user: user_name,
+        bank_id: bank_id
+      };
+      // console.log(apidata, 'apidata alert')
+
+      try {
+        const response = await axios.post(`${BASE_URL}/api/noti_view_flag`, apidata, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (response.data.suc === 1) {
+          Toast.show({
+            type: 'success',
+            text1: 'Thank you for your feedback',
+            visibilityTime: 5000
+          })
+        }
+        else if (response.data.suc === 0) {
+
+          Toast.show({
+            type: 'error',
+            text1: 'API error',
+            visibilityTime: 5000
+          })
+        }
+      }
+      catch (error) {
+        console.log(error);
+      }
+    
+    
+  };
 
   useEffect(() => {
     GetStorage()
     // console.log(socketOndata, 'socketOndata in notification page newwwww')
-    const socket = io("http://202.21.38.178:3002");
+    // const socket = io("http://202.21.38.178:3002");
+    const socket = io ("https://pnbeccs.synergicbanking.in")
 
     return () => {
       socket.off('send notification');
@@ -35,12 +88,10 @@ const Notification = (item ) => {
   }, [])
   useEffect(() => {
     setNotifications(socketOndata);
+    console.log( notifications, "notifications in notification" )
   }, [socketOndata]);
 
-  
-
   useEffect(() => {
-    // console.log(notifications, "Updated notifications state");
   }, [notifications]);
 
   const GetStorage = async () => {
@@ -81,7 +132,6 @@ const Notification = (item ) => {
                   'Content-Type': 'application/json'
                 }
               });
-              // console.log(response.data, 'noti flag')
               if (response.data.suc === 1) {
                 Toast.show({
                   type: 'success',
@@ -109,11 +159,8 @@ const Notification = (item ) => {
 
   };
   const handleLongPress = (item) => {
-    // console.log('Handle long press, maybe show delete button')
-    // console.log(item.id,'handleLongPress id') 
     setSelectedItem(item.id);
     setShowBottomSheet(true);
-    // setShowDeleteButton(true);
   };
   const handleDelete = async () => {
     // console.log("Delete button pressed for item",item.id);
@@ -184,25 +231,35 @@ const Notification = (item ) => {
     catch (error) {
     }
   };
+  const handleLinkPress = (url) => {
+    Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
+  };
 
+  const isValidUrl = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+  const isLink = isValidUrl(link);
   return (
-
-    <View style={styles.container}>
+    <><View style={styles.container}>
       <HeaderComponent />
       <View style={{ height: 100, width: '100%', backgroundColor: '#3f50b5', alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ fontSize: 20, fontWeight: '900', color: '#ffffff' }}>Notification</Text>
       </View>
       <View style={[styles.container]}>
         <ScrollView style={styles.scrollView}>
-
           <View style={styles.notificationContainer}>
-            {/* {socketOndata.filter(item => item.send_user_id === empCode).length > 0 ? ( */}
             {notifications?.length > 0 ? (
               notifications?.map(item => (
-                empCode === item.send_user_id && (
+                empCode == item.send_user_id && (
                   <TouchableWithoutFeedback key={item.id}
                     onLongPress={() => handleLongPress(item)}
-                    onPress={() => handlePress(item)}>
+                    onPress={() => handlePressn(item)}
+                  >
                     <View style={styles.notificationItem}>
                       {item.view_flag == 'N' && <View style={styles.notificationSeen}>
                         <View style={{
@@ -220,16 +277,16 @@ const Notification = (item ) => {
                         {/* <Text style={styles.notificationText}>{item.id}</Text> */}
                       </View>
                       {/* {item.view_flag == 'N' && <View style={styles.notificationSeen}>
-                      <View style={{
-                        height: 8, width: 8, borderRadius: 4, backgroundColor: '#a20a3a',
-                      }}>
-                      </View>
-                    </View>} */}
+                    <View style={{
+                      height: 8, width: 8, borderRadius: 4, backgroundColor: '#a20a3a',
+                    }}>
+                    </View>
+                  </View>} */}
                       {/* {showDeleteButton && selectedItem && selectedItem.id === item.id && (
-                        <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
-                          <Text style={styles.deleteButtonText}></Text>
-                        </TouchableOpacity>
-                      )} */}
+                      <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
+                        <Text style={styles.deleteButtonText}></Text>
+                      </TouchableOpacity>
+                    )} */}
                     </View>
                   </TouchableWithoutFeedback>
                 )
@@ -248,27 +305,29 @@ const Notification = (item ) => {
 
 
             {/* {socketOndata.filter(item => item.send_user_id === empCode).length > 0 && (
-              <Button
-                    mode="contained"
-                    onPress={handleDltAll}
-                    style={{ backgroundColor: '#3f50b5', paddingHorizontal: 20,color:'#ffffff',width:'90%',height:45,alignSelf:'center',fontSize:17,marginBottom:10 }}>
-                    Delete all
-                  </Button>
-                    )} */}
+      <Button
+            mode="contained"
+            onPress={handleDltAll}
+            style={{ backgroundColor: '#3f50b5', paddingHorizontal: 20,color:'#ffffff',width:'90%',height:45,alignSelf:'center',fontSize:17,marginBottom:10 }}>
+            Delete all
+          </Button>
+            )} */}
             {/* <View style={styles.notificationItem}>
-                  <View style={styles.notificationIconContainer}>
-                    <Image source={require('../assets/bell.png')} style={styles.notificationIcon} />
-                  </View>
-                  <View style={styles.notificationTextContainer}>
-                    <Text style={styles.notificationText}>item.narration</Text>
-                  </View>
-                  
-                </View> */}
+          <View style={styles.notificationIconContainer}>
+            <Image source={require('../assets/bell.png')} style={styles.notificationIcon} />
+          </View>
+          <View style={styles.notificationTextContainer}>
+            <Text style={styles.notificationText}>item.narration</Text>
+          </View>
+          
+        </View> */}
 
           </View>
 
 
         </ScrollView>
+
+
 
         {/* Floating button */}
         {socketOndata.filter(item => item.send_user_id === empCode).length > 0 && (
@@ -278,23 +337,55 @@ const Notification = (item ) => {
           </TouchableOpacity>
         )}
 
-{showBottomSheet && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showBottomSheet}
-          onRequestClose={() => setShowBottomSheet(false)}>
-          <View style={styles.bottomSheet}>
-            <TouchableOpacity onPress={() => handleDelete()} style={styles.deleteButton}>
-            <Image source={require('../assets/delete_white.png')} style={{ resizeMode: 'contain', height: 30, width: 30, }} />
-            </TouchableOpacity>
-          </View>
-        </Modal>
-      )}
+        {showBottomSheet && (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={showBottomSheet}
+            onRequestClose={() => setShowBottomSheet(false)}>
+            <View style={styles.bottomSheet}>
+              <TouchableOpacity onPress={() => handleDelete()} style={styles.deleteButton}>
+                <Image source={require('../assets/delete_white.png')} style={{ resizeMode: 'contain', height: 30, width: 30, }} />
+              </TouchableOpacity>
+            </View>
+          </Modal>
+        )}
       </View>
 
       {/* </ImageBackground> */}
-    </View>
+    </View><>
+        {isVisible && <Modal isVisible={isVisible}>
+        <View style={styles.modalBackground}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                <Image source={require('../assets/close.png')} style={{ width: 25, height: 25 }} />
+              </TouchableOpacity>
+              <Text style={styles.modalText}>Notification</Text>
+              
+            {link ? (   
+            <Text style={{color: isDarkMode ? 'black' : 'black', fontFamily:'OpenSans-ExtraBold',fontSize: 16,fontWeight: '700'}} onPress={() => handleLinkPress(link)}>
+              {noti}
+            </Text> 
+        ) : (
+          <Text style={{color: isDarkMode ? 'black' : 'black', fontFamily:'OpenSans-ExtraBold',fontSize: 16,fontWeight: '700'}}>
+            {noti}
+          </Text>
+        )}
+        {/* {link ? (
+          <Text style={{color: isDarkMode ? 'black' : 'black', fontFamily:'OpenSans-ExtraBold',fontSize: 16,fontWeight: '700'}} onPress={() => handleLinkPress(link)}>
+              {noti}
+            </Text> 
+        ): <Text style={{color: isDarkMode ? 'black' : 'black', fontFamily:'OpenSans-ExtraBold',fontSize: 16,fontWeight: '700'}}>
+        {noti}
+      </Text>} */}
+            <TouchableOpacity style={styles.backbtn}>
+              <Text style={styles.backbtntxt} onPress={() => setModalVisible(false)}>Back</Text>
+            </TouchableOpacity>
+          </View>
+          </View>
+          </View>
+        </Modal>}</></>
 
 
   );
@@ -489,7 +580,71 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  //modal
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the color and opacity as needed
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    marginTop: 32,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    width: 350,
+    height: 'auto',
+    padding: 35,
+    alignItems: 'center',
+    // justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  modalText: {
+    fontFamily: 'OpenSans-ExtraBold',
+    marginBottom: 20,
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '700',
+    // color: '#209fb2',
+    // color: '#a20a3a',
+    color: '#3f50b5'
+  },
+  narration:{
+    fontFamily: 'OpenSans-ExtraBold',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  backbtn:{
+    backgroundColor: '#3f50b5',
+    width: 80,
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 40,
+    color:'white'
+  },
+  backbtntxt:{
+  color:'white',
+  alignSelf:'center'
+  }
 });
+
 
 
 export default Notification;

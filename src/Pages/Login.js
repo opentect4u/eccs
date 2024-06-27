@@ -57,7 +57,8 @@ function Login({ navigation }) {
   }
   const decrementStep = () => {
     setStep(stepCount => stepCount - 1)
-    setPhnNo('')
+    // setPhnNo('')
+    setOtp('')
   }
   const submitNext = async () => {
 
