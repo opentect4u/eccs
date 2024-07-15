@@ -25,6 +25,17 @@ module.exports = {
       var login_dt = await db_Select(select, table_name, whr, order);
       resolve(login_dt,'ll');
       });
-  }
+  },
+
+  userData: (id) => {
+    return new Promise(async (resolve, reject) => {
+      var fields = "a.*",
+        table_name = "td_user a",
+        where = id > 0 ? `a.id = ${id}` : null,
+        order = null;
+      var resDt = await db_Select(fields, table_name, where, order);
+      resolve(resDt);
+    });
+  },
 }
  

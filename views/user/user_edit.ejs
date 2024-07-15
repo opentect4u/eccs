@@ -1,0 +1,101 @@
+<%- include('../template/header'); %>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>
+                            <%= heading %>
+                        </h1>
+                        <h6><%- breadcrumb %></h6>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <% if(message){ %>
+                    <div class="alert alert-<%= message.type; %> alert-dismissible fade show" role="alert">
+                        <strong>
+                            <%= message.message; %>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <% } %>
+                        <!-- SELECT2 EXAMPLE -->
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <%= sub_heading %>
+                                </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <form action="/admin/user_dtls_save" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="emp_code" class="col-sm-4 col-form-label">Employee Code</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="emp_code" name="emp_code"
+                                                        value="<%= Object.keys(mem_data).length > 0 ? mem_data.emp_code : '' %>" placeholder="Enter Employee Code" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="user_name" class="col-sm-4 col-form-label">User
+                                                    Name</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="user_name" name="user_name"
+                                                        value="<%= Object.keys(mem_data).length > 0 ? mem_data.user_name : '' %>" placeholder="Enter User Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="phone" class="col-sm-4 col-form-label">Phone No</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="phone" name="phone"
+                                                        value="<%= Object.keys(mem_data).length > 0 ? mem_data.user_id : '' %>" placeholder="Enter Phone No" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="pwd" class="col-sm-4 col-form-label">Password</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="pwd"
+                                                        name="pwd" value="" placeholder="Enter Password" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="id" value="<%= id %>" />
+                                    <center>
+                                        <button type="submit" class="btn btn-outline-success mt-4" id="submit">
+                                            Save
+                                        </button>
+                                    </center>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <%- include('../template/footer'); %>

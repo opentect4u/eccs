@@ -40,9 +40,9 @@
       <div class="card card-default">
         <div class="card-header">
           <h3 class="card-title"><b><%= sub_heading %></b></h3>
-          <!-- <div class="card-tools">
-            <a href="/admin/request_edit?id=0" class="btn btn-primary">Add New</a>
-          </div> -->
+          <div class="card-tools">
+            <a href="/admin/user_edit" class="btn btn-primary">Add New</a>
+          </div>
         </div>
         </div>
         <!-- /.card-header -->
@@ -76,6 +76,8 @@
                           <input type="checkbox" value="Y" id="active_<%= i %>" name="active" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Active" data-off="Deactive" onchange="toggleChange('<%= i %>', '<%= dt.emp_code %>')" <%=(dt.active_flag=='Y')?'checked':''%>>
                       </td>
                       <td class="text-center">
+                        <a class="side_color" href="user_edit?id=<%= dt.id %>&emp_code=<%= dt.emp_code %>" title="Edit">
+                          <i class='fas fa-edit'></i>/
                         <a href="user_delete?id=<%= dt.id %>" onclick="return deleteUser();" class="text-danger">
                           <i class='fas fa-trash-alt'></i>
                         </a>

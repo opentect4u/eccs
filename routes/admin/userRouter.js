@@ -2,7 +2,7 @@ const adminUserRouter = require('express').Router();
 const bcrypt = require('bcrypt');
 const dateFormat = require('dateformat');
 const { db_Insert, db_Delete, db_Select } = require('../../modules/MasterModule');
-const { admin_login_data } = require('../../modules/admin/User_adminModule');
+const { admin_login_data, userData } = require('../../modules/admin/User_adminModule');
 
 
 adminUserRouter.get('/login', async (req, res) => {
@@ -71,6 +71,73 @@ adminUserRouter.get('/logout', async (req, res) => {
         dateFormat,
     });
 })
+
+adminUserRouter.get("/user_edit", async (req, res) => {
+    // var data = req.query;
+    // console.log(data,'kkkk');
+    var emp_code = req.query.emp_code > 0 ? req.query.emp_code : 0,
+    id = req.query.id > 0 ? req.query.id : 0;
+    console.log(emp_code,'jjj');
+    var memDt = {};
+    // var branch_lt = await branch_list();
+    if (id > 0) {
+      var res_dt = await userData(id);
+      memDt = res_dt.suc > 0 ? res_dt.msg.length > 0 ? res_dt.msg[0] : {} : {};
+      console.log(memDt, "123");
+    }
+    res.render("user/user_edit", {
+    //   mem_dt: branch_lt.suc > 0 ? branch_lt.msg : [],
+        id,
+      mem_data: memDt.suc > 0 ? memDt.msg : [],
+      mem_data: memDt,
+      heading: "User Details",
+      sub_heading: `User Details  ${emp_code > 0 ? "Edit" : "Add"}`,
+      breadcrumb: `<ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin/user_list">User Details list</a></li> 
+          <li class="breadcrumb-item active">User Details  ${
+            emp_code > 0 ? "Edit" : "Add"
+        } </li>
+          </ol>`,
+      dateFormat,
+    });
+  });
+
+
+  adminUserRouter.post("/user_dtls_save", async (req, res) => {
+    var data = req.body;
+    console.log(data, "iiii");
+    var datetime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss"),
+      user = req.session.user.user_name,
+      emp_code = data.emp_code;
+      var pwd = bcrypt.hashSync(data.pwd,10)
+  
+    var table_name = "td_user",
+      fields =
+      data.id > 0
+          ? `user_name = '${data.user_name}', user_id = '${data.phone}',
+        password= '${pwd}',modified_by = '${user}', modified_dt = '${datetime}'`
+          : `(user_type, emp_code, user_name, user_id, password, active_flag, created_by, created_dt)`,
+      values = `('U', '${emp_code}', '${data.user_name}', '${data.phone}','${pwd}',
+      'Y', '${user}', '${datetime}')`,
+      whr = data.id > 0 ? `emp_code = '${emp_code}'` : null,
+      flag = data.id > 0 ? 1 : 0;
+  
+    var resDt = await db_Insert(table_name, fields, values, whr, flag);
+    if (resDt.suc > 0) {
+      req.session.message = {
+        type: "success",
+        message: "Successfully Saved",
+      };
+      res.redirect("/admin/user_list");
+    } else {
+      req.session.message = {
+        type: "danger",
+        message: "Data Not Inserted!!",
+      };
+      res.redirect("/admin/user_edit?emp_code=" + emp_code);
+    }
+  });
+
 
 adminUserRouter.get('/user_delete', async (req, res) => {
     var id = req.query.id;

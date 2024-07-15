@@ -67,17 +67,40 @@ memberRouter.post("/member_dtls_save", async (req, res) => {
     user = req.session.user.user_name,
     member_id = data.member_id;
 
+    function formatDate(date) {
+      try{
+        return date ? dateFormat(new Date(date), "yyyy-mm-dd") : null;
+      }catch(err){
+        console.log(err);
+        return null
+      }
+    }
+
+     // Validate date fields
+  var dob = formatDate(data.dob);
+  var doa = formatDate(data.doa);
+
   var table_name = "md_member",
+    // fields =
+    // member_id > 0
+    //     ? `branch_code = '${data.brn_name}', member_name = '${data.mem_nm}',
+    //   gurd_name= '${data.gurd_nm}', memb_addr= '${data.mem_addr}', gender = '${data.gen}', dob = '${data.dob}', 
+    //   doa = '${data.doa}', emp_code = '${data.emp_code}', designation = '${data.desg}', pf_no = '${data.pf_no}', 
+    //   email_id = '${data.email_id}', phone_no = '${data.phone}', modified_by = '${user}', modified_dt = '${datetime}'`
     fields =
     member_id > 0
         ? `branch_code = '${data.brn_name}', member_name = '${data.mem_nm}',
-      gurd_name= '${data.gurd_nm}', memb_addr= '${data.mem_addr}', gender = '${data.gen}', dob = '${data.dob}', 
-      doa = '${data.doa}', emp_code = '${data.emp_code}', designation = '${data.desg}', pf_no = '${data.pf_no}', 
-      email_id = '${data.email_id}', phone_no = '${data.phone}', modified_by = '${user}', modified_dt = '${datetime}'`
-        : "(member_id, branch_code, member_name, gurd_name, memb_addr, gender, dob, doa, emp_code, designation, pf_no, email_id, phone_no, created_by, created_dt)",
+      gurd_name= '${data.gurd_nm}', memb_addr= '${data.mem_addr}', gender = '${data.gen}', dob = '${dob}', 
+      doa = '${doa}', emp_code = '${data.emp_code}', designation = '${data.desg}', pf_no = '${data.pf_no}', 
+      email_id = '${data.email_id}', phone_no = '${data.phone}'`
+        // : "(member_id, branch_code, member_name, gurd_name, memb_addr, gender, dob, doa, emp_code, designation, pf_no, email_id, phone_no, created_by, created_dt)",
+        : `(member_id, branch_code, member_name, gurd_name, memb_addr, gender, dob ${doa ? ', doa' : ''}, emp_code, designation, pf_no, email_id, phone_no)`,
+    // values = `('${data.mem_id}', '${data.brn_name}', '${data.mem_nm}', '${data.gurd_nm}', '${data.mem_addr}',
+    //   '${data.gen}', '${data.dob}', '${data.doa}', '${data.emp_code}', '${data.desg}', '${data.pf_no}', '${data.email_id}',
+    //   '${data.phone}', '${user}', '${datetime}')`,
     values = `('${data.mem_id}', '${data.brn_name}', '${data.mem_nm}', '${data.gurd_nm}', '${data.mem_addr}',
-      '${data.gen}', '${data.dob}', '${data.doa}', '${data.emp_code}', '${data.desg}', '${data.pf_no}', '${data.email_id}',
-      '${data.phone}', '${user}', '${datetime}')`,
+    '${data.gen}', '${dob}', ${doa ? `, '${doa}'`: ''} '${data.emp_code}', '${data.desg}', '${data.pf_no}', '${data.email_id}',
+    '${data.phone}')`,
     whr = member_id > 0 ? `member_id = ${member_id}` : null,
     flag = member_id > 0 ? 1 : 0;
 
